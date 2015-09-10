@@ -1,0 +1,231 @@
+fileFormatVersion: 2
+guid: 114c8c51739d9467785bb4fcc9ed6cb4
+timeCreated: 1441557951
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: skeleton-Fall and die_0
+    21300002: skeleton-Fall and die_1
+    21300004: skeleton-Fall and die_2
+    21300006: skeleton-Fall and die_3
+    21300008: skeleton-Fall and die_4
+    21300010: skeleton-Fall and die_5
+    21300012: skeleton-Fall and die_6
+    21300014: skeleton-Fall and die_7
+    21300016: skeleton-Fall and die_8
+    21300018: skeleton-Fall and die_9
+    21300020: skeleton-Fall and die_10
+    21300022: skeleton-Fall and die_11
+    21300024: skeleton-Fall and die_12
+    21300026: skeleton-Fall and die_13
+    21300028: skeleton-Fall and die_14
+    21300030: skeleton-Fall and die_15
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: skeleton-Fall and die_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1695
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_1
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 1695
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_2
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 1695
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_3
+      rect:
+        serializedVersion: 2
+        x: 951
+        y: 1695
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_4
+      rect:
+        serializedVersion: 2
+        x: 1268
+        y: 1695
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_5
+      rect:
+        serializedVersion: 2
+        x: 1585
+        y: 1695
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1340
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_7
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 1340
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_8
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 1340
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_9
+      rect:
+        serializedVersion: 2
+        x: 951
+        y: 1340
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_10
+      rect:
+        serializedVersion: 2
+        x: 1268
+        y: 1340
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_11
+      rect:
+        serializedVersion: 2
+        x: 1585
+        y: 1340
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 985
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_13
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 985
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_14
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 985
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-Fall and die_15
+      rect:
+        serializedVersion: 2
+        x: 951
+        y: 985
+        width: 315
+        height: 353
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

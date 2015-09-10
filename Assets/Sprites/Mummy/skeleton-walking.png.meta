@@ -1,0 +1,330 @@
+fileFormatVersion: 2
+guid: 036b55034e15c43019e3765f971c9303
+timeCreated: 1441471556
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: skeleton-walking_0
+    21300002: skeleton-walking_1
+    21300004: skeleton-walking_2
+    21300006: skeleton-walking_3
+    21300008: skeleton-walking_4
+    21300010: skeleton-walking_5
+    21300012: skeleton-walking_6
+    21300014: skeleton-walking_7
+    21300016: skeleton-walking_8
+    21300018: skeleton-walking_9
+    21300020: skeleton-walking_10
+    21300022: skeleton-walking_11
+    21300024: skeleton-walking_12
+    21300026: skeleton-walking_13
+    21300028: skeleton-walking_14
+    21300030: skeleton-walking_15
+    21300032: skeleton-walking_16
+    21300034: skeleton-walking_17
+    21300036: skeleton-walking_18
+    21300038: skeleton-walking_19
+    21300040: skeleton-walking_20
+    21300042: skeleton-walking_21
+    21300044: skeleton-walking_22
+    21300046: skeleton-walking_23
+    21300048: skeleton-walking_24
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: skeleton-walking_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1753
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_1
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 1753
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_2
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 1753
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_3
+      rect:
+        serializedVersion: 2
+        x: 549
+        y: 1753
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_4
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 1753
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_5
+      rect:
+        serializedVersion: 2
+        x: 915
+        y: 1753
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_6
+      rect:
+        serializedVersion: 2
+        x: 1098
+        y: 1753
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_7
+      rect:
+        serializedVersion: 2
+        x: 1281
+        y: 1753
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_8
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 1753
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_9
+      rect:
+        serializedVersion: 2
+        x: 1647
+        y: 1753
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_10
+      rect:
+        serializedVersion: 2
+        x: 1830
+        y: 1753
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1456
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_12
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 1456
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_13
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 1456
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_14
+      rect:
+        serializedVersion: 2
+        x: 549
+        y: 1456
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_15
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 1456
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_16
+      rect:
+        serializedVersion: 2
+        x: 915
+        y: 1456
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_17
+      rect:
+        serializedVersion: 2
+        x: 1098
+        y: 1456
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_18
+      rect:
+        serializedVersion: 2
+        x: 1281
+        y: 1456
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_19
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 1456
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_20
+      rect:
+        serializedVersion: 2
+        x: 1647
+        y: 1456
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_21
+      rect:
+        serializedVersion: 2
+        x: 1830
+        y: 1456
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_22
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1159
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_23
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 1159
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-walking_24
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 1159
+        width: 181
+        height: 295
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

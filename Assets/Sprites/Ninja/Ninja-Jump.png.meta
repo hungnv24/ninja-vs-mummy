@@ -1,0 +1,330 @@
+fileFormatVersion: 2
+guid: 61101261f6a8841118b6025b5687ed09
+timeCreated: 1440126584
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Ninja-Jump_0
+    21300002: Ninja-Jump_1
+    21300004: Ninja-Jump_2
+    21300006: Ninja-Jump_3
+    21300008: Ninja-Jump_4
+    21300010: Ninja-Jump_5
+    21300012: Ninja-Jump_6
+    21300014: Ninja-Jump_7
+    21300016: Ninja-Jump_8
+    21300018: Ninja-Jump_9
+    21300020: Ninja-Jump_10
+    21300022: Ninja-Jump_11
+    21300024: Ninja-Jump_12
+    21300026: Ninja-Jump_13
+    21300028: Ninja-Jump_14
+    21300030: Ninja-Jump_15
+    21300032: Ninja-Jump_16
+    21300034: Ninja-Jump_17
+    21300036: Ninja-Jump_18
+    21300038: Ninja-Jump_19
+    21300040: Ninja-Jump_20
+    21300042: Ninja-Jump_21
+    21300044: Ninja-Jump_22
+    21300046: Ninja-Jump_23
+    21300048: Ninja-Jump_24
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 2
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: -1
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Ninja-Jump_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1769
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_1
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 1769
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_2
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 1769
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_3
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 1769
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_4
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 1769
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_5
+      rect:
+        serializedVersion: 2
+        x: 1065
+        y: 1769
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_6
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 1769
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_7
+      rect:
+        serializedVersion: 2
+        x: 1491
+        y: 1769
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_8
+      rect:
+        serializedVersion: 2
+        x: 1704
+        y: 1769
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1488
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_10
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 1488
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_11
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 1488
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_12
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 1488
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_13
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 1488
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_14
+      rect:
+        serializedVersion: 2
+        x: 1065
+        y: 1488
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_15
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 1488
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_16
+      rect:
+        serializedVersion: 2
+        x: 1491
+        y: 1488
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_17
+      rect:
+        serializedVersion: 2
+        x: 1704
+        y: 1488
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1207
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_19
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 1207
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_20
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 1207
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_21
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 1207
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_22
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 1207
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_23
+      rect:
+        serializedVersion: 2
+        x: 1065
+        y: 1207
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Jump_24
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 1207
+        width: 211
+        height: 279
+      alignment: 9
+      pivot: {x: .5, y: .0500000007}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,198 @@
+fileFormatVersion: 2
+guid: 781b87a900e9546b5865095d995b966c
+timeCreated: 1441532850
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: skeleton-attack_0
+    21300002: skeleton-attack_1
+    21300004: skeleton-attack_2
+    21300006: skeleton-attack_3
+    21300008: skeleton-attack_4
+    21300010: skeleton-attack_5
+    21300012: skeleton-attack_6
+    21300014: skeleton-attack_7
+    21300016: skeleton-attack_8
+    21300018: skeleton-attack_9
+    21300020: skeleton-attack_10
+    21300022: skeleton-attack_11
+    21300024: skeleton-attack_12
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: skeleton-attack_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1750
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_1
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 1750
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_2
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 1750
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_3
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 1750
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_4
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 1750
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_5
+      rect:
+        serializedVersion: 2
+        x: 1350
+        y: 1750
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_6
+      rect:
+        serializedVersion: 2
+        x: 1620
+        y: 1750
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1450
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_8
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 1450
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_9
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 1450
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_10
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 1450
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_11
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 1450
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-attack_12
+      rect:
+        serializedVersion: 2
+        x: 1350
+        y: 1450
+        width: 268
+        height: 298
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,242 @@
+fileFormatVersion: 2
+guid: df01449ce4baf49a98cc60edee12d7ac
+timeCreated: 1440126617
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Ninja-Running_0
+    21300002: Ninja-Running_1
+    21300004: Ninja-Running_2
+    21300006: Ninja-Running_3
+    21300008: Ninja-Running_4
+    21300010: Ninja-Running_5
+    21300012: Ninja-Running_6
+    21300014: Ninja-Running_7
+    21300016: Ninja-Running_8
+    21300018: Ninja-Running_9
+    21300020: Ninja-Running_10
+    21300022: Ninja-Running_11
+    21300024: Ninja-Running_12
+    21300026: Ninja-Running_13
+    21300028: Ninja-Running_14
+    21300030: Ninja-Running_15
+    21300032: Ninja-Running_16
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: -1
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Ninja-Running_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1787
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_1
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 1787
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_2
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 1787
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_3
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 1787
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_4
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 1787
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_5
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1787
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_6
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 1787
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_7
+      rect:
+        serializedVersion: 2
+        x: 1260
+        y: 1787
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_8
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 1787
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_9
+      rect:
+        serializedVersion: 2
+        x: 1620
+        y: 1787
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_10
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1787
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1524
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_12
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 1524
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_13
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 1524
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_14
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 1524
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_15
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 1524
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Ninja-Running_16
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1524
+        width: 178
+        height: 261
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
