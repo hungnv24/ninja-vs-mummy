@@ -6,6 +6,7 @@ public class MummyController : MonoBehaviour
 	public float walkingSpeed = -1.0f;
 	private Animator animator;
 	private Rigidbody2D mRigidbody;
+	private AudioSource audioSource;
 	private int killedBy = 0x00;
 	private const int KILLED_BY_SLASH = 1;
 	private const int KILLED_BY_SLIDE = 2;
@@ -15,12 +16,16 @@ public class MummyController : MonoBehaviour
 	public const int FLAG_STATE_WALK = 1;
 	public const int FLAG_STATE_ATK = 2;
 	public const int FLAG_STATE_DIE = 4;
+
+	public AudioClip hit;
+	public AudioClip hit2;
 	
 	// Use this for initialization
 	void Start ()
 	{
 		animator = GetComponent<Animator> ();
 		mRigidbody = GetComponent<Rigidbody2D> ();
+		audioSource = GetComponent<AudioSource> ();
 	}
 
 	void FixedUpdate ()
@@ -48,7 +53,8 @@ public class MummyController : MonoBehaviour
 			if (col.collider is CircleCollider2D 
 				&& col.contacts [0].otherCollider is CircleCollider2D
 				&& !isInState ("Die")) {
-				Invoke ("Die", 0.1f);
+				killedBy = KILLED_BY_JUMPED_ON;
+				Die();
 			}
 			if ((controller.CurrentState & NinjaController.FLAG_STATE_SLIDE) > 0) {
 				killedBy = KILLED_BY_SLIDE;
@@ -60,14 +66,8 @@ public class MummyController : MonoBehaviour
 	void OnTriggerEnter2D (Collider2D col)
 	{
 		if (col.gameObject.tag == "Player") {
-			NinjaController controller = col.gameObject.GetComponent<NinjaController> ();
-			if ((controller.CurrentState & (NinjaController.FLAG_STATE_SLASH | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
-				killedBy = KILLED_BY_SLASH;
-				Invoke ("Die", 0.1f);
-			} else {
-				animator.SetTrigger ("attack");
-				Destroy (gameObject, 5.0f);
-			}
+			animator.SetTrigger ("attack");
+			Destroy (gameObject, 5.0f);
 		}
 		if (col.gameObject.tag == "Dart" && !isInState ("Die")) {
 			Die ();
@@ -82,18 +82,23 @@ public class MummyController : MonoBehaviour
 			&& (col.gameObject.GetComponent<NinjaController> ().CurrentState 
 			& (NinjaController.FLAG_STATE_SLASH | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
 			killedBy = KILLED_BY_SLASH;
-			Invoke ("Die", 0.1f);
+			Invoke ("Die", 0.05f);
 		}
 	}
 
 	public void Die ()
 	{
-		if ((killedBy & (KILLED_BY_SLIDE | KILLED_BY_JUMPED_ON)) > 0) {
+		if ((killedBy & KILLED_BY_SLIDE) > 0) {
 			animator.SetTrigger ("fall_die");
+			audioSource.PlayOneShot(hit2);
 		} else if (killedBy == KILLED_BY_SLASH) {
 			animator.SetTrigger ("headOff");
+			audioSource.clip = hit;
+			audioSource.loop = false;
+			audioSource.PlayDelayed(0.1f);
 		} else {
 			animator.SetTrigger ("die");
+			audioSource.PlayOneShot(hit2);
 		}
 
 		foreach (Collider2D col in GetComponents<Collider2D>()) {

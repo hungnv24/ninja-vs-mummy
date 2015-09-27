@@ -6,6 +6,7 @@ public class NinjaController : MonoBehaviour
 
 	Animator animator;
 	Rigidbody2D rigidbody;
+	AudioSource audioSource;
 	const int SWIPE_UP = 0;
 	const int SWIPE_RIGHT = 1;
 	const int SWIPE_DOWN = 2;
@@ -32,6 +33,12 @@ public class NinjaController : MonoBehaviour
 	public const int FLAG_STATE_FADE_SLASH = 128;
 	public float speed = 8;
 	public float jumpHeight = 7.5f;
+	public AudioClip sword;
+	public AudioClip jump;
+	public AudioClip die;
+	public AudioClip throwing;
+	public AudioClip hit;
+	public AudioClip footStep;
 
 	public int CurrentState
 	{
@@ -54,8 +61,9 @@ public class NinjaController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		animator = this.GetComponent<Animator> ();
-		rigidbody = this.GetComponent<Rigidbody2D> ();
+		animator = GetComponent<Animator> ();
+		rigidbody = GetComponent<Rigidbody2D> ();
+		audioSource = GetComponent<AudioSource> ();
 		jumpForce = CalculateJumpForce ();
 	}
 
@@ -75,10 +83,20 @@ public class NinjaController : MonoBehaviour
 	{
 		currentState = GetCurrentState ();
 		grounded = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, groundLayer);
-		if (!grounded && currentState != FLAG_STATE_JUMP) {
+		if (!grounded &&
+		    (currentState & (FLAG_STATE_JUMP|FLAG_STATE_DIE)) == 0) {
 			animator.SetTrigger ("shouldJump");
+			StopSound();
 		} else if (grounded && currentState == FLAG_STATE_JUMP) {
 			animator.SetTrigger ("shouldRun");
+		} else if (grounded && currentState == FLAG_STATE_RUN) {
+			if (!audioSource.isPlaying || audioSource.clip != footStep) {
+				audioSource.clip = footStep;
+				audioSource.loop = true;
+				audioSource.pitch = 1.5f;
+				audioSource.volume  = 0.15f;
+				audioSource.Play();
+			}
 		}
 
 		if (currentState == FLAG_STATE_SLIDE && GetComponent<BoxCollider2D> ().enabled) {
@@ -134,11 +152,16 @@ public class NinjaController : MonoBehaviour
 		if (inputJump) {
 			animator.SetTrigger ("shouldJump");
 			rigidbody.AddForce (new Vector2 (0, jumpForce));
+			StopSound();
+			audioSource.PlayOneShot(jump);
 			inputJump = false;
 		}
 		
 		if (inputSlash) {
 			animator.SetTrigger ("shouldSlash");
+			StopSound();
+			audioSource.clip = sword;
+			audioSource.PlayDelayed(0.25f);
 			inputSlash = false;
 		}
 		
@@ -149,6 +172,8 @@ public class NinjaController : MonoBehaviour
 		
 		if (inputThrow) {
 			throwDart ();
+			StopSound();
+			audioSource.PlayOneShot(throwing);
 			inputThrow = false;
 		} 
 	}
@@ -177,7 +202,8 @@ public class NinjaController : MonoBehaviour
 			} else if (currentState == FLAG_STATE_JUMP) {
 				rigidbody.AddForce (new Vector2 (-250f, -0));
 			}
-			Debug.Log (hittedEnemy);
+			StopSound();
+			audioSource.PlayOneShot(hit);
 			Die();
 		}
 	}
@@ -191,7 +217,7 @@ public class NinjaController : MonoBehaviour
 			CircleCollider2D selfCollider = (CircleCollider2D)col.contacts [0].otherCollider;
 			float selfSize = selfCollider.radius * 2;
 			Vector2 selfPos = selfCollider.bounds.center;
-			if (selfPos.x + selfSize / 2 >= objPos.x - objSize.x / 2
+			if (selfPos.x >= objPos.x - objSize.x / 2
 				|| selfPos.y - selfSize / 2 >= objPos.y + objSize.y / 2) {
 				hittedWall = false;
 			}
@@ -211,6 +237,7 @@ public class NinjaController : MonoBehaviour
 		GetComponent<BoxCollider2D> ().enabled = false;
 		animator.SetTrigger ("die");
 		currentState = FLAG_STATE_DIE;
+		audioSource.PlayOneShot (die);
 		Destroy (gameObject, 2.0f);
 	}
 
@@ -259,5 +286,13 @@ public class NinjaController : MonoBehaviour
 			}
 		}
 		return -1;
+	}
+
+	private void StopSound()
+	{
+		audioSource.Stop();
+		audioSource.pitch = 1;
+		audioSource.loop = false;
+		audioSource.volume = 1;
 	}
 }
