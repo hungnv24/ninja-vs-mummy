@@ -1,139 +1,245 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class NinjaController : MonoBehaviour {
+public class NinjaController : MonoBehaviour
+{
 
 	Animator animator;
-	Rigidbody2D rigid;
-	public float speed = 10;
-	public float jumpHeight = 2.5f;
+	Rigidbody2D rigidbody;
 	const int SWIPE_UP = 0;
 	const int SWIPE_RIGHT = 1;
 	const int SWIPE_DOWN = 2;
 	const int SWIPE_LEFT = 3;
-	GameObject groundRunningOn;
-	private float velocity;
+	private float jumpForce;
+	private int currentState = FLAG_STATE_RUN;
+	private Hashtable animationFlags = new Hashtable ();
+	private bool grounded = false;
+	public Transform groundCheck;
+	private float groundCheckRadius = 0.2f;
+	public LayerMask groundLayer;
+	bool inputJump = false;
+	bool inputThrow = false;
+	bool inputSlide = false;
+	bool inputSlash = false;
 
-	// Use this for initialization
-	void Start () {
-		animator = this.GetComponent<Animator> ();
-		rigid = this.GetComponent<Rigidbody2D> ();
-		velocity = CalculateJumpVelocity();
+	public const int FLAG_STATE_RUN = 1;
+	public const int FLAG_STATE_JUMP = 2;
+	public const int FLAG_STATE_SLASH = 4;
+	public const int FLAG_STATE_SLIDE = 8;
+	public const int FLAG_STATE_THROW = 16;
+	public const int FLAG_STATE_DIE = 32;
+	public const int FLAG_STATE_FADE = 64;
+	public const int FLAG_STATE_FADE_SLASH = 128;
+	public float speed = 8;
+	public float jumpHeight = 7.5f;
+
+	public int CurrentState
+	{
+		get
+		{
+			return currentState;
+		}
 	}
 
-	private float CalculateJumpVelocity() {
-		float gravity = Mathf.Abs(Physics2D.gravity.y);
-		return Mathf.Sqrt (2*rigid.gravityScale*gravity*jumpHeight);
+	void Awake ()
+	{
+		animationFlags.Add (Animator.StringToHash ("Running"), FLAG_STATE_RUN);
+		animationFlags.Add (Animator.StringToHash ("Jump"), FLAG_STATE_JUMP);
+		animationFlags.Add (Animator.StringToHash ("Slice"), FLAG_STATE_SLASH);
+		animationFlags.Add (Animator.StringToHash ("Slide"), FLAG_STATE_SLIDE);
+		animationFlags.Add (Animator.StringToHash ("Throw"), FLAG_STATE_THROW);
+		animationFlags.Add (Animator.StringToHash ("Die"), FLAG_STATE_DIE);
+	}
+
+	// Use this for initialization
+	void Start ()
+	{
+		animator = this.GetComponent<Animator> ();
+		rigidbody = this.GetComponent<Rigidbody2D> ();
+		jumpForce = CalculateJumpForce ();
+	}
+
+	private float CalculateJumpVelocity ()
+	{
+		float gravity = Mathf.Abs (Physics2D.gravity.y);
+		return Mathf.Sqrt (2 * rigidbody.gravityScale * gravity * jumpHeight);
+	}
+
+	private float CalculateJumpForce ()
+	{
+		float gravity = Mathf.Abs (Physics2D.gravity.y) * rigidbody.gravityScale;
+		return rigidbody.mass * gravity * jumpHeight;
+	}
+
+	void FixedUpdate ()
+	{
+		currentState = GetCurrentState ();
+		grounded = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, groundLayer);
+		if (!grounded && currentState != FLAG_STATE_JUMP) {
+			animator.SetTrigger ("shouldJump");
+		} else if (grounded && currentState == FLAG_STATE_JUMP) {
+			animator.SetTrigger ("shouldRun");
+		}
+
+		if (currentState == FLAG_STATE_SLIDE && GetComponent<BoxCollider2D> ().enabled) {
+			GetComponent<BoxCollider2D> ().enabled = false;
+		} else if (currentState != FLAG_STATE_SLIDE && !GetComponent<BoxCollider2D> ().enabled) {
+			GetComponent<BoxCollider2D> ().enabled = true;
+		}
+		HandleInput ();
+		MovePlayer ();
 	}
 
 	// Update is called once per frame
-	void Update () {
-		// Running
-		if (isInState("Running") || isInState("Slide") || isInState("Jump")) {
-			transform.Translate(new Vector2(speed*Time.deltaTime,0));
-		} else if (isInState("Throw")) {
-			transform.Translate(new Vector2(speed*Time.deltaTime/2,0));
-		}
-		// Check input for action
-		float verticalInput = Input.GetAxis ("Vertical");
-		float horizontalInput = Input.GetAxis ("Horizontal");
-		int swipe = getSwipe();
+	void Update ()
+	{
+		GetInput ();
+	}
 
-		if ((Input.GetKeyDown("x") || swipe == SWIPE_UP) && isInState("Running")) {
-			animator.SetTrigger("shouldJump");
-			rigid.velocity = new Vector2(0, velocity);
+	private void MovePlayer ()
+	{
+		if ((currentState & (FLAG_STATE_RUN | FLAG_STATE_SLIDE | FLAG_STATE_JUMP)) > 0) {
+			rigidbody.velocity = new Vector2 (speed, rigidbody.velocity.y);
+		} else if (currentState == FLAG_STATE_THROW) {
+			rigidbody.velocity = new Vector2 (speed / 2, 0);
 		}
+	}
 
-		if ((getTapCount() == 1 || Input.GetKeyDown("c")) && isInState("Running")) {
-			animator.SetTrigger("shouldSlash");
+	private void GetInput ()
+	{
+		int swipe = GetSwipe ();
+		
+		bool isRunning = (currentState & FLAG_STATE_RUN) > 0;
+
+		if ((Input.GetKeyDown (KeyCode.X) || swipe == SWIPE_UP) && isRunning) {
+			inputJump = true;
 		}
-
-		if ((verticalInput < 0 || swipe == SWIPE_DOWN) && isInState("Running")) {
-			animator.SetTrigger("shouldSlide");
+		
+		if ((GetTapCount () == 1 || Input.GetKeyDown (KeyCode.C)) && isRunning) {
+			inputSlash = true;
 		}
-
-		if ((horizontalInput > 0 || swipe == SWIPE_RIGHT) && isInState("Running")) {
-			throwDart();
+		
+		if ((Input.GetKeyDown(KeyCode.DownArrow) || swipe == SWIPE_DOWN) && isRunning) {
+			inputSlide = true;
+		}
+		
+		if ((Input.GetKeyDown(KeyCode.RightArrow) || swipe == SWIPE_RIGHT) && isRunning) {
+			inputThrow = true;
 		} 
 	}
 
-	void throwDart() {
-		animator.SetTrigger("shouldThrow");
+	private void HandleInput ()
+	{
+
+		if (inputJump) {
+			animator.SetTrigger ("shouldJump");
+			rigidbody.AddForce (new Vector2 (0, jumpForce));
+			inputJump = false;
+		}
+		
+		if (inputSlash) {
+			animator.SetTrigger ("shouldSlash");
+			inputSlash = false;
+		}
+		
+		if (inputSlide) {
+			animator.SetTrigger ("shouldSlide");
+			inputSlide = false;
+		}
+		
+		if (inputThrow) {
+			throwDart ();
+			inputThrow = false;
+		} 
+	}
+
+	void throwDart ()
+	{
+		animator.SetTrigger ("shouldThrow");
 		Vector2 position = transform.position;
 		position.x += 0.5f;
 		position.y += GetComponent<Renderer> ().bounds.size.y / 2;
-		GameObject dart = Instantiate(Resources.Load ("Prefabs/Dart", typeof(GameObject)),
+		GameObject dart = Instantiate (Resources.Load ("Prefabs/Dart", typeof(GameObject)),
 		                              position,
-		                              this.transform.rotation) as GameObject;
-		dart.GetComponent<Rigidbody2D> ().velocity = new Vector2(15,0);
+		                              Quaternion.identity) as GameObject;
+		dart.GetComponent<Rigidbody2D> ().velocity = new Vector2 (15, 0);
 		Destroy (dart, 1.5f);
 	}
 
-	void OnCollisionEnter2D(Collision2D col) {
-		bool hittedEnemy = DidHitEnemy(col);
+	void OnCollisionEnter2D (Collision2D col)
+	{
+		bool hittedEnemy = DidHitEnemy (col);
 		bool hittedWall = DidHitWall (col);
 
-		if ((hittedWall || hittedEnemy) && !isInState("Die")) {
-			if (isInState("Running")) {
-				rigid.AddForce(new Vector2(-100f,50.0f));
-			} else if (isInState("Jump")) {
-				rigid.AddForce(new Vector2(-100f, -200f));
+		if ((hittedWall || hittedEnemy) && (currentState & FLAG_STATE_DIE) == 0) {
+			if (currentState == FLAG_STATE_RUN) {
+				rigidbody.AddForce (new Vector2 (-250f, 50.0f));
+			} else if (currentState == FLAG_STATE_JUMP) {
+				rigidbody.AddForce (new Vector2 (-250f, -0));
 			}
-			animator.SetTrigger ("die");
-			Destroy(gameObject, 2.0f);
-		} else if (col.gameObject.tag == "Ground"
-		           || (col.gameObject.tag == "Wall" && !hittedWall)) {
-			groundRunningOn = col.gameObject;
-			if (isInState ("Jump")) {
-				animator.SetTrigger("shouldRun");
-			}
+			Debug.Log (hittedEnemy);
+			Die();
 		}
 	}
 
-	void OnCollisionExit2D(Collision2D col) {
-		if (col.gameObject == groundRunningOn
-		    && (col.gameObject.tag == "Ground" || col.gameObject.tag == "Wall")
-		    && isInState ("Running")) {
-			animator.SetTrigger("shouldJump");
-		}
-	}
-
-	private bool DidHitWall(Collision2D col) {
+	private bool DidHitWall (Collision2D col)
+	{
 		bool hittedWall = col.gameObject.tag == "Wall";
-		if (hittedWall && col.contacts[0].otherCollider is BoxCollider2D) {
+		if (hittedWall && col.contacts [0].otherCollider is CircleCollider2D) {
 			Vector2 objSize = col.collider.bounds.size;
 			Vector2 objPos = col.collider.bounds.center;
-			Vector2 selfSize = col.contacts[0].otherCollider.bounds.size;
-			Vector2 selfPos = col.contacts[0].otherCollider.bounds.center;
-			if (selfPos.x + selfSize.x/2 >= objPos.x - objSize.x/2
-			    && selfPos.y - selfSize.y/2 >= objPos.y + objSize.y/2) {
+			CircleCollider2D selfCollider = (CircleCollider2D)col.contacts [0].otherCollider;
+			float selfSize = selfCollider.radius * 2;
+			Vector2 selfPos = selfCollider.bounds.center;
+			if (selfPos.x + selfSize / 2 >= objPos.x - objSize.x / 2
+				|| selfPos.y - selfSize / 2 >= objPos.y + objSize.y / 2) {
 				hittedWall = false;
 			}
 		}
 		return hittedWall;
 	}
 
-	private bool DidHitEnemy(Collision2D col) {
+	private bool DidHitEnemy (Collision2D col)
+	{
 		return col.gameObject.tag == "Mummy"
-			&& (!col.gameObject.GetComponent<MummyController>().isInState("Die")
-			    || !col.gameObject.GetComponent<MummyController>().isInState("Fall and Die"))
-			&& (col.collider is BoxCollider2D 
-				|| col.contacts [0].otherCollider is CircleCollider2D);
+			&& (currentState & (FLAG_STATE_RUN | FLAG_STATE_JUMP)) > 0
+			&& (col.contacts [0].otherCollider is BoxCollider2D);
 	}
 
-	public bool isInState(string state) {
-		AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo (0);
-		return currentInfo.IsName (state);
+	public void Die()
+	{
+		GetComponent<BoxCollider2D> ().enabled = false;
+		animator.SetTrigger ("die");
+		currentState = FLAG_STATE_DIE;
+		Destroy (gameObject, 2.0f);
 	}
 
-	private int getTapCount() {
-		if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) {
-			return Input.GetTouch(0).tapCount;
+	public int GetCurrentState ()
+	{
+		try {
+			if (currentState == FLAG_STATE_DIE)
+				return FLAG_STATE_DIE;
+			AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo (0);
+			if (currentInfo.Equals (null)) {
+				return 0;
+			}
+			return (int)animationFlags [currentInfo.shortNameHash];
+		} catch (UnityException e) {
+			Debug.Log (e.StackTrace);
 		}
 		return 0;
 	}
 
-	private int getSwipe() {
+	private int GetTapCount ()
+	{
+		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended) {
+			return Input.GetTouch (0).tapCount;
+		}
+		return 0;
+	}
+
+	private int GetSwipe ()
+	{
 		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Moved) {
 			Vector2 touchDelta = Input.GetTouch (0).deltaPosition;
 			if (touchDelta.x < -20 && Mathf.Abs (touchDelta.x) > Mathf.Abs (touchDelta.y)) {
@@ -144,11 +250,11 @@ public class NinjaController : MonoBehaviour {
 				return SWIPE_RIGHT;
 			}
 			
-			if (touchDelta.y > 20 && Mathf.Abs (touchDelta.y) > Mathf.Abs(touchDelta.x)) {
+			if (touchDelta.y > 20 && Mathf.Abs (touchDelta.y) > Mathf.Abs (touchDelta.x)) {
 				return SWIPE_UP;
 			}
 			
-			if (touchDelta.y < -20 && Mathf.Abs (touchDelta.y) > Mathf.Abs(touchDelta.x)) {
+			if (touchDelta.y < -20 && Mathf.Abs (touchDelta.y) > Mathf.Abs (touchDelta.x)) {
 				return SWIPE_DOWN;
 			}
 		}

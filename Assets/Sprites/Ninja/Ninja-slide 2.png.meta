@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6b6b607faa53b4b569a389db3dfe8188
-timeCreated: 1441533237
+timeCreated: 1443274674
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -69,128 +69,128 @@ TextureImporter:
         y: 1787
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 1, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_1
       rect:
         serializedVersion: 2
-        x: 258
+        x: 257
         y: 1787
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_2
       rect:
         serializedVersion: 2
-        x: 516
+        x: 514
         y: 1787
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_3
       rect:
         serializedVersion: 2
-        x: 774
+        x: 771
         y: 1787
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_4
       rect:
         serializedVersion: 2
-        x: 1032
+        x: 1028
         y: 1787
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_5
       rect:
         serializedVersion: 2
-        x: 1290
+        x: 1285
         y: 1787
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_6
       rect:
         serializedVersion: 2
-        x: 1548
+        x: 1542
         y: 1787
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_7
       rect:
         serializedVersion: 2
         x: 0
-        y: 1524
+        y: 1525
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_8
       rect:
         serializedVersion: 2
-        x: 258
-        y: 1524
+        x: 257
+        y: 1525
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_9
       rect:
         serializedVersion: 2
-        x: 516
-        y: 1524
+        x: 514
+        y: 1525
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_10
       rect:
         serializedVersion: 2
-        x: 774
-        y: 1524
+        x: 771
+        y: 1525
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_11
       rect:
         serializedVersion: 2
-        x: 1032
-        y: 1524
+        x: 1028
+        y: 1525
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Ninja-slide 2_12
       rect:
         serializedVersion: 2
-        x: 1290
-        y: 1524
+        x: 1285
+        y: 1525
         width: 256
         height: 261
-      alignment: 9
-      pivot: {x: .800000012, y: 0}
+      alignment: 8
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

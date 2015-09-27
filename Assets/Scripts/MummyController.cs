@@ -1,86 +1,108 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MummyController : MonoBehaviour {
+public class MummyController : MonoBehaviour
+{
 	public float walkingSpeed = -1.0f;
 	private Animator animator;
-	private Rigidbody2D myRigidbody;
-	private int killedBy;
-	private const int KILLED_BY_SLASH = 0;
-	private const int KILLED_BY_SLIDE = 1;
-	private const int KILLED_BY_DART = 2;
-	private const int KILLED_BY_JUMPED_ON = 3;
+	private Rigidbody2D mRigidbody;
+	private int killedBy = 0x00;
+	private const int KILLED_BY_SLASH = 1;
+	private const int KILLED_BY_SLIDE = 2;
+	private const int KILLED_BY_DART = 4;
+	private const int KILLED_BY_JUMPED_ON = 8;
+	public int currentState = 0;
+	public const int FLAG_STATE_WALK = 1;
+	public const int FLAG_STATE_ATK = 2;
+	public const int FLAG_STATE_DIE = 4;
 	
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		animator = GetComponent<Animator> ();
-		myRigidbody = GetComponent<Rigidbody2D> ();
-		killedBy = -1;
+		mRigidbody = GetComponent<Rigidbody2D> ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (isInState ("Walking")) {
-			transform.Translate(new Vector2(walkingSpeed*Time.deltaTime, 0));
+
+	void FixedUpdate ()
+	{
+		if (isInState ("Walking") && mRigidbody != null) {
+			mRigidbody.velocity = new Vector2 (walkingSpeed, mRigidbody.velocity.y);
 		}
 	}
 
-	public bool isInState(string state) {
-		AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
+	void Update ()
+	{
+
+	}
+
+	public bool isInState (string state)
+	{
+		AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo (0);
 		return currentInfo.IsName (state);
 	}
 
-	void OnCollisionEnter2D (Collision2D col) {
+	void OnCollisionEnter2D (Collision2D col)
+	{
 		if (col.gameObject.tag == "Player") {
-			if (col.collider is BoxCollider2D 
-			    && col.contacts[0].otherCollider is CircleCollider2D
-			    && !isInState("Die")) {
-				Invoke("Die",0.1f);
+			NinjaController controller = col.gameObject.GetComponent<NinjaController> ();
+			if (col.collider is CircleCollider2D 
+				&& col.contacts [0].otherCollider is CircleCollider2D
+				&& !isInState ("Die")) {
+				Invoke ("Die", 0.1f);
 			}
-		}
-	}
-
-	void OnTriggerEnter2D(Collider2D col) {
-		if (col.gameObject.tag == "Player") {
-			if (col.gameObject.GetComponent<NinjaController>().isInState("Slice")) {
-				killedBy = KILLED_BY_SLASH;
-				Invoke("Die",0.1f);
-			} else if (col.gameObject.GetComponent<NinjaController>().isInState("Slide")){
+			if ((controller.CurrentState & NinjaController.FLAG_STATE_SLIDE) > 0) {
 				killedBy = KILLED_BY_SLIDE;
-				Die();
-			} else {
-				animator.SetTrigger("attack");
-				Destroy(gameObject, 5.0f);
+				Die ();
 			}
 		}
-		if (col.gameObject.tag == "Dart" && !isInState("Die")) {
-			Invoke("Die",0.2f);
-			Destroy(col.gameObject, 0.1f);
+	}
+
+	void OnTriggerEnter2D (Collider2D col)
+	{
+		if (col.gameObject.tag == "Player") {
+			NinjaController controller = col.gameObject.GetComponent<NinjaController> ();
+			if ((controller.CurrentState & (NinjaController.FLAG_STATE_SLASH | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
+				killedBy = KILLED_BY_SLASH;
+				Invoke ("Die", 0.1f);
+			} else {
+				animator.SetTrigger ("attack");
+				Destroy (gameObject, 5.0f);
+			}
+		}
+		if (col.gameObject.tag == "Dart" && !isInState ("Die")) {
+			Die ();
+			Destroy (col.gameObject);
 		}
 	}
 
-	void OnTriggerStay2D(Collider2D col) {
+	void OnTriggerStay2D (Collider2D col)
+	{
 		if (col.gameObject.tag == "Player"
-		    && killedBy < 0
-		    && col.gameObject.GetComponent<NinjaController>().isInState("Slice")) {
+			&& killedBy == 0
+			&& (col.gameObject.GetComponent<NinjaController> ().CurrentState 
+			& (NinjaController.FLAG_STATE_SLASH | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
 			killedBy = KILLED_BY_SLASH;
-			Invoke("Die",0.1f);
+			Invoke ("Die", 0.1f);
 		}
 	}
 
-	public void Die() {
-		if (killedBy == KILLED_BY_SLIDE) {
+	public void Die ()
+	{
+		if ((killedBy & (KILLED_BY_SLIDE | KILLED_BY_JUMPED_ON)) > 0) {
 			animator.SetTrigger ("fall_die");
 		} else if (killedBy == KILLED_BY_SLASH) {
-			animator.SetTrigger("headOff");
+			animator.SetTrigger ("headOff");
 		} else {
-			animator.SetTrigger("die");
+			animator.SetTrigger ("die");
 		}
 
-		Destroy (myRigidbody);
 		foreach (Collider2D col in GetComponents<Collider2D>()) {
-			Destroy(col);
+			col.enabled = false;
 		}
+		Destroy (mRigidbody);
 		Destroy (gameObject, 2.0f);
+		var sceneWatcher = GameObject.Find ("SceneWatcher");
+		var obstacleController = sceneWatcher.GetComponent<ObstacleController> () as ObstacleController;
+		obstacleController.RemoveObstacle (gameObject);
 	}
 }
