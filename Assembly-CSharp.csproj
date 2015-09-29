@@ -47,11 +47,21 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CameraController.cs" />
-     <Compile Include="Assets\Scripts\EnvironmentGenerate.cs" />
+     <Compile Include="Assets\Scripts\Command.cs" />
      <Compile Include="Assets\Scripts\MummyController.cs" />
-     <Compile Include="Assets\Scripts\NinjaController.cs" />
+     <Compile Include="Assets\Scripts\Ninja\DieCommand.cs" />
+     <Compile Include="Assets\Scripts\Ninja\EnvironmentGenerate.cs" />
+     <Compile Include="Assets\Scripts\Ninja\JumpCommand.cs" />
+     <Compile Include="Assets\Scripts\Ninja\NinjaController.cs" />
+     <Compile Include="Assets\Scripts\Ninja\SlashCommand.cs" />
+     <Compile Include="Assets\Scripts\Ninja\ThrowingCommand.cs" />
      <Compile Include="Assets\Scripts\ObstacleController.cs" />
-     <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\ParallaxController.cs" />
+     <Compile Include="Assets\Scripts\ProjectSettings.cs" />
+     <Compile Include="Assets\Scripts\UIController.cs" />
+     <Compile Include="Assets\Scripts\Utils\AnimatorUtils.cs" />
+     <Compile Include="Assets\Scripts\Utils\AudioUtils.cs" />
+     <Compile Include="Assets\Scripts\Utils\TouchUtils.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -12,12 +12,22 @@ public class ObstacleController : MonoBehaviour
 	private List<GameObject> obstacles = new List<GameObject> ();
 	Vector2 cameraSize;
 	Vector2 playerBound;
+	private bool start = false;
 
 	void Start ()
 	{
 		cameraSize.y = Camera.main.orthographicSize;
 		cameraSize.x = Camera.main.aspect * cameraSize.y;
 		playerBound = this.player.GetComponent<Renderer> ().bounds.size;
+		Time.timeScale = 0;
+	}
+
+	void Update()
+	{
+		if (Input.GetMouseButton (0) && !start) {
+			start = true;
+			Time.timeScale = 1;
+		}
 	}
 	
 	void FixedUpdate ()
