@@ -42,4 +42,23 @@ public class TouchUtils : Object
 		}
 		return 0;
 	}
+
+	public static GameObject GetTouchedObject()
+	{
+		if (Input.touchCount <= 0 && !Input.GetMouseButtonDown(0))
+			return null;
+		var position = Vector2.zero;
+		if (Input.touchCount > 0) {
+			position = Input.GetTouch (0).position;
+		} else {
+			position = Input.mousePosition;
+		}
+		position = Camera.main.ScreenToWorldPoint (position);
+		var radius = 0.3f;
+		Collider2D collider = Physics2D.OverlapCircle (position, radius);
+		if (collider) {
+			return collider.gameObject;
+		}
+		return null;
+	}
 }
