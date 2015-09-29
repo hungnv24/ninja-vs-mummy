@@ -65,7 +65,7 @@ public class MummyController : MonoBehaviour
 
 	void OnTriggerEnter2D (Collider2D col)
 	{
-		if (col.gameObject.tag == "Player") {
+		if (col.gameObject.tag == "AttackCheck") {
 			animator.SetTrigger ("attack");
 			Destroy (gameObject, 5.0f);
 		}
@@ -77,9 +77,9 @@ public class MummyController : MonoBehaviour
 
 	void OnTriggerStay2D (Collider2D col)
 	{
-		if (col.gameObject.tag == "Player"
+		if (col.gameObject.tag == "AttackCheck"
 			&& killedBy == 0
-			&& (col.gameObject.GetComponent<NinjaController> ().CurrentState 
+			&& (GameObject.Find("Ninja").GetComponentInParent<NinjaController> ().CurrentState
 			& (NinjaController.FLAG_STATE_SLASH | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
 			killedBy = KILLED_BY_SLASH;
 			Invoke ("Die", 0.05f);

@@ -7,7 +7,9 @@ public class ObstacleController : MonoBehaviour
 	public GameObject player;
 	private string[] prefabs = new string[] {
 		"Prefabs/Mummy",
-		"Prefabs/Brick"
+		"Prefabs/Brick",
+		"Prefabs/Fire",
+		"Prefabs/FlyingFlame"
 	};
 	private List<GameObject> obstacles = new List<GameObject> ();
 	Vector2 cameraSize;
@@ -62,15 +64,25 @@ public class ObstacleController : MonoBehaviour
 				if (index > prefabs.Length - 1)
 					index--;
 				var obstacle = Instantiate (Resources.Load (prefabs [index])) as GameObject;
+				if (lastObstacle != null
+				    && lastObstacle.tag == "Fire"
+				    && obstacle.tag == "Fire") {
+					Destroy(obstacle);
+					continue;
+				}
 				var position = obstacle.transform.position;
 				if (lastObstacle == null) {
 					position.x = player.transform.position.x + cameraSize.x * 2;
-				} else if (lastObstacle.tag == obstacle.tag) {
+				} else if (lastObstacle.tag == obstacle.tag
+				           && lastObstacle.GetComponent<BoxCollider2D> () != null) {
 					position.x = lastObstacle.transform.position.x
 						+ lastObstacle.GetComponent<BoxCollider2D> ().size.x / 2
 						+ obstacle.GetComponent<BoxCollider2D> ().size.x / 2;
-				} else {
+
+				} else if (lastObstacle.tag == "Fire" || lastObstacle.tag == "FlyingFlame" || obstacle.tag == "FlyingFlame") {
 					position.x = lastObstacle.transform.position.x + cameraSize.x;
+				} else {
+					position.x = lastObstacle.transform.position.x + cameraSize.x/2;
 				}
 
 				obstacle.transform.position = position;

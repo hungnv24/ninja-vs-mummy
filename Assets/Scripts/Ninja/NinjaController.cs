@@ -181,6 +181,15 @@ public class NinjaController : MonoBehaviour
 		}
 	}
 
+	void OnTriggerStay2D(Collider2D col)
+	{
+		if (col.gameObject.tag == "FlyingFlame"
+		    && (currentState & (FLAG_STATE_SLIDE|FLAG_STATE_DIE)) == 0) {
+			AudioUtils.GetInstance().StopSound(audioSource);
+			dieCommand.execute();
+		}
+	}
+
 	private bool DidHitWall (Collision2D col)
 	{
 		bool hittedWall = col.gameObject.tag == "Wall";
