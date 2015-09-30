@@ -143,19 +143,20 @@ public class NinjaController : MonoBehaviour
 	private void GetInput ()
 	{
 		int swipe = TouchUtils.GetSwipe ();
-		if (Input.GetKeyDown (KeyCode.X) || swipe == TouchUtils.SWIPE_UP) {
+		bool isRunning = (currentState & FLAG_STATE_RUN) > 0;
+		if ((Input.GetKeyDown (KeyCode.X) || swipe == TouchUtils.SWIPE_UP) && !inputJump) {
 			inputJump = true;
 		}
 		
-		if (TouchUtils.GetTapCount () == 1 || Input.GetKeyDown (KeyCode.C)) {
+		if ((TouchUtils.GetTapCount () == 1 || Input.GetKeyDown (KeyCode.C)) && !inputSlash) {
 			inputSlash = true;
 		}
 		
-		if (Input.GetKeyDown (KeyCode.DownArrow) || swipe == TouchUtils.SWIPE_DOWN) {
+		if ((Input.GetKeyDown (KeyCode.DownArrow) || swipe == TouchUtils.SWIPE_DOWN) && !inputSlide) {
 			inputSlide = true;
 		}
 		
-		if (Input.GetKeyDown (KeyCode.RightArrow) || swipe == TouchUtils.SWIPE_RIGHT) {
+		if ((Input.GetKeyDown (KeyCode.RightArrow) || swipe == TouchUtils.SWIPE_RIGHT) && !inputThrow) {
 			inputThrow = true;
 		}
 

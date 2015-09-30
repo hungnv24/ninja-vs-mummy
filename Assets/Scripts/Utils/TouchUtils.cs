@@ -8,35 +8,47 @@ public class TouchUtils : Object
 	public const int SWIPE_RIGHT = 1;
 	public const int SWIPE_DOWN = 2;
 	public const int SWIPE_LEFT = 3;
+	static Touch touchStart;
+	static bool isSwipe = false;
 
 	public static int GetSwipe()
 	{
-		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended) {
-			Vector2 touchDelta = Input.GetTouch (0).deltaPosition;
+		int direction = SWIPE_NONE;
+		if (Input.touchCount > 0 &&
+			Input.GetTouch (0).phase == TouchPhase.Began) {
+			touchStart = Input.GetTouch(0);
+			isSwipe = true;
+		}
+		if (isSwipe &&
+			Input.touchCount > 0 &&
+		    Input.GetTouch (0).phase == TouchPhase.Moved) {
+			Vector2 touchDelta = Input.GetTouch (0).position - touchStart.position;
 			if (touchDelta.x < -20 && Mathf.Abs (touchDelta.x) > Mathf.Abs (touchDelta.y)) {
-				return SWIPE_LEFT;
+				direction =  SWIPE_LEFT;
 			}
 
 			if (touchDelta.x > 20 && Mathf.Abs (touchDelta.x) > Mathf.Abs (touchDelta.y)) {
-				return SWIPE_RIGHT;
+				direction = SWIPE_RIGHT;
 			}
 			
 			if (touchDelta.y > 20 && Mathf.Abs (touchDelta.y) > Mathf.Abs (touchDelta.x)) {
-				return SWIPE_UP;
+				direction = SWIPE_UP;
 			}
 			
 			if (touchDelta.y < -20 && Mathf.Abs (touchDelta.y) > Mathf.Abs (touchDelta.x)) {
-				return SWIPE_DOWN;
+				direction = SWIPE_DOWN;
 			}
 		}
-		return SWIPE_NONE;
+		if (direction != SWIPE_NONE)
+			isSwipe = false;
+		return direction;
 	}
 
 	public static int GetTapCount ()
 	{
 		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended) {
 			Vector2 touchDelta = Input.GetTouch (0).deltaPosition;
-			if (touchDelta.x < 10 && touchDelta.y < 10) {
+			if (Mathf.Abs (touchDelta.x) < 5 && Mathf.Abs (touchDelta.y) < 5) {
 				return Input.GetTouch (0).tapCount;
 			}
 		}

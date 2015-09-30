@@ -17,11 +17,13 @@ public class ObstacleController : MonoBehaviour
 	Vector2 playerBound;
 	private bool start = false;
 	int hard = 2;
+	float obstacleDistance;
 
 	void Start ()
 	{
 		cameraSize.y = Camera.main.orthographicSize;
 		cameraSize.x = Camera.main.aspect * cameraSize.y;
+		obstacleDistance = cameraSize.y * 1.5f;
 		playerBound = this.player.GetComponent<Renderer> ().bounds.size;
 		Time.timeScale = 0;
 	}
@@ -58,7 +60,6 @@ public class ObstacleController : MonoBehaviour
 	void AddNewObstacleIfNeeded ()
 	{
 		var screenCenter = Camera.main.transform.position;
-		Debug.Log (screenCenter);
 		if (obstacles.Count == 0
 			|| obstacles [obstacles.Count - 1].transform.position.x <= screenCenter.x + cameraSize.x) {
 			GameObject lastObstacle = null;
@@ -79,9 +80,9 @@ public class ObstacleController : MonoBehaviour
 					+ lastObstacle.GetComponent<BoxCollider2D> ().size.x / 2
 					+ obstacle.GetComponent<BoxCollider2D> ().size.x / 2;
 			} else if (lastObstacle.tag == "Fire" || lastObstacle.tag == "FlyingFlame" || obstacle.tag == "FlyingFlame") {
-				position.x = lastObstacle.transform.position.x + cameraSize.x;
+				position.x = lastObstacle.transform.position.x + obstacleDistance;
 			} else {
-				position.x = lastObstacle.transform.position.x + cameraSize.x/hard;
+				position.x = lastObstacle.transform.position.x + obstacleDistance / hard;
 			}
 
 			obstacle.transform.position = position;
