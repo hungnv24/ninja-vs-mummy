@@ -7,13 +7,16 @@ public class PointController
 	private static PointController instance = null;
 	static object syncRoot = new Object ();
 	GameObject pointLabel;
-	int currentPoint = 0;
-	float lastUpdate = 0;
-	int combo = 0;
+	long currentPoint;
+	float lastUpdate;
+	int combo;
 
 	private PointController()
 	{
 		pointLabel = GameObject.Find ("PointLabel");
+		combo = 0;
+		lastUpdate = -2;
+		currentPoint = 0;
 	}
 
 	public static PointController GetInstance()
@@ -30,9 +33,9 @@ public class PointController
 	public void ShowPoint(int point)
 	{
 		var deltaTime = Time.time - lastUpdate;
-		if (deltaTime < 2) {
+		if (deltaTime < 1.5) {
 			combo++;
-		} else if (combo > 0 && deltaTime >=2) {
+		} else if (combo > 0 && deltaTime >= 1.5) {
 			combo = 0;
 		}
 		var comboText = "";

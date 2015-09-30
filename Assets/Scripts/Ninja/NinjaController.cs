@@ -76,13 +76,20 @@ public class NinjaController : MonoBehaviour
 	void FixedUpdate ()
 	{
 		currentState = GetCurrentState ();
+		grounded = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, groundLayer);
+		isOnFire = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, fireLayer);
+
+		if (isOnFire && currentState != FLAG_STATE_DIE) {
+			AudioUtils.GetInstance ().StopSound (audioSource);
+			dieCommand.execute ();
+		}
+
 		if (currentState == FLAG_STATE_RUN) {
 			animator.speed = bonusSpeed;
 		} else {
 			animator.speed = 1;
 		}
-		grounded = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, groundLayer);
-		isOnFire = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, fireLayer);
+
 		if (!grounded &&
 			(currentState & (FLAG_STATE_JUMP | FLAG_STATE_DIE)) == 0) {
 			animator.SetTrigger ("shouldJump");
@@ -100,17 +107,13 @@ public class NinjaController : MonoBehaviour
 			AudioUtils.GetInstance ().StopSound (audioSource);
 		}
 
-		if (isOnFire && currentState != FLAG_STATE_DIE) {
-			AudioUtils.GetInstance ().StopSound (audioSource);
-			dieCommand.execute ();
-		}
-
 		if (currentState == FLAG_STATE_SLIDE && GetComponent<BoxCollider2D> ().enabled) {
 			GetComponent<BoxCollider2D> ().enabled = false;
 		} else if ((currentState & FLAG_STATE_SLIDE) == 0
 		           && !GetComponent<BoxCollider2D> ().enabled) {
 			GetComponent<BoxCollider2D> ().enabled = true;
 		}
+
 		HandleInput ();
 		MovePlayer ();
 	}
@@ -140,20 +143,19 @@ public class NinjaController : MonoBehaviour
 	private void GetInput ()
 	{
 		int swipe = TouchUtils.GetSwipe ();
-		bool isRunning = (currentState & FLAG_STATE_RUN) > 0;
-		if ((Input.GetKeyDown (KeyCode.X) || swipe == TouchUtils.SWIPE_UP) && isRunning) {
+		if (Input.GetKeyDown (KeyCode.X) || swipe == TouchUtils.SWIPE_UP) {
 			inputJump = true;
 		}
 		
-		if ((TouchUtils.GetTapCount () == 1 || Input.GetKeyDown (KeyCode.C)) && isRunning) {
+		if (TouchUtils.GetTapCount () == 1 || Input.GetKeyDown (KeyCode.C)) {
 			inputSlash = true;
 		}
 		
-		if ((Input.GetKeyDown (KeyCode.DownArrow) || swipe == TouchUtils.SWIPE_DOWN) && isRunning) {
+		if (Input.GetKeyDown (KeyCode.DownArrow) || swipe == TouchUtils.SWIPE_DOWN) {
 			inputSlide = true;
 		}
 		
-		if ((Input.GetKeyDown (KeyCode.RightArrow) || swipe == TouchUtils.SWIPE_RIGHT) && isRunning) {
+		if (Input.GetKeyDown (KeyCode.RightArrow) || swipe == TouchUtils.SWIPE_RIGHT) {
 			inputThrow = true;
 		}
 
@@ -169,18 +171,22 @@ public class NinjaController : MonoBehaviour
 		if (inputJump && isRunning) {
 			jumpCommand.execute ();
 			inputJump = false;
+			return;
 		}
 		if (inputSlash && isRunning) {
 			slashCommand.execute ();
 			inputSlash = false;
+			return;
 		}
 		if (inputSlide && isRunning) {
 			animator.SetTrigger ("shouldSlide");
 			inputSlide = false;
+			return;
 		}
 		if (inputThrow && isRunning) {
 			throwCommand.execute ();
 			inputThrow = false;
+			return;
 		} 
 	}
 

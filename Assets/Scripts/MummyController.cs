@@ -18,6 +18,11 @@ public class MummyController : MonoBehaviour
 	public const int FLAG_STATE_DIE = 4;
 	public AudioClip hit;
 	public AudioClip hit2;
+
+	private bool grounded = false;
+	private float groundCheckRadius = 0.2f;
+	public Transform groundCheck;
+	public LayerMask groundLayer;
 	
 	// Use this for initialization
 	void Start ()
@@ -29,7 +34,8 @@ public class MummyController : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		if (isInState ("Walking") && mRigidbody != null) {
+		grounded = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, groundLayer);
+		if (isInState ("Walking") && grounded && mRigidbody != null) {
 			mRigidbody.velocity = new Vector2 (walkingSpeed, mRigidbody.velocity.y);
 		}
 	}
