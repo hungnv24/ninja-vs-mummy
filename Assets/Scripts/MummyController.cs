@@ -16,7 +16,6 @@ public class MummyController : MonoBehaviour
 	public const int FLAG_STATE_WALK = 1;
 	public const int FLAG_STATE_ATK = 2;
 	public const int FLAG_STATE_DIE = 4;
-
 	public AudioClip hit;
 	public AudioClip hit2;
 	
@@ -54,7 +53,7 @@ public class MummyController : MonoBehaviour
 				&& col.contacts [0].otherCollider is CircleCollider2D
 				&& !isInState ("Die")) {
 				killedBy = KILLED_BY_JUMPED_ON;
-				Die();
+				Die ();
 			}
 			if ((controller.CurrentState & NinjaController.FLAG_STATE_SLIDE) > 0) {
 				killedBy = KILLED_BY_SLIDE;
@@ -79,7 +78,7 @@ public class MummyController : MonoBehaviour
 	{
 		if (col.gameObject.tag == "AttackCheck"
 			&& killedBy == 0
-			&& (GameObject.Find("Ninja").GetComponentInParent<NinjaController> ().CurrentState
+			&& (GameObject.Find ("Ninja").GetComponentInParent<NinjaController> ().CurrentState
 			& (NinjaController.FLAG_STATE_SLASH | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
 			killedBy = KILLED_BY_SLASH;
 			Invoke ("Die", 0.05f);
@@ -90,17 +89,29 @@ public class MummyController : MonoBehaviour
 	{
 		if ((killedBy & KILLED_BY_SLIDE) > 0) {
 			animator.SetTrigger ("fall_die");
-			audioSource.PlayOneShot(hit2);
+			audioSource.PlayOneShot (hit2);
 		} else if (killedBy == KILLED_BY_SLASH) {
 			animator.SetTrigger ("headOff");
 			audioSource.clip = hit;
 			audioSource.loop = false;
-			audioSource.PlayDelayed(0.1f);
+			audioSource.PlayDelayed (0.1f);
 		} else {
 			animator.SetTrigger ("die");
-			audioSource.PlayOneShot(hit2);
+			audioSource.PlayOneShot (hit2);
 		}
-
+		var point = 0;
+		switch (killedBy) {
+		case KILLED_BY_JUMPED_ON:
+			point = 10;
+			break;
+		case KILLED_BY_SLASH:
+			point = 25;
+			break;
+		default:
+			point = 5;
+			break;
+		}
+		PointController.GetInstance ().ShowPoint (point);
 		foreach (Collider2D col in GetComponents<Collider2D>()) {
 			col.enabled = false;
 		}

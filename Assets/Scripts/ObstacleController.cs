@@ -7,8 +7,11 @@ public class ObstacleController : MonoBehaviour
 	public GameObject player;
 	private string[] prefabs = new string[] {
 		"Prefabs/Mummy",
+		"Prefabs/Mummy",
 		"Prefabs/Brick",
+		"Prefabs/Mummy",
 		"Prefabs/Fire",
+		"Prefabs/Mummy",
 		"Prefabs/FlyingFlame"
 	};
 	private List<GameObject> obstacles = new List<GameObject> ();
@@ -64,15 +67,10 @@ public class ObstacleController : MonoBehaviour
 				if (index > prefabs.Length - 1)
 					index--;
 				var obstacle = Instantiate (Resources.Load (prefabs [index])) as GameObject;
-				if (lastObstacle != null
-				    && lastObstacle.tag == "Fire"
-				    && obstacle.tag == "Fire") {
-					Destroy(obstacle);
-					continue;
-				}
+
 				var position = obstacle.transform.position;
 				if (lastObstacle == null) {
-					position.x = player.transform.position.x + cameraSize.x * 2;
+					position.x = player.transform.position.x + cameraSize.x * 1.5f;
 				} else if (lastObstacle.tag == obstacle.tag
 				           && lastObstacle.GetComponent<BoxCollider2D> () != null) {
 					position.x = lastObstacle.transform.position.x

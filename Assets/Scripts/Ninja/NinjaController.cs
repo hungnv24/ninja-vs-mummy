@@ -7,15 +7,11 @@ public class NinjaController : MonoBehaviour
 	Animator animator;
 	Rigidbody2D rigidbody;
 	AudioSource audioSource;
-
 	private float jumpForce;
 	private int currentState = FLAG_STATE_RUN;
 	private Hashtable animationFlags = new Hashtable ();
 	private bool grounded = false;
-	public Transform groundCheck;
 	private float groundCheckRadius = 0.2f;
-	public LayerMask groundLayer;
-	public LayerMask fireLayer;
 	bool inputJump = false;
 	bool inputThrow = false;
 	bool inputSlide = false;
@@ -25,7 +21,13 @@ public class NinjaController : MonoBehaviour
 	Command throwCommand;
 	Command dieCommand;
 	bool isOnFire = false;
+	float timer = 0.0f;
+	float bonusSpeed = 1.0f;
+	float maxBonusSpeed = 2.0f;
 
+	public Transform groundCheck;
+	public LayerMask groundLayer;
+	public LayerMask fireLayer;
 	public const int FLAG_STATE_RUN = 1;
 	public const int FLAG_STATE_JUMP = 2;
 	public const int FLAG_STATE_SLASH = 4;
@@ -34,20 +36,15 @@ public class NinjaController : MonoBehaviour
 	public const int FLAG_STATE_DIE = 32;
 	public const int FLAG_STATE_FADE = 64;
 	public const int FLAG_STATE_FADE_SLASH = 128;
-	public float speed = 7;
-	public float jumpHeight = 7.5f;
-
-	float timer = 0.0f;
-	float bonusSpeed = 1.0f;
+	public const int FLAG_STATE_FALL_DIE = 256;
+	public float speed;
+	public float jumpHeight;
 	
-	public int CurrentState
-	{
-		get
-		{
+	public int CurrentState {
+		get {
 			return currentState;
 		}
-		set
-		{
+		set {
 			currentState = value;
 		}
 	}
@@ -60,6 +57,7 @@ public class NinjaController : MonoBehaviour
 		animationFlags.Add (Animator.StringToHash ("Slide"), FLAG_STATE_SLIDE);
 		animationFlags.Add (Animator.StringToHash ("Throw"), FLAG_STATE_THROW);
 		animationFlags.Add (Animator.StringToHash ("Die"), FLAG_STATE_DIE);
+		animationFlags.Add (Animator.StringToHash ("Fall_die"), FLAG_STATE_FALL_DIE);
 
 		jumpCommand = new JumpCommand (gameObject, jumpHeight);
 		slashCommand = new SlashCommand (gameObject);
@@ -98,18 +96,19 @@ public class NinjaController : MonoBehaviour
 				AudioUtils.GetInstance ().PlayLoop (audioSource, "footstep");
 			}
 		} else if (grounded &&
-		           (currentState & (FLAG_STATE_RUN | FLAG_STATE_DIE | FLAG_STATE_SLASH | FLAG_STATE_FADE_SLASH)) == 0) {
-			AudioUtils.GetInstance ().StopSound(audioSource);
+			(currentState & (FLAG_STATE_RUN | FLAG_STATE_DIE | FLAG_STATE_SLASH | FLAG_STATE_FADE_SLASH)) == 0) {
+			AudioUtils.GetInstance ().StopSound (audioSource);
 		}
 
 		if (isOnFire && currentState != FLAG_STATE_DIE) {
-			AudioUtils.GetInstance().StopSound(audioSource);
-			dieCommand.execute();
+			AudioUtils.GetInstance ().StopSound (audioSource);
+			dieCommand.execute ();
 		}
 
 		if (currentState == FLAG_STATE_SLIDE && GetComponent<BoxCollider2D> ().enabled) {
 			GetComponent<BoxCollider2D> ().enabled = false;
-		} else if (currentState != FLAG_STATE_SLIDE && !GetComponent<BoxCollider2D> ().enabled) {
+		} else if ((currentState & FLAG_STATE_SLIDE) == 0
+		           && !GetComponent<BoxCollider2D> ().enabled) {
 			GetComponent<BoxCollider2D> ().enabled = true;
 		}
 		HandleInput ();
@@ -121,7 +120,7 @@ public class NinjaController : MonoBehaviour
 	{
 		GetInput ();
 		this.timer += Time.deltaTime;
-		if (timer > 10) {
+		if (timer > 10 && bonusSpeed < maxBonusSpeed) {
 			bonusSpeed += 0.05f;
 			timer = 0.0f;
 		}
@@ -141,9 +140,7 @@ public class NinjaController : MonoBehaviour
 	private void GetInput ()
 	{
 		int swipe = TouchUtils.GetSwipe ();
-		
 		bool isRunning = (currentState & FLAG_STATE_RUN) > 0;
-
 		if ((Input.GetKeyDown (KeyCode.X) || swipe == TouchUtils.SWIPE_UP) && isRunning) {
 			inputJump = true;
 		}
@@ -152,11 +149,11 @@ public class NinjaController : MonoBehaviour
 			inputSlash = true;
 		}
 		
-		if ((Input.GetKeyDown(KeyCode.DownArrow) || swipe == TouchUtils.SWIPE_DOWN) && isRunning) {
+		if ((Input.GetKeyDown (KeyCode.DownArrow) || swipe == TouchUtils.SWIPE_DOWN) && isRunning) {
 			inputSlide = true;
 		}
 		
-		if ((Input.GetKeyDown(KeyCode.RightArrow) || swipe == TouchUtils.SWIPE_RIGHT) && isRunning) {
+		if ((Input.GetKeyDown (KeyCode.RightArrow) || swipe == TouchUtils.SWIPE_RIGHT) && isRunning) {
 			inputThrow = true;
 		}
 
@@ -168,55 +165,62 @@ public class NinjaController : MonoBehaviour
 
 	private void HandleInput ()
 	{
-		if (inputJump) {
-			jumpCommand.execute();
+		bool isRunning = (currentState & FLAG_STATE_RUN) > 0;
+		if (inputJump && isRunning) {
+			jumpCommand.execute ();
 			inputJump = false;
 		}
-		if (inputSlash) {
-			slashCommand.execute();
+		if (inputSlash && isRunning) {
+			slashCommand.execute ();
 			inputSlash = false;
 		}
-		if (inputSlide) {
+		if (inputSlide && isRunning) {
 			animator.SetTrigger ("shouldSlide");
 			inputSlide = false;
 		}
-		if (inputThrow) {
-			throwCommand.execute();
+		if (inputThrow && isRunning) {
+			throwCommand.execute ();
 			inputThrow = false;
 		} 
 	}
 
 	void OnCollisionEnter2D (Collision2D col)
 	{
-		bool hittedEnemy = DidHitEnemy(col);
-		bool hittedWall = DidHitWall(col);
+		bool hittedEnemy = DidHitEnemy (col);
+		int hittedWall = DidHitWall (col);
 
-		if ((hittedWall || hittedEnemy) && (currentState & FLAG_STATE_DIE) == 0) {
+		if ((hittedWall > 0 || hittedEnemy) && (currentState & FLAG_STATE_DIE) == 0) {
 			if (currentState == FLAG_STATE_RUN) {
 				rigidbody.AddForce (new Vector2 (-250f, 50.0f));
-			} else if (currentState == FLAG_STATE_JUMP) {
-				rigidbody.AddForce (new Vector2 (-250f, -0));
+			} else if (currentState == FLAG_STATE_JUMP && hittedWall == 2) {
+				rigidbody.AddForce (new Vector2 (250f, 500f));
+				rigidbody.freezeRotation = false;
+				rigidbody.gravityScale = 2;
+				rigidbody.angularVelocity = -360;
+				animator.SetTrigger ("shouldFallDie");
+			} else if (currentState == FLAG_STATE_JUMP && hittedWall == 1) {
+				rigidbody.AddForce (new Vector2 (-250f, 0.0f));
 			}
-			var utils = AudioUtils.GetInstance();
-			utils.StopSound(audioSource);
-			utils.PlayOnce(audioSource, "hit6");
-			dieCommand.execute();
+			var utils = AudioUtils.GetInstance ();
+			utils.StopSound (audioSource);
+			utils.PlayOnce (audioSource, "hit6");
+			dieCommand.execute ();
 		}
 	}
 
-	void OnTriggerStay2D(Collider2D col)
+	void OnTriggerStay2D (Collider2D col)
 	{
 		if (col.gameObject.tag == "FlyingFlame"
-		    && (currentState & (FLAG_STATE_SLIDE|FLAG_STATE_DIE)) == 0) {
-			AudioUtils.GetInstance().StopSound(audioSource);
-			dieCommand.execute();
+			&& (currentState & (FLAG_STATE_SLIDE | FLAG_STATE_DIE)) == 0) {
+			AudioUtils.GetInstance ().StopSound (audioSource);
+			dieCommand.execute ();
 		}
 	}
 
-	private bool DidHitWall (Collision2D col)
+	private int DidHitWall (Collision2D col)
 	{
-		bool hittedWall = col.gameObject.tag == "Wall";
-		if (hittedWall && col.contacts [0].otherCollider is CircleCollider2D) {
+		int hittedWall = (col.gameObject.tag == "Wall") ? 1 : 0;
+		if (hittedWall > 0 && col.contacts [0].otherCollider is CircleCollider2D) {
 			Vector2 objSize = col.collider.bounds.size;
 			Vector2 objPos = col.collider.bounds.center;
 			CircleCollider2D selfCollider = (CircleCollider2D)col.contacts [0].otherCollider;
@@ -224,7 +228,9 @@ public class NinjaController : MonoBehaviour
 			Vector2 selfPos = selfCollider.bounds.center;
 			if (selfPos.x >= objPos.x - objSize.x / 2
 				|| selfPos.y - selfSize / 2 >= objPos.y + objSize.y / 2) {
-				hittedWall = false;
+				hittedWall = 0;
+			} else {
+				hittedWall = 2;
 			}
 		}
 		return hittedWall;

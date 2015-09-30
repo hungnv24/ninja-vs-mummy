@@ -5,6 +5,7 @@ public class CameraController : MonoBehaviour
 {
 
 	private Vector3 origin;
+	private Vector3 offset;
 	public GameObject focusedObject;
 	private float smoothTime = 0.1f;
 	private Vector3 velocity = Vector2.zero;
@@ -13,6 +14,7 @@ public class CameraController : MonoBehaviour
 	void Start ()
 	{
 		origin = transform.position;
+		offset = focusedObject.transform.position - origin;
 	}
 	
 	void Update ()
@@ -20,7 +22,7 @@ public class CameraController : MonoBehaviour
 		if (!focusedObject) {
 			return;
 		}
-		origin.x = focusedObject.transform.position.x;
+		origin.x = focusedObject.transform.position.x - offset.x;
 		transform.position = Vector3.SmoothDamp(transform.position,
 		                              origin,
 		                              ref velocity,

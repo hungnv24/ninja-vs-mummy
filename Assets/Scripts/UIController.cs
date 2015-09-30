@@ -17,6 +17,7 @@ public class UIController : MonoBehaviour
 
 	public void OnResetClicked()
 	{
+		PointController.Dispose ();
 		Application.LoadLevel (Application.loadedLevelName);
 	}
 }

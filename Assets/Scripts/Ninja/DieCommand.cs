@@ -15,6 +15,6 @@ public class DieCommand : Command
 		animator.SetTrigger ("die");
 		gameObject.GetComponent<NinjaController> ().CurrentState = NinjaController.FLAG_STATE_DIE;
 		AudioUtils.GetInstance().PlayOnce (audioSource, "die");
-		Destroy (gameObject, 2.0f);
+		Destroy (gameObject, 5.0f);
 	}
 }
