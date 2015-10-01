@@ -135,7 +135,7 @@ public class NinjaController : MonoBehaviour
 			rigidbody.velocity = new Vector2 (speed, rigidbody.velocity.y);
 		} else if (currentState == FLAG_STATE_RUN) {
 			rigidbody.velocity = new Vector2 (speed * bonusSpeed, rigidbody.velocity.y);
-		} else if (currentState == FLAG_STATE_THROW) {
+		} else if ((currentState & (FLAG_STATE_THROW|FLAG_STATE_SLASH)) > 0) {
 			rigidbody.velocity = new Vector2 (speed / 2, 0);
 		}
 	}
@@ -198,15 +198,15 @@ public class NinjaController : MonoBehaviour
 
 		if ((hittedWall > 0 || hittedEnemy) && (currentState & FLAG_STATE_DIE) == 0) {
 			if (currentState == FLAG_STATE_RUN) {
-				rigidbody.AddForce (new Vector2 (-250f, 50.0f));
+				rigidbody.AddForce (new Vector2 (-125f, 25.0f));
 			} else if (currentState == FLAG_STATE_JUMP && hittedWall == 2) {
-				rigidbody.AddForce (new Vector2 (250f, 500f));
+				rigidbody.AddForce (new Vector2 (125f, 250f));
 				rigidbody.freezeRotation = false;
 				rigidbody.gravityScale = 2;
 				rigidbody.angularVelocity = -360;
 				animator.SetTrigger ("shouldFallDie");
 			} else if (currentState == FLAG_STATE_JUMP && hittedWall == 1) {
-				rigidbody.AddForce (new Vector2 (-250f, 0.0f));
+				rigidbody.AddForce (new Vector2 (-125f, 0.0f));
 			}
 			var utils = AudioUtils.GetInstance ();
 			utils.StopSound (audioSource);
