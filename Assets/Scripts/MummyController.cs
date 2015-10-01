@@ -87,7 +87,7 @@ public class MummyController : MonoBehaviour
 			&& (GameObject.Find ("Ninja").GetComponentInParent<NinjaController> ().CurrentState
 			& (NinjaController.FLAG_STATE_SLASH | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
 			killedBy = KILLED_BY_SLASH;
-			Invoke ("Die", 0.05f);
+			Die();
 		}
 	}
 

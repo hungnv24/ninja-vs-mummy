@@ -131,12 +131,10 @@ public class NinjaController : MonoBehaviour
 
 	private void MovePlayer ()
 	{
-		if ((currentState & (FLAG_STATE_JUMP | FLAG_STATE_SLIDE)) > 0) {
+		if ((currentState & (FLAG_STATE_JUMP | FLAG_STATE_SLIDE | FLAG_STATE_THROW)) > 0) {
 			rigidbody.velocity = new Vector2 (speed, rigidbody.velocity.y);
-		} else if (currentState == FLAG_STATE_RUN) {
+		} else if ((currentState & (FLAG_STATE_RUN | FLAG_STATE_SLASH)) > 0) {
 			rigidbody.velocity = new Vector2 (speed * bonusSpeed, rigidbody.velocity.y);
-		} else if ((currentState & (FLAG_STATE_THROW|FLAG_STATE_SLASH)) > 0) {
-			rigidbody.velocity = new Vector2 (speed / 2, 0);
 		}
 	}
 

@@ -13,6 +13,6 @@ public class SlashCommand : Command
 		animator.SetTrigger ("shouldSlash");
 		var utils = AudioUtils.GetInstance ();
 		utils.StopSound(audioSource);
-		utils.PlayDelayed(audioSource, "slash", 0.25f);
+		utils.PlayOnce(audioSource, "slash");
 	}
 }
