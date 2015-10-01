@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Threading;
 
 public class MummyController : MonoBehaviour
 {
@@ -18,11 +19,18 @@ public class MummyController : MonoBehaviour
 	public const int FLAG_STATE_DIE = 4;
 	public AudioClip hit;
 	public AudioClip hit2;
-
+	GameObject player;
 	private bool grounded = false;
 	private float groundCheckRadius = 0.2f;
 	public Transform groundCheck;
 	public LayerMask groundLayer;
+	GameObject sceneWatcher;
+
+	void Awake ()
+	{
+		player = GameObject.FindGameObjectWithTag ("Player");
+		sceneWatcher = GameObject.Find ("SceneWatcher");
+	}
 	
 	// Use this for initialization
 	void Start ()
@@ -84,19 +92,20 @@ public class MummyController : MonoBehaviour
 	{
 		if (col.gameObject.tag == "AttackCheck"
 			&& killedBy == 0
-			&& (GameObject.Find ("Ninja").GetComponentInParent<NinjaController> ().CurrentState
+			&& (player.GetComponentInParent<NinjaController> ().CurrentState
 			& (NinjaController.FLAG_STATE_SLASH | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
 			killedBy = KILLED_BY_SLASH;
 			Die();
 		}
 	}
-
+	
 	public void Die ()
 	{
-		if ((killedBy & KILLED_BY_SLIDE) > 0) {
+		if (killedBy == KILLED_BY_SLIDE) {
 			animator.SetTrigger ("fall_die");
 			audioSource.PlayOneShot (hit2);
-		} else if (killedBy == KILLED_BY_SLASH) {
+		}
+		else if (killedBy == KILLED_BY_SLASH) {
 			animator.SetTrigger ("headOff");
 			audioSource.clip = hit;
 			audioSource.loop = false;
@@ -123,7 +132,6 @@ public class MummyController : MonoBehaviour
 		}
 		Destroy (mRigidbody);
 		Destroy (gameObject, 2.0f);
-		var sceneWatcher = GameObject.Find ("SceneWatcher");
 		var obstacleController = sceneWatcher.GetComponent<ObstacleController> () as ObstacleController;
 		obstacleController.RemoveObstacle (gameObject);
 	}

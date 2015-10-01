@@ -8,9 +8,9 @@ public class ObstacleController : MonoBehaviour
 	private string[] prefabs = new string[] {
 		"Prefabs/Mummy",
 		"Prefabs/Brick",
+		"Prefabs/Mummy",
 		"Prefabs/Fire",
-		"Prefabs/FlyingFlame",
-		"Prefabs/Mummy"
+		"Prefabs/FlyingFlame"
 	};
 	private List<Object> data = new List<Object> ();
 	private List<GameObject> obstacles = new List<GameObject> ();
@@ -31,6 +31,7 @@ public class ObstacleController : MonoBehaviour
 			Object obj = Resources.Load(prefabs [i], typeof(GameObject));
 			data.Add(obj);
 		}
+		StartCoroutine (CheckCoroutine ());
 	}
 
 	void Update()
@@ -40,19 +41,29 @@ public class ObstacleController : MonoBehaviour
 			Time.timeScale = 1;
 		}
 	}
-	
-	void FixedUpdate ()
+
+	void FixedUpdate()
 	{
 		if (player != null && !player.Equals(null)) {
-			RemoveOldObstacles ();
 			AddNewObstacleIfNeeded ();
+		}
+	}
+
+	IEnumerator CheckCoroutine()
+	{
+		while (true) {
+			if (player != null && !player.Equals (null)) {
+				RemoveOldObstacles ();
+			}
+			yield return new WaitForSeconds(2);
 		}
 	}
 
 	void RemoveOldObstacles ()
 	{
 		for (int i = 0; i < obstacles.Count; i++) {
-			if (obstacles [i].transform.position.x <= this.player.transform.position.x 
+			if (obstacles [i].Equals(null) ||
+				obstacles [i].transform.position.x <= this.player.transform.position.x 
 				- this.cameraSize.x - playerBound.x / 2) {
 				Destroy (obstacles [i]);
 				obstacles.RemoveAt (i);
@@ -61,6 +72,7 @@ public class ObstacleController : MonoBehaviour
 			}
 		}
 	}
+
 
 	void AddNewObstacleIfNeeded ()
 	{
