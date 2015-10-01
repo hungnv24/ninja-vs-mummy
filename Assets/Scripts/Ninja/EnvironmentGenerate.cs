@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class EnvironmentGenerate : MonoBehaviour
 {
 	List<GameObject> backgrounds = new List<GameObject> ();
+	public Object environmentPrefabs;
 
 	// Use this for initialization
 	void Start ()
@@ -31,7 +32,7 @@ public class EnvironmentGenerate : MonoBehaviour
 	void AddBackground ()
 	{
 		GameObject obj = (GameObject)backgrounds [backgrounds.Count - 1];
-		GameObject newEnv = Instantiate (Resources.Load ("Prefabs/Environment", typeof(GameObject))) as GameObject;
+		GameObject newEnv = Instantiate (environmentPrefabs) as GameObject;
 		GameObject background = obj.transform.Find ("RightBackground").gameObject;
 
 		if (background != null) {

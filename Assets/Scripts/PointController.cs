@@ -10,6 +10,7 @@ public class PointController
 	long currentPoint;
 	float lastUpdate;
 	int combo;
+	Object floatingPoint;
 
 	private PointController()
 	{
@@ -17,6 +18,7 @@ public class PointController
 		combo = 0;
 		lastUpdate = -2;
 		currentPoint = 0;
+		floatingPoint = Resources.Load ("Prefabs/FloatingPoint");
 	}
 
 	public static PointController GetInstance()
@@ -40,7 +42,7 @@ public class PointController
 		}
 		var comboText = "";
 		var originPoint = point;
-		var obj = Object.Instantiate (Resources.Load("Prefabs/FloatingPoint")) as GameObject;
+		var obj = Object.Instantiate (floatingPoint) as GameObject;
 		if (combo > 0) {
 			point *= (combo + 1);
 			comboText = "x" + (combo + 1);

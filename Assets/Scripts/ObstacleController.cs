@@ -12,6 +12,7 @@ public class ObstacleController : MonoBehaviour
 		"Prefabs/FlyingFlame",
 		"Prefabs/Mummy"
 	};
+	private List<Object> data = new List<Object> ();
 	private List<GameObject> obstacles = new List<GameObject> ();
 	Vector2 cameraSize;
 	Vector2 playerBound;
@@ -26,6 +27,10 @@ public class ObstacleController : MonoBehaviour
 		obstacleDistance = cameraSize.y * 1.5f;
 		playerBound = this.player.GetComponent<Renderer> ().bounds.size;
 		Time.timeScale = 0;
+		for (int i = 0; i < prefabs.Length; i++) {
+			Object obj = Resources.Load(prefabs [i], typeof(GameObject));
+			data.Add(obj);
+		}
 	}
 
 	void Update()
@@ -38,7 +43,7 @@ public class ObstacleController : MonoBehaviour
 	
 	void FixedUpdate ()
 	{
-		if (player != null && !ReferenceEquals (player, null)) {
+		if (player != null && !player.Equals(null)) {
 			RemoveOldObstacles ();
 			AddNewObstacleIfNeeded ();
 		}
@@ -69,7 +74,7 @@ public class ObstacleController : MonoBehaviour
 			int index = Random.Range (0, prefabs.Length);
 			if (index > prefabs.Length - 1)
 				index--;
-			var obstacle = Instantiate (Resources.Load (prefabs [index])) as GameObject;
+			var obstacle = Instantiate (data[index]) as GameObject;
 
 			var position = obstacle.transform.position;
 			if (lastObstacle == null) {

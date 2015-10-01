@@ -143,7 +143,6 @@ public class NinjaController : MonoBehaviour
 	private void GetInput ()
 	{
 		int swipe = TouchUtils.GetSwipe ();
-		bool isRunning = (currentState & FLAG_STATE_RUN) > 0;
 		if ((Input.GetKeyDown (KeyCode.X) || swipe == TouchUtils.SWIPE_UP) && !inputJump) {
 			inputJump = true;
 		}

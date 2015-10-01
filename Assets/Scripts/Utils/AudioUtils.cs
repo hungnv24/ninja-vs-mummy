@@ -3,7 +3,6 @@ using System.Collections;
 
 public class AudioUtils
 {
-	Hashtable audioCache = new Hashtable ();
 	static AudioUtils instance = null;
 	static object syncRoot = new Object ();
 
