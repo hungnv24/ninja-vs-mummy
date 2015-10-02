@@ -5,6 +5,7 @@ public class AudioUtils
 {
 	static AudioUtils instance = null;
 	static object syncRoot = new Object ();
+	Hashtable audioCache = new Hashtable();
 
 	private AudioUtils ()
 	{
@@ -22,11 +23,17 @@ public class AudioUtils
 		return instance;
 	}
 
-	public AudioClip LoadClip (string name)
+	public AudioClip LoadClip (string name, bool cache = true)
 	{
+		if (audioCache.ContainsKey (name)) {
+			return audioCache[name] as AudioClip;
+		}
 		AudioClip clip;
 		clip = Resources.Load ("Sounds/" + name, typeof(AudioClip))
 			as AudioClip;
+		if (cache) {
+			audioCache.Add(name, clip);
+		}
 		return clip;
 	}
 

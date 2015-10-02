@@ -19,6 +19,7 @@ public class ObstacleController : MonoBehaviour
 	private bool start = false;
 	int hard = 2;
 	float obstacleDistance;
+	int continuousMummy = 0;
 
 	void Start ()
 	{
@@ -86,7 +87,22 @@ public class ObstacleController : MonoBehaviour
 			int index = Random.Range (0, prefabs.Length);
 			if (index > prefabs.Length - 1)
 				index--;
+
 			var obstacle = Instantiate (data[index]) as GameObject;
+
+			if (lastObstacle != null &&
+			    obstacle.tag == "Mummy" &&
+			    lastObstacle.tag == "Mummy") {
+				continuousMummy++;
+				Debug.Log(continuousMummy);
+				if (continuousMummy >= 5) {
+					Debug.Log("destroy mummy");
+					Destroy(obstacle);
+					return;
+				}
+			} else if (continuousMummy > 0) {
+				continuousMummy = 0;
+			}
 
 			var position = obstacle.transform.position;
 			if (lastObstacle == null) {
