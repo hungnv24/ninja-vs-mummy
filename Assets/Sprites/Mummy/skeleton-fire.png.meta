@@ -1,9 +1,32 @@
 fileFormatVersion: 2
-guid: 793c09f8a58144bef8109f3fc8df27e8
-timeCreated: 1440343534
+guid: c199a11b603334b64a52845eb4df2b21
+timeCreated: 1443971262
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: skeleton-fire_0
+    21300002: skeleton-fire_1
+    21300004: skeleton-fire_2
+    21300006: skeleton-fire_3
+    21300008: skeleton-fire_4
+    21300010: skeleton-fire_5
+    21300012: skeleton-fire_6
+    21300014: skeleton-fire_7
+    21300016: skeleton-fire_8
+    21300018: skeleton-fire_9
+    21300020: skeleton-fire_10
+    21300022: skeleton-fire_11
+    21300024: skeleton-fire_12
+    21300026: skeleton-fire_13
+    21300028: skeleton-fire_14
+    21300030: skeleton-fire_15
+    21300032: skeleton-fire_16
+    21300034: skeleton-fire_17
+    21300036: skeleton-fire_18
+    21300038: skeleton-fire_19
+    21300040: skeleton-fire_20
+    21300042: skeleton-fire_21
+    21300044: skeleton-fire_22
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -37,7 +60,8 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
-  spriteMode: 1
+  allowsAlphaSplitting: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -48,7 +72,237 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: skeleton-fire_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 1764
+        width: 156
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_1
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 1764
+        width: 158
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_2
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 1764
+        width: 158
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_3
+      rect:
+        serializedVersion: 2
+        x: 905
+        y: 1764
+        width: 158
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_4
+      rect:
+        serializedVersion: 2
+        x: 1205
+        y: 1764
+        width: 158
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_5
+      rect:
+        serializedVersion: 2
+        x: 1505
+        y: 1764
+        width: 158
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_6
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 1479
+        width: 158
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_7
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 1483
+        width: 208
+        height: 275
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_8
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 1482
+        width: 217
+        height: 276
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_9
+      rect:
+        serializedVersion: 2
+        x: 905
+        y: 1481
+        width: 224
+        height: 277
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_10
+      rect:
+        serializedVersion: 2
+        x: 1205
+        y: 1480
+        width: 227
+        height: 277
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_11
+      rect:
+        serializedVersion: 2
+        x: 1506
+        y: 1480
+        width: 226
+        height: 278
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_12
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 1194
+        width: 270
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_13
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 1194
+        width: 295
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_14
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 1194
+        width: 289
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_15
+      rect:
+        serializedVersion: 2
+        x: 905
+        y: 1194
+        width: 281
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_16
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 1194
+        width: 266
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_17
+      rect:
+        serializedVersion: 2
+        x: 1505
+        y: 1194
+        width: 251
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_18
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 909
+        width: 225
+        height: 279
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_19
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 908
+        width: 194
+        height: 280
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_20
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 908
+        width: 161
+        height: 280
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_21
+      rect:
+        serializedVersion: 2
+        x: 905
+        y: 908
+        width: 136
+        height: 280
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: skeleton-fire_22
+      rect:
+        serializedVersion: 2
+        x: 1205
+        y: 908
+        width: 137
+        height: 280
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

@@ -109,6 +109,10 @@ public class ObstacleController : MonoBehaviour
 				position.x = screenCenter.x + cameraSize.x * 1.5f;
 			} else if (lastObstacle.tag == obstacle.tag
 			           && lastObstacle.GetComponent<BoxCollider2D> () != null) {
+				if (obstacle.tag == "Wall") {
+					var pos = lastObstacle.transform.position;
+					position.z = pos.z + 1;
+				}
 				position.x = lastObstacle.transform.position.x
 					+ lastObstacle.GetComponent<BoxCollider2D> ().size.x / 2
 					+ obstacle.GetComponent<BoxCollider2D> ().size.x / 2;
