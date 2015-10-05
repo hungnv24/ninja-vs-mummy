@@ -25,6 +25,13 @@ public class NinjaController : MonoBehaviour
 	float bonusSpeed = 1.0f;
 	float maxBonusSpeed = 2.0f;
 
+	const int KILLED_BY_MUMMY = 1;
+	const int KILLED_BY_WIZARD = 2;
+	const int KILLED_BY_WALL = 4;
+	const int KILLED_BY_FIRE = 8;
+	const int KILLED_BY_FLYINGFLAME = 16;
+	int killedBy = 0;
+
 	public Transform groundCheck;
 	public LayerMask groundLayer;
 	public LayerMask fireLayer;
@@ -218,6 +225,16 @@ public class NinjaController : MonoBehaviour
 			&& (currentState & (FLAG_STATE_SLIDE | FLAG_STATE_DIE)) == 0) {
 			AudioUtils.GetInstance ().StopSound (audioSource);
 			dieCommand.execute ();
+		}
+		if (col.gameObject.tag == "FireBall"
+			&& (currentState & (FLAG_STATE_DIE)) == 0) {
+			var fire = Instantiate(Resources.Load("Prefabs/Fire")) as GameObject;
+			var pos = Vector2.zero;
+			pos.y = -0.5f;
+			pos.x = -0.5f;
+			fire.transform.position = pos;
+			fire.transform.SetParent(transform, false);
+			dieCommand.execute();
 		}
 	}
 
