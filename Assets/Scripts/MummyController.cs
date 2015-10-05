@@ -111,6 +111,7 @@ public class MummyController : MonoBehaviour
 			audioSource.loop = false;
 			audioSource.PlayDelayed (0.1f);
 		} else {
+			Debug.Log("Here");
 			animator.SetTrigger ("die");
 			audioSource.PlayOneShot (hit2);
 		}
