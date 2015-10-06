@@ -10,7 +10,8 @@ public class ObstacleController : MonoBehaviour
 		"Prefabs/Brick",
 		"Prefabs/Mummy",
 		"Prefabs/Fire",
-		"Prefabs/FlyingFlame"
+		"Prefabs/FlyingFlame",
+		"Prefabs/WizardCheck"
 	};
 	private List<Object> data = new List<Object> ();
 	private List<GameObject> obstacles = new List<GameObject> ();
