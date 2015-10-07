@@ -4,7 +4,6 @@ using System.Collections;
 public class JumpCommand : Command 
 {
 	float jumpForce;
-	AudioClip sound;
 	public JumpCommand (GameObject gameObject, float jumpHeight)
 		: base(gameObject)
 	{

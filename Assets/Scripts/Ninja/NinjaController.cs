@@ -22,14 +22,19 @@ public class NinjaController : MonoBehaviour
 	private Hashtable animationFlags = new Hashtable ();
 	private bool grounded = false;
 	private float groundCheckRadius = 0.2f;
-	bool inputJump = false;
-	bool inputThrow = false;
-	bool inputSlide = false;
-	bool inputSlash = false;
+	int inputJump = 1;
+	int inputThrow = 2;
+	int inputSlide = 4;
+	int inputSlash = 8;
+	Queue inputQueue = new Queue ();
+	const int MAX_INPUT_QUEUE = 2;
+
 	Command jumpCommand;
 	Command slashCommand;
 	Command throwCommand;
 	Command dieCommand;
+	FadeSlashCommand fadeSlashCommand;
+
 	bool isOnFire = false;
 	float timer = 0.0f;
 	float bonusSpeed = 1.0f;
@@ -69,11 +74,14 @@ public class NinjaController : MonoBehaviour
 		animationFlags.Add (Animator.StringToHash ("Throw"), FLAG_STATE_THROW);
 		animationFlags.Add (Animator.StringToHash ("Die"), FLAG_STATE_DIE);
 		animationFlags.Add (Animator.StringToHash ("Fall_die"), FLAG_STATE_FALL_DIE);
+		animationFlags.Add (Animator.StringToHash ("Fade Out"), FLAG_STATE_FADE);
+		animationFlags.Add (Animator.StringToHash ("Fade & Slash"), FLAG_STATE_FADE_SLASH);
 
 		jumpCommand = new JumpCommand (gameObject, jumpHeight);
 		slashCommand = new SlashCommand (gameObject);
 		throwCommand = new ThrowingCommand (gameObject);
 		dieCommand = new DieCommand (gameObject);
+		fadeSlashCommand = new FadeSlashCommand (gameObject);
 	}
 
 	// Use this for initialization
@@ -152,50 +160,53 @@ public class NinjaController : MonoBehaviour
 	private void GetInput ()
 	{
 		int swipe = TouchUtils.GetSwipe ();
-		if ((Input.GetKeyDown (KeyCode.X) || swipe == TouchUtils.SWIPE_UP) && !inputJump) {
-			inputJump = true;
-		}
-		
-		if ((TouchUtils.GetTapCount () == 1 || Input.GetKeyDown (KeyCode.C)) && !inputSlash) {
-			inputSlash = true;
-		}
-		
-		if ((Input.GetKeyDown (KeyCode.DownArrow) || swipe == TouchUtils.SWIPE_DOWN) && !inputSlide) {
-			inputSlide = true;
-		}
-		
-		if ((Input.GetKeyDown (KeyCode.RightArrow) || swipe == TouchUtils.SWIPE_RIGHT) && !inputThrow) {
-			inputThrow = true;
-		}
-
 		var touchedObj = TouchUtils.GetTouchedObject ();
-		if (touchedObj != null && touchedObj.tag == "Mummy" && currentState == FLAG_STATE_JUMP) {
 
+		if (touchedObj != null && touchedObj.tag == "Mummy") {
+			fadeSlashCommand.SetTarget(touchedObj.transform);
+			fadeSlashCommand.execute();
+			return;
+		}
+
+		if ((Input.GetKeyDown (KeyCode.X) || swipe == TouchUtils.SWIPE_UP) && inputQueue.Count <= MAX_INPUT_QUEUE) {
+			inputQueue.Enqueue(inputJump);
+		}
+		
+		if ((TouchUtils.GetTapCount () == 1 || Input.GetKeyDown (KeyCode.C)) && inputQueue.Count <= MAX_INPUT_QUEUE) {
+			inputQueue.Enqueue(inputSlash);
+		}
+		
+		if ((Input.GetKeyDown (KeyCode.DownArrow) || swipe == TouchUtils.SWIPE_DOWN) && inputQueue.Count <= MAX_INPUT_QUEUE) {
+			inputQueue.Enqueue(inputSlide);
+		}
+		
+		if ((Input.GetKeyDown (KeyCode.RightArrow) || swipe == TouchUtils.SWIPE_RIGHT) && inputQueue.Count <= MAX_INPUT_QUEUE) {
+			inputQueue.Enqueue(inputThrow);
 		}
 	}
 
 	private void HandleInput ()
 	{
 		bool isRunning = (currentState & FLAG_STATE_RUN) > 0;
-		if (inputJump && isRunning) {
+		int input = 0;
+		if (inputQueue.Count > 0) {
+			input = (int) inputQueue.Peek();
+		}
+		if (input == inputJump && isRunning) {
 			jumpCommand.execute ();
-			inputJump = false;
-			return;
+			inputQueue.Dequeue();
 		}
-		if (inputSlash && isRunning) {
+		if (input == inputSlash && isRunning) {
 			slashCommand.execute ();
-			inputSlash = false;
-			return;
+			inputQueue.Dequeue();
 		}
-		if (inputSlide && isRunning) {
+		if (input == inputSlide && isRunning) {
 			animator.SetTrigger ("shouldSlide");
-			inputSlide = false;
-			return;
+			inputQueue.Dequeue();
 		}
-		if (inputThrow && isRunning) {
+		if (input == inputThrow && isRunning) {
 			throwCommand.execute ();
-			inputThrow = false;
-			return;
+			inputQueue.Dequeue();
 		} 
 	}
 
@@ -204,7 +215,8 @@ public class NinjaController : MonoBehaviour
 		bool hittedEnemy = DidHitEnemy (col);
 		int hittedWall = DidHitWall (col);
 
-		if ((hittedWall > 0 || hittedEnemy) && (currentState & FLAG_STATE_DIE) == 0) {
+		if ((hittedWall > 0 || hittedEnemy) &&
+		    (currentState & (FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			if (currentState == FLAG_STATE_RUN && hittedWall > 0) {
 				killedBy = KilledBy.Wall;
 				rigidbody.AddForce (new Vector2 (-125f, 25.0f));
