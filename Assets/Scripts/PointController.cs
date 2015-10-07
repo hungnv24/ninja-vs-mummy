@@ -4,18 +4,14 @@ using System.Collections;
 
 public class PointController
 {
-	private static PointController instance = null;
 	GameObject pointLabel;
 	long currentPoint;
 	float lastUpdate;
 	int combo;
 	ObjectPool pool;
 	GameObject canvas;
-
-	static class Holder
-	{
-		public static PointController Instance = new PointController();
-	}
+	static PointController instance = null;
+	static object syncRoot = new object();
 
 	private PointController()
 	{
@@ -30,7 +26,14 @@ public class PointController
 
 	public static PointController GetInstance()
 	{
-		return Holder.Instance;
+		if (instance == null) {
+			lock (syncRoot) {
+				if (instance == null) {
+					instance = new PointController();
+				}
+			}
+		}
+		return instance;
 	}
 
 	public void ShowPoint(int point)
