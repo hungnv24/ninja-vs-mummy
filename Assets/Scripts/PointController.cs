@@ -10,7 +10,8 @@ public class PointController
 	long currentPoint;
 	float lastUpdate;
 	int combo;
-	Object floatingPoint;
+	ObjectPool pool;
+	GameObject canvas;
 
 	private PointController()
 	{
@@ -18,7 +19,8 @@ public class PointController
 		combo = 0;
 		lastUpdate = -2;
 		currentPoint = 0;
-		floatingPoint = Resources.Load ("Prefabs/FloatingPoint");
+		pool = ObjectPool.Instance;
+		canvas = GameObject.Find ("MainCanvas");
 	}
 
 	public static PointController GetInstance()
@@ -42,14 +44,15 @@ public class PointController
 		}
 		var comboText = "";
 		var originPoint = point;
-		var obj = Object.Instantiate (floatingPoint) as GameObject;
+		var obj = (GameObject)pool.GetPrefabsByName("FloatingPoint");
+		obj.SetActive (true);
 		if (combo > 0) {
 			point *= (combo + 1);
 			comboText = "x" + (combo + 1);
 			obj.GetComponent<Text>().color = Color.yellow;
 		}
 		obj.GetComponent<Text>().text = "+" + originPoint + comboText;
-		var canvas = GameObject.Find ("MainCanvas");
+
 		obj.transform.SetParent(canvas.transform, false);
 		lastUpdate = Time.time;
 		UpdatePoint (point);

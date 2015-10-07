@@ -9,23 +9,35 @@ public class FloatingPoint : MonoBehaviour
 	float movingTime = 1f;
 	Vector3 velocity = Vector3.zero;
 	float countDown = 0.0f;
+	ObjectPool pool;
+	Rect rect;
+	Canvas canvas;
+
+	void OnDisable()
+	{
+		transform.position = new Vector2 (rect.width / 2 * canvas.scaleFactor, rect.height / 2 * canvas.scaleFactor);
+		countDown = 0f;
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
-		var canvas = GetComponentInParent<Canvas> ();
-		var rect = canvas.gameObject.GetComponent<RectTransform> ().rect;
+		canvas = GetComponentInParent<Canvas> ();
+		rect = canvas.gameObject.GetComponent<RectTransform> ().rect;
 		destination.y = rect.height * canvas.scaleFactor * 1.5f;
-		destination.x = rect.width / 2 * canvas.scaleFactor;
-		destination = Camera.main.ScreenToWorldPoint (destination);
+		destination.x = 0;
+		pool = ObjectPool.Instance;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		var destOnScreen = Camera.main.WorldToScreenPoint (destination);
-		transform.position = Vector3.SmoothDamp(transform.position, destOnScreen, ref velocity, movingTime);
+		transform.position = Vector3.SmoothDamp(transform.position, destination, ref velocity, movingTime);
 		countDown += Time.deltaTime;
-		if (countDown > 3)
-			Destroy (gameObject);
+		if (countDown > 3) {
+			gameObject.SetActive(false);
+			pool.StoreFree(gameObject);
+		}
+			
 	}
 }

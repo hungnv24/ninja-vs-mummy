@@ -6,11 +6,14 @@ public class EnvironmentGenerate : MonoBehaviour
 {
 	List<GameObject> backgrounds = new List<GameObject> ();
 	public Object environmentPrefabs;
+	ObjectPool pool;
 
 	// Use this for initialization
 	void Start ()
 	{
-		GameObject background = Instantiate (Resources.Load ("Prefabs/Environment", typeof(GameObject))) as GameObject;
+		pool = ObjectPool.Instance;
+		GameObject background = (GameObject) pool.GetPrefabsByName("Environment");
+		background.transform.Find ("Checkpoint").gameObject.SetActive (true);
 		backgrounds.Add (background);
 	}
 	
@@ -25,14 +28,16 @@ public class EnvironmentGenerate : MonoBehaviour
 		if (col.gameObject.tag == "Checkpoint") {
 			AddBackground ();
 			RemoveBackground ();
-			Destroy (col.gameObject);
+			col.gameObject.SetActive(false);
 		}
 	}
 
 	void AddBackground ()
 	{
 		GameObject obj = (GameObject)backgrounds [backgrounds.Count - 1];
-		GameObject newEnv = Instantiate (environmentPrefabs) as GameObject;
+		GameObject newEnv = (GameObject) pool.GetPrefabsByName("Environment");
+		newEnv.SetActive (true);
+		newEnv.transform.Find ("Checkpoint").gameObject.SetActive (true);
 		GameObject background = obj.transform.Find ("RightBackground").gameObject;
 
 		if (background != null) {
@@ -51,7 +56,8 @@ public class EnvironmentGenerate : MonoBehaviour
 	{
 		if (backgrounds.Count <= 2)
 			return;
-		Destroy (backgrounds [0]);
+		backgrounds [0].SetActive (false);
+		pool.StoreFree(backgrounds[0]);
 		backgrounds.RemoveAt (0);
 	}
 }

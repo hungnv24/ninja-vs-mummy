@@ -6,14 +6,13 @@ public class ObstacleController : MonoBehaviour
 {
 	public GameObject player;
 	private string[] prefabs = new string[] {
-		"Prefabs/Mummy",
-		"Prefabs/Brick",
-		"Prefabs/Mummy",
-		"Prefabs/Fire",
-		"Prefabs/FlyingFlame",
-		"Prefabs/WizardCheck"
+		"Mummy",
+		"Brick",
+		"Mummy",
+		"Fire",
+		"FlyingFlame",
+		"WizardCheck"
 	};
-	private List<Object> data = new List<Object> ();
 	private List<GameObject> obstacles = new List<GameObject> ();
 	Vector2 cameraSize;
 	Vector2 playerBound;
@@ -22,17 +21,17 @@ public class ObstacleController : MonoBehaviour
 	float obstacleDistance;
 	int continuousMummy = 0;
 
+	ObjectPool pool;
+
 	void Start ()
 	{
 		cameraSize.y = Camera.main.orthographicSize;
 		cameraSize.x = Camera.main.aspect * cameraSize.y;
 		obstacleDistance = cameraSize.y * 1.5f;
 		playerBound = this.player.GetComponent<Renderer> ().bounds.size;
+		pool = ObjectPool.Instance;
 		Time.timeScale = 0;
-		for (int i = 0; i < prefabs.Length; i++) {
-			Object obj = Resources.Load(prefabs [i], typeof(GameObject));
-			data.Add(obj);
-		}
+
 		StartCoroutine (CheckCoroutine ());
 	}
 
@@ -65,9 +64,11 @@ public class ObstacleController : MonoBehaviour
 	{
 		for (int i = 0; i < obstacles.Count; i++) {
 			if (obstacles [i].Equals(null) ||
+			    !obstacles [i].activeSelf ||
 				obstacles [i].transform.position.x <= this.player.transform.position.x 
 				- this.cameraSize.x - playerBound.x / 2) {
-				Destroy (obstacles [i]);
+				obstacles[i].SetActive(false);
+				pool.StoreFree(obstacles[i]);
 				obstacles.RemoveAt (i);
 			} else {
 				break;
@@ -89,20 +90,27 @@ public class ObstacleController : MonoBehaviour
 			if (index > prefabs.Length - 1)
 				index--;
 
-			var obstacle = Instantiate (data[index]) as GameObject;
+			var obstacle = (GameObject) pool.GetPrefabsByName(prefabs[index]);
+			if (!obstacle.activeSelf)
+				obstacle.SetActive(true);
 
 			if (lastObstacle != null &&
 			    obstacle.tag == "Mummy" &&
 			    lastObstacle.tag == "Mummy") {
 				continuousMummy++;
-				Debug.Log(continuousMummy);
 				if (continuousMummy >= 5) {
-					Debug.Log("destroy mummy");
 					Destroy(obstacle);
 					return;
 				}
 			} else if (continuousMummy > 0) {
 				continuousMummy = 0;
+			}
+
+			if (lastObstacle != null &&
+			    obstacle.tag == "WizardCheck" &&
+			    lastObstacle.tag == "WizardCheck") {
+				Destroy(obstacle);
+				return;
 			}
 
 			var position = obstacle.transform.position;

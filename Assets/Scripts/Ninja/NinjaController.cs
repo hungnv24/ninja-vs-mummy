@@ -1,9 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum KilledBy : int
+{
+	None = 0,
+	Mummy = 1,
+	Wizard = 2,
+	Wall = 4,
+	FlyingFlame = 8,
+	Fire = 16,
+	Slip = 32
+};
+
 public class NinjaController : MonoBehaviour
 {
-
 	Animator animator;
 	Rigidbody2D rigidbody;
 	AudioSource audioSource;
@@ -24,13 +34,7 @@ public class NinjaController : MonoBehaviour
 	float timer = 0.0f;
 	float bonusSpeed = 1.0f;
 	float maxBonusSpeed = 2.0f;
-
-	const int KILLED_BY_MUMMY = 1;
-	const int KILLED_BY_WIZARD = 2;
-	const int KILLED_BY_WALL = 4;
-	const int KILLED_BY_FIRE = 8;
-	const int KILLED_BY_FLYINGFLAME = 16;
-	int killedBy = 0;
+	KilledBy killedBy = KilledBy.None;
 
 	public Transform groundCheck;
 	public LayerMask groundLayer;
@@ -201,16 +205,22 @@ public class NinjaController : MonoBehaviour
 		int hittedWall = DidHitWall (col);
 
 		if ((hittedWall > 0 || hittedEnemy) && (currentState & FLAG_STATE_DIE) == 0) {
-			if (currentState == FLAG_STATE_RUN) {
+			if (currentState == FLAG_STATE_RUN && hittedWall > 0) {
+				killedBy = KilledBy.Wall;
 				rigidbody.AddForce (new Vector2 (-125f, 25.0f));
 			} else if (currentState == FLAG_STATE_JUMP && hittedWall == 2) {
+				killedBy = KilledBy.Slip;
 				rigidbody.AddForce (new Vector2 (125f, 250f));
 				rigidbody.freezeRotation = false;
 				rigidbody.gravityScale = 2;
 				rigidbody.angularVelocity = -360;
 				animator.SetTrigger ("shouldFallDie");
 			} else if (currentState == FLAG_STATE_JUMP && hittedWall == 1) {
+				killedBy = KilledBy.Wall;
 				rigidbody.AddForce (new Vector2 (-125f, 0.0f));
+			} else {
+				killedBy = KilledBy.Mummy;
+				rigidbody.AddForce (new Vector2 (-125f, 25.0f));
 			}
 			var utils = AudioUtils.GetInstance ();
 			utils.StopSound (audioSource);
