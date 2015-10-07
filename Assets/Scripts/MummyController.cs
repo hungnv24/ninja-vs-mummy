@@ -84,7 +84,7 @@ public class MummyController : MonoBehaviour
 		}
 		if (col.gameObject.tag == "Dart" && !isInState ("Die")) {
 			Die ();
-			Destroy (col.gameObject);
+			col.gameObject.SetActive(false);
 		}
 	}
 
