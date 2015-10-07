@@ -29,4 +29,9 @@ public class WizardCheck : MonoBehaviour
 			created = true;
 		}
 	}
+
+	void OnDisable()
+	{
+		created = false;
+	}
 }

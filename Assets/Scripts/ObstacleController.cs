@@ -56,7 +56,7 @@ public class ObstacleController : MonoBehaviour
 			if (player != null && !player.Equals (null)) {
 				RemoveOldObstacles ();
 			}
-			yield return new WaitForSeconds(2);
+			yield return new WaitForSeconds(1);
 		}
 	}
 
@@ -99,7 +99,8 @@ public class ObstacleController : MonoBehaviour
 			    lastObstacle.tag == "Mummy") {
 				continuousMummy++;
 				if (continuousMummy >= 5) {
-					Destroy(obstacle);
+					obstacle.SetActive(false);
+					pool.StoreFree(obstacle);
 					return;
 				}
 			} else if (continuousMummy > 0) {
@@ -109,7 +110,8 @@ public class ObstacleController : MonoBehaviour
 			if (lastObstacle != null &&
 			    obstacle.tag == "WizardCheck" &&
 			    lastObstacle.tag == "WizardCheck") {
-				Destroy(obstacle);
+				obstacle.SetActive(false);
+				pool.StoreFree(obstacle);
 				return;
 			}
 

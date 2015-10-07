@@ -250,7 +250,8 @@ public class NinjaController : MonoBehaviour
 		}
 		if (col.gameObject.tag == "FireBall"
 			&& (currentState & (FLAG_STATE_DIE)) == 0) {
-			var fire = Instantiate(Resources.Load("Prefabs/Fire")) as GameObject;
+			var fire = ObjectPool.Instance.GetPrefabsByName("Fire") as GameObject;
+			fire.SetActive(true);
 			var pos = Vector2.zero;
 			pos.y = -0.5f;
 			pos.x = -0.5f;
