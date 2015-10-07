@@ -5,13 +5,17 @@ using System.Collections;
 public class PointController
 {
 	private static PointController instance = null;
-	static object syncRoot = new Object ();
 	GameObject pointLabel;
 	long currentPoint;
 	float lastUpdate;
 	int combo;
 	ObjectPool pool;
 	GameObject canvas;
+
+	static class Holder
+	{
+		public static PointController Instance = new PointController();
+	}
 
 	private PointController()
 	{
@@ -21,17 +25,12 @@ public class PointController
 		currentPoint = 0;
 		pool = ObjectPool.Instance;
 		canvas = GameObject.Find ("MainCanvas");
+		Debug.Log("Inited");
 	}
 
 	public static PointController GetInstance()
 	{
-		lock (syncRoot) {
-			if (instance == null) {
-				instance = new PointController();;
-				Debug.Log("inited");
-			}
-			return instance;
-		}
+		return Holder.Instance;
 	}
 
 	public void ShowPoint(int point)

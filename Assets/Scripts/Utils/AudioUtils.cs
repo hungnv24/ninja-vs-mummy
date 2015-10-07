@@ -3,9 +3,12 @@ using System.Collections;
 
 public class AudioUtils
 {
-	static AudioUtils instance = null;
-	static object syncRoot = new Object ();
 	Hashtable audioCache = new Hashtable();
+
+	static class Holder
+	{
+		public static AudioUtils Instance = new AudioUtils();
+	}
 
 	private AudioUtils ()
 	{
@@ -13,14 +16,7 @@ public class AudioUtils
 
 	public static AudioUtils GetInstance ()
 	{
-		if (instance == null) {
-			lock (syncRoot) {
-				if (instance == null) {
-					instance = new AudioUtils ();
-				}
-			}
-		}
-		return instance;
+		return Holder.Instance;
 	}
 
 	public AudioClip LoadClip (string name, bool cache = true)

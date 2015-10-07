@@ -4,11 +4,14 @@ using System.Collections.Generic;
 
 public class ObjectPool
 {
-	static object syncRoot = new object();
-	static ObjectPool instance = null;
 	const string prefabsDir = "Prefabs/";
 
 	Hashtable listTable = new Hashtable();
+
+	static class Holder
+	{
+		public static ObjectPool Instance = new ObjectPool();
+	}
 
 	private ObjectPool(){}
 
@@ -16,12 +19,7 @@ public class ObjectPool
 	{
 		get
 		{
-			lock(syncRoot) {
-				if (instance == null) {
-					instance = new ObjectPool();
-				}
-				return instance;
-			}
+			return Holder.Instance;
 		}
 	}
 
