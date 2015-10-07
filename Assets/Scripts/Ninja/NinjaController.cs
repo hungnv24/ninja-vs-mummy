@@ -256,6 +256,7 @@ public class NinjaController : MonoBehaviour
 			pos.x = -0.5f;
 			fire.transform.position = pos;
 			fire.transform.SetParent(transform, false);
+			AudioUtils.GetInstance().StopSound(audioSource);
 			dieCommand.execute();
 		}
 	}
