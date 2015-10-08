@@ -47,16 +47,12 @@ public class ObstacleController : MonoBehaviour
 		cameraSize.x = Camera.main.aspect * cameraSize.y;
 		obstacleDistance = cameraSize.y * 1.5f;
 		playerBound = this.player.GetComponent<Renderer> ().bounds.size;
-		Time.timeScale = 0;
 		StartCoroutine (CheckCoroutine ());
 	}
 
 	void Update()
 	{
-		if (Input.GetMouseButton (0) && !start) {
-			start = true;
-			Time.timeScale = 1;
-		}
+
 	}
 
 	void FixedUpdate()

@@ -37,6 +37,9 @@ public class FadeSlashCommand : Command
 			Debug.Log("Still not get there");
 			yield return new WaitForFixedUpdate ();
 		}
+		var utils = AudioUtils.GetInstance ();
+		utils.StopSound(audioSource);
+		utils.PlayOnce(audioSource, "slash");
 		yield return new WaitForSeconds (0.25f);
 		while (!target.gameObject.GetComponent<WizardController>().IsDead) {
 			Debug.Log("Still not dead");
