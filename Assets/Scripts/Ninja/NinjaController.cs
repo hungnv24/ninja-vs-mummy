@@ -162,10 +162,15 @@ public class NinjaController : MonoBehaviour
 		int swipe = TouchUtils.GetSwipe ();
 		var touchedObj = TouchUtils.GetTouchedObject ();
 
-		if (touchedObj != null && touchedObj.tag == "Mummy") {
-			fadeSlashCommand.SetTarget(touchedObj.transform);
-			fadeSlashCommand.execute();
-			return;
+		if (touchedObj != null &&
+		    touchedObj.tag == "Wizard" &&
+		    (currentState & (FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH|FLAG_STATE_DIE)) == 0) {
+			if (!touchedObj.GetComponent<WizardController>().IsDead) {
+				fadeSlashCommand.SetTarget(touchedObj.transform);
+				fadeSlashCommand.execute();
+				return;
+			}
+
 		}
 
 		if ((Input.GetKeyDown (KeyCode.X) || swipe == TouchUtils.SWIPE_UP) && inputQueue.Count <= MAX_INPUT_QUEUE) {
@@ -216,7 +221,7 @@ public class NinjaController : MonoBehaviour
 		int hittedWall = DidHitWall (col);
 
 		if ((hittedWall > 0 || hittedEnemy) &&
-		    (currentState & (FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
+		    (currentState & (FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			if (currentState == FLAG_STATE_RUN && hittedWall > 0) {
 				killedBy = KilledBy.Wall;
 				rigidbody.AddForce (new Vector2 (-125f, 25.0f));
@@ -249,7 +254,7 @@ public class NinjaController : MonoBehaviour
 			dieCommand.execute ();
 		}
 		if (col.gameObject.tag == "FireBall"
-			&& (currentState & (FLAG_STATE_DIE)) == 0) {
+			&& (currentState & (FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			var fire = ObjectPool.Instance.GetPrefabsByName("Fire") as GameObject;
 			fire.SetActive(true);
 			var pos = Vector2.zero;

@@ -59,7 +59,9 @@ public class PointController : MonoBehaviour
 		if (combo > 0) {
 			point *= (combo + 1);
 			comboText = "x" + (combo + 1);
-			obj.GetComponent<Text>().color = Color.yellow;
+			obj.GetComponent<Text> ().color = Color.yellow;
+		} else {
+			obj.GetComponent<Text>().color = Color.red;
 		}
 		obj.GetComponent<Text>().text = "+" + originPoint + comboText;
 		lastUpdate = Time.time;

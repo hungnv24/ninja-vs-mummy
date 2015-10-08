@@ -6,12 +6,19 @@ public class WizardController : MonoBehaviour
 	float timer = 0;
 	public float triggerTime = 1.0f;
 	Object fireBall;
-	bool fired = false;
-	// Use this for initialization
+	GameObject player;
+	GameObject sceneWatcher;
+	Animator animator;
+
+	public bool IsDead { get; private set;}
+
 	void Start ()
 	{
+		animator = GetComponent<Animator> ();
+		player = GameObject.FindGameObjectWithTag ("Player");
 		fireBall = Resources.Load ("Prefabs/FireBall");
 		Invoke ("Fire", triggerTime);
+		IsDead = false;
 	}
 	
 	// Update is called once per frame
@@ -20,9 +27,20 @@ public class WizardController : MonoBehaviour
 
 	}
 
+	void OnTriggerStay2D(Collider2D col)
+	{
+		if (col.gameObject.tag == "AttackCheck"
+		    && !IsDead
+		    && !player.Equals(null)
+		    && (player.GetComponentInParent<NinjaController> ().CurrentState
+		    & (NinjaController.FLAG_STATE_SLASH | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
+			IsDead = true;
+			Invoke("Die", 0.1f);
+		}
+	}
+
 	void Fire()
 	{
-		fired = true;
 		var fireBallObj = Instantiate (fireBall) as GameObject;
 		var position = fireBallObj.transform.position;
 		position.x = transform.position.x + 5;
@@ -30,5 +48,13 @@ public class WizardController : MonoBehaviour
 		fireBallObj.GetComponent<Rigidbody2D> ().velocity = new Vector2(20f, 0.0f);
 		Destroy (fireBallObj, 2.0f);
 		Destroy (this.gameObject, 2.5f);
+	}
+
+	void Die()
+	{
+		animator.SetTrigger ("shouldDie");
+		var point = 35;
+		PointController.GetInstance ().ShowPoint (point);
+		Destroy (gameObject, 2.0f);
 	}
 }
