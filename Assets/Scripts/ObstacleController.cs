@@ -11,6 +11,11 @@ public class ObstacleController : MonoBehaviour
 		"Mummy",
 		"Fire",
 		"FlyingFlame",
+		"Mummy",
+		"Brick",
+		"Mummy",
+		"Fire",
+		"FlyingFlame",
 		"WizardCheck"
 	};
 	private List<GameObject> obstacles = new List<GameObject> ();

@@ -3,7 +3,6 @@ using System.Collections;
 
 public class WizardController : MonoBehaviour
 {
-	float timer = 0;
 	public float triggerTime = 1.0f;
 	Object fireBall;
 	GameObject player;
@@ -32,6 +31,16 @@ public class WizardController : MonoBehaviour
 	}
 
 	void OnTriggerEnter2D(Collider2D col)
+	{
+		CheckAttack (col);
+	}
+
+	void OnTriggerStay2D(Collider2D col)
+	{
+		CheckAttack (col);
+	}
+
+	void CheckAttack(Collider2D col)
 	{
 		if (col.gameObject.tag == "AttackCheck"
 		    && !IsDead

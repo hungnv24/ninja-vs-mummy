@@ -31,11 +31,17 @@ public class FadeSlashCommand : Command
 		var pos = target.position;
 		pos.x += 2.0f;
 		gameObject.transform.position = pos;
+		yield return new WaitForFixedUpdate ();
 		animator.SetTrigger ("fadeSlash");
 		while (gameObject.GetComponent<NinjaController>().CurrentState != NinjaController.FLAG_STATE_FADE_SLASH) {
-			yield return null;
+			Debug.Log("Still not get there");
+			yield return new WaitForFixedUpdate ();
 		}
-		yield return new WaitForSeconds (0.3f);
+		yield return new WaitForSeconds (0.25f);
+		while (!target.gameObject.GetComponent<WizardController>().IsDead) {
+			Debug.Log("Still not dead");
+			yield return new WaitForFixedUpdate ();
+		}
 		animator.SetTrigger ("shouldRun");
 		Flip ();
 	}

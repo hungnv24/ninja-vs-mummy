@@ -57,7 +57,7 @@ public class TouchUtils : Object
 
 	public static GameObject GetTouchedObject()
 	{
-		if (Input.touchCount <= 0 && !Input.GetMouseButtonDown(0))
+		if (GetTapCount () <= 0 && !Input.GetMouseButtonUp(0))
 			return null;
 		var position = Vector2.zero;
 		if (Input.touchCount > 0) {
@@ -66,8 +66,8 @@ public class TouchUtils : Object
 			position = Input.mousePosition;
 		}
 		position = Camera.main.ScreenToWorldPoint (position);
-		var radius = 0.3f;
-		Collider2D collider = Physics2D.OverlapCircle (position, radius);
+		var radius = 0.75f;
+		Collider2D collider = Physics2D.OverlapCircle (position, radius, (1 << LayerMask.NameToLayer("Enemy")));
 		if (collider) {
 			return collider.gameObject;
 		}

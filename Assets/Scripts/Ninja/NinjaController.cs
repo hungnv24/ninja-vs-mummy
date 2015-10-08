@@ -202,7 +202,7 @@ public class NinjaController : MonoBehaviour
 		}
 		if (input == inputFadeSlash && (currentState & (FLAG_STATE_RUN|FLAG_STATE_JUMP)) > 0) {
 			fadeSlashCommand.execute();
-			inputQueue.Dequeue();
+			inputQueue.Clear();
 		}
 		if (input == inputJump && isRunning) {
 			jumpCommand.execute ();
@@ -228,7 +228,7 @@ public class NinjaController : MonoBehaviour
 		int hittedWall = DidHitWall (col);
 
 		if ((hittedWall > 0 || hittedEnemy) &&
-		    (currentState & (FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
+		    (currentState & (FLAG_STATE_RUN|FLAG_STATE_JUMP)) > 0) {
 			if (currentState == FLAG_STATE_RUN && hittedWall > 0) {
 				killedBy = KilledBy.Wall;
 				rigidbody.AddForce (new Vector2 (-125f, 25.0f));
@@ -250,6 +250,7 @@ public class NinjaController : MonoBehaviour
 			utils.StopSound (audioSource);
 			utils.PlayOnce (audioSource, "hit6");
 			dieCommand.execute ();
+			inputQueue.Clear();
 		}
 	}
 
@@ -259,6 +260,7 @@ public class NinjaController : MonoBehaviour
 		    && (currentState & (FLAG_STATE_SLIDE|FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			AudioUtils.GetInstance ().StopSound (audioSource);
 			dieCommand.execute ();
+			inputQueue.Clear();
 		}
 		if (col.gameObject.tag == "FireBall"
 			&& (currentState & (FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
@@ -271,6 +273,7 @@ public class NinjaController : MonoBehaviour
 			fire.transform.SetParent(transform, false);
 			AudioUtils.GetInstance().StopSound(audioSource);
 			dieCommand.execute();
+			inputQueue.Clear();
 		}
 	}
 
