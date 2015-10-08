@@ -11,20 +11,18 @@ public class WizardController : MonoBehaviour
 	void Start ()
 	{
 		fireBall = Resources.Load ("Prefabs/FireBall");
+		Invoke ("Fire", triggerTime);
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		timer += Time.deltaTime;
-		if (timer >= triggerTime && !fired) {
-			Fire();
-			fired = true;
-		}
+
 	}
 
 	void Fire()
 	{
+		fired = true;
 		var fireBallObj = Instantiate (fireBall) as GameObject;
 		var position = fireBallObj.transform.position;
 		position.x = transform.position.x + 5;

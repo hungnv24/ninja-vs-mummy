@@ -92,6 +92,7 @@ public class MummyController : MonoBehaviour
 	{
 		if (col.gameObject.tag == "AttackCheck"
 			&& killedBy == 0
+		    && !player.Equals(null)
 			&& (player.GetComponentInParent<NinjaController> ().CurrentState
 			& (NinjaController.FLAG_STATE_SLASH | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
 			killedBy = KILLED_BY_SLASH;

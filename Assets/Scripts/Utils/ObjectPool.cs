@@ -2,25 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ObjectPool
+public class ObjectPool : MonoBehaviour
 {
 	const string prefabsDir = "Prefabs/";
 
 	Hashtable listTable = new Hashtable();
 
-	static class Holder
-	{
-		public static ObjectPool Instance = new ObjectPool();
-	}
-
-	private ObjectPool(){}
-
 	public static ObjectPool Instance
+	{ get; private set;}
+
+	void Awake()
 	{
-		get
-		{
-			return Holder.Instance;
-		}
+		Instance = this;
 	}
 
 	public Object GetPrefabsByName(string name)
@@ -30,6 +23,9 @@ public class ObjectPool
 		if (obj == null || obj.Equals (null)) {
 			obj = Object.Instantiate (Resources.Load (prefabsDir + name));
 			obj.name = name;
+		}
+		if (name == "FloatingPoint") {
+			Debug.Log(obj);
 		}
 		return obj;
 	}

@@ -298,8 +298,8 @@ public class NinjaController : MonoBehaviour
 				return 0;
 			}
 			return (int)animationFlags [currentInfo.shortNameHash];
-		} catch (UnityException e) {
-			Debug.Log (e.StackTrace);
+		} catch (System.Exception e) {
+			Debug.Log (e.Message);
 		}
 		return 0;
 	}

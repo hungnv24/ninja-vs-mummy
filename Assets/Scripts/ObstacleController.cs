@@ -23,15 +23,26 @@ public class ObstacleController : MonoBehaviour
 
 	ObjectPool pool;
 
+	void Awake()
+	{
+		pool = ObjectPool.Instance;
+		for (int i = 0; i < prefabs.Length; i++) {
+			for (int j = 0; j < 10; j++) {
+				var obj = (GameObject) Instantiate(Resources.Load ("Prefabs/" + prefabs[i]));
+				obj.name = prefabs[i];
+				obj.SetActive(false);
+				pool.StoreFree(obj);
+			}
+		}
+	}
+
 	void Start ()
 	{
 		cameraSize.y = Camera.main.orthographicSize;
 		cameraSize.x = Camera.main.aspect * cameraSize.y;
 		obstacleDistance = cameraSize.y * 1.5f;
 		playerBound = this.player.GetComponent<Renderer> ().bounds.size;
-		pool = ObjectPool.Instance;
 		Time.timeScale = 0;
-
 		StartCoroutine (CheckCoroutine ());
 	}
 
@@ -63,8 +74,9 @@ public class ObstacleController : MonoBehaviour
 	void RemoveOldObstacles ()
 	{
 		for (int i = 0; i < obstacles.Count; i++) {
-			if (obstacles [i].Equals(null) ||
-			    !obstacles [i].activeSelf ||
+			if (obstacles[i] == null || obstacles [i].Equals(null)) {
+				obstacles.RemoveAt (i);
+			} else if (!obstacles [i].activeSelf ||
 				obstacles [i].transform.position.x <= this.player.transform.position.x 
 				- this.cameraSize.x - playerBound.x / 2) {
 				obstacles[i].SetActive(false);

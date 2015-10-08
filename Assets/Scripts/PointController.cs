@@ -2,38 +2,29 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class PointController
+public class PointController : MonoBehaviour
 {
 	GameObject pointLabel;
 	long currentPoint;
 	float lastUpdate;
 	int combo;
 	ObjectPool pool;
-	GameObject canvas;
-	static PointController instance = null;
-	static object syncRoot = new object();
+	public GameObject canvas;
+	static PointController instance;
 
-	private PointController()
+	public static PointController GetInstance()
+	{
+		return instance;
+	}
+
+	void Start()
 	{
 		pointLabel = GameObject.Find ("PointLabel");
 		combo = 0;
 		lastUpdate = -2;
 		currentPoint = 0;
 		pool = ObjectPool.Instance;
-		canvas = GameObject.Find ("MainCanvas");
-		Debug.Log("Inited");
-	}
-
-	public static PointController GetInstance()
-	{
-		if (instance == null) {
-			lock (syncRoot) {
-				if (instance == null) {
-					instance = new PointController();
-				}
-			}
-		}
-		return instance;
+		instance = this;
 	}
 
 	public void ShowPoint(int point)
@@ -47,6 +38,7 @@ public class PointController
 		var comboText = "";
 		var originPoint = point;
 		var obj = (GameObject)pool.GetPrefabsByName("FloatingPoint");
+		obj.transform.SetParent(canvas.transform, false);
 		obj.SetActive (true);
 		if (combo > 0) {
 			point *= (combo + 1);
@@ -54,8 +46,6 @@ public class PointController
 			obj.GetComponent<Text>().color = Color.yellow;
 		}
 		obj.GetComponent<Text>().text = "+" + originPoint + comboText;
-
-		obj.transform.SetParent(canvas.transform, false);
 		lastUpdate = Time.time;
 		UpdatePoint (point);
 	}
