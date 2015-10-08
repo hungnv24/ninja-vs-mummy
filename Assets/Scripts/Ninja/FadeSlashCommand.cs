@@ -26,22 +26,18 @@ public class FadeSlashCommand : Command
 
 	IEnumerator AttackWizard()
 	{
-
 		yield return new WaitForSeconds (0.5f);
 		Flip ();
 		var pos = target.position;
-		pos.x += 2.5f;
+		pos.x += 2.0f;
 		gameObject.transform.position = pos;
 		animator.SetTrigger ("fadeSlash");
+		while (gameObject.GetComponent<NinjaController>().CurrentState != NinjaController.FLAG_STATE_FADE_SLASH) {
+			yield return null;
+		}
 		yield return new WaitForSeconds (0.3f);
-		BackToPosition ();
-	}
-
-	void BackToPosition()
-	{
 		animator.SetTrigger ("shouldRun");
 		Flip ();
-		gameObject.transform.position = originPos;
 	}
 
 	void Flip()

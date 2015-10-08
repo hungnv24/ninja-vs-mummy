@@ -18,6 +18,10 @@ public class WizardController : MonoBehaviour
 		player = GameObject.FindGameObjectWithTag ("Player");
 		fireBall = Resources.Load ("Prefabs/FireBall");
 		Invoke ("Fire", triggerTime);
+	}
+
+	void OnEnable()
+	{
 		IsDead = false;
 	}
 	
@@ -27,15 +31,15 @@ public class WizardController : MonoBehaviour
 
 	}
 
-	void OnTriggerStay2D(Collider2D col)
+	void OnTriggerEnter2D(Collider2D col)
 	{
 		if (col.gameObject.tag == "AttackCheck"
 		    && !IsDead
 		    && !player.Equals(null)
 		    && (player.GetComponentInParent<NinjaController> ().CurrentState
-		    & (NinjaController.FLAG_STATE_SLASH | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
+		    & (NinjaController.FLAG_STATE_FADE | NinjaController.FLAG_STATE_FADE_SLASH)) > 0) {
 			IsDead = true;
-			Invoke("Die", 0.1f);
+			Die();
 		}
 	}
 
@@ -52,6 +56,7 @@ public class WizardController : MonoBehaviour
 
 	void Die()
 	{
+		CancelInvoke ();
 		animator.SetTrigger ("shouldDie");
 		var point = 35;
 		PointController.GetInstance ().ShowPoint (point);

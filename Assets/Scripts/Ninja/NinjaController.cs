@@ -26,6 +26,7 @@ public class NinjaController : MonoBehaviour
 	int inputThrow = 2;
 	int inputSlide = 4;
 	int inputSlash = 8;
+	int inputFadeSlash = 16;
 	Queue inputQueue = new Queue ();
 	const int MAX_INPUT_QUEUE = 2;
 
@@ -167,7 +168,7 @@ public class NinjaController : MonoBehaviour
 		    (currentState & (FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH|FLAG_STATE_DIE)) == 0) {
 			if (!touchedObj.GetComponent<WizardController>().IsDead) {
 				fadeSlashCommand.SetTarget(touchedObj.transform);
-				fadeSlashCommand.execute();
+				inputQueue.Enqueue(inputFadeSlash);
 				return;
 			}
 
@@ -177,7 +178,9 @@ public class NinjaController : MonoBehaviour
 			inputQueue.Enqueue(inputJump);
 		}
 		
-		if ((TouchUtils.GetTapCount () == 1 || Input.GetKeyDown (KeyCode.C)) && inputQueue.Count <= MAX_INPUT_QUEUE) {
+		if ((TouchUtils.GetTapCount () == 1 || Input.GetKeyDown (KeyCode.C))
+		    && inputQueue.Count <= MAX_INPUT_QUEUE
+		    && (currentState & (FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			inputQueue.Enqueue(inputSlash);
 		}
 		
@@ -196,6 +199,10 @@ public class NinjaController : MonoBehaviour
 		int input = 0;
 		if (inputQueue.Count > 0) {
 			input = (int) inputQueue.Peek();
+		}
+		if (input == inputFadeSlash && (currentState & (FLAG_STATE_RUN|FLAG_STATE_JUMP)) > 0) {
+			fadeSlashCommand.execute();
+			inputQueue.Dequeue();
 		}
 		if (input == inputJump && isRunning) {
 			jumpCommand.execute ();
@@ -249,7 +256,7 @@ public class NinjaController : MonoBehaviour
 	void OnTriggerStay2D (Collider2D col)
 	{
 		if (col.gameObject.tag == "FlyingFlame"
-			&& (currentState & (FLAG_STATE_SLIDE | FLAG_STATE_DIE)) == 0) {
+		    && (currentState & (FLAG_STATE_SLIDE|FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			AudioUtils.GetInstance ().StopSound (audioSource);
 			dieCommand.execute ();
 		}
