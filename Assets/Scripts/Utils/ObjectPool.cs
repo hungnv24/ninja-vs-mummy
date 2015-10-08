@@ -24,9 +24,6 @@ public class ObjectPool : MonoBehaviour
 			obj = Object.Instantiate (Resources.Load (prefabsDir + name));
 			obj.name = name;
 		}
-		if (name == "FloatingPoint") {
-			Debug.Log(obj);
-		}
 		return obj;
 	}
 

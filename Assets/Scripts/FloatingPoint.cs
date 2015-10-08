@@ -15,17 +15,20 @@ public class FloatingPoint : MonoBehaviour
 	void OnDisable()
 	{
 		CancelInvoke ();
-		transform.position = new Vector2 (rect.width / 2 * canvas.scaleFactor, rect.height / 2 * canvas.scaleFactor);
+		if (canvas != null && !canvas.Equals (null)) {
+			transform.position = new Vector2 (rect.width / 2 * canvas.scaleFactor, rect.height / 2 * canvas.scaleFactor);
+		}
 	}
 
 	// Use this for initialization
 	void Start ()
 	{
+		pool = ObjectPool.Instance;
 		canvas = GetComponentInParent<Canvas> ();
 		rect = canvas.gameObject.GetComponent<RectTransform> ().rect;
 		destination.y = rect.height * canvas.scaleFactor * 1.5f;
 		destination.x = 0;
-		pool = ObjectPool.Instance;
+		transform.position = new Vector2 (rect.width / 2 * canvas.scaleFactor, rect.height / 2 * canvas.scaleFactor);
 	}
 
 	void OnEnable()

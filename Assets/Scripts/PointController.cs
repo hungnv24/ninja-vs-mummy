@@ -17,7 +17,7 @@ public class PointController : MonoBehaviour
 		return instance;
 	}
 
-	void Start()
+	void Awake()
 	{
 		pointLabel = GameObject.Find ("PointLabel");
 		combo = 0;
@@ -25,6 +25,22 @@ public class PointController : MonoBehaviour
 		currentPoint = 0;
 		pool = ObjectPool.Instance;
 		instance = this;
+	}
+
+	void Start()
+	{
+		InitPool ();
+	}
+
+	void InitPool()
+	{
+		for (int i = 0; i < 3; i++) {
+			var obj = (GameObject)Instantiate(Resources.Load("Prefabs/FloatingPoint"));
+			obj.name = "FloatingPoint";
+			obj.transform.SetParent(canvas.transform, false);
+			pool.StoreFree(obj);
+			obj.SetActive(false);
+		}
 	}
 
 	public void ShowPoint(int point)
