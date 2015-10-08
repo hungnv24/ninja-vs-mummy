@@ -27,7 +27,7 @@ public class ObstacleController : MonoBehaviour
 	{
 		pool = ObjectPool.Instance;
 		for (int i = 0; i < prefabs.Length; i++) {
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < 3; j++) {
 				var obj = (GameObject) Instantiate(Resources.Load ("Prefabs/" + prefabs[i]));
 				obj.name = prefabs[i];
 				obj.SetActive(false);
@@ -93,7 +93,9 @@ public class ObstacleController : MonoBehaviour
 	{
 		var screenCenter = Camera.main.transform.position;
 		if (obstacles.Count == 0
-			|| obstacles [obstacles.Count - 1].transform.position.x <= screenCenter.x + cameraSize.x) {
+		    ||( !obstacles[obstacles.Count - 1].Equals(null)
+		   		&& obstacles [obstacles.Count - 1].transform.position.x
+		   		<= screenCenter.x + cameraSize.x)) {
 			GameObject lastObstacle = null;
 			if (obstacles.Count > 0) {
 				lastObstacle = obstacles[obstacles.Count - 1];
