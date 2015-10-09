@@ -22,7 +22,7 @@ public class ObstacleController : MonoBehaviour
 	Vector2 cameraSize;
 	Vector2 playerBound;
 	private bool start = false;
-	int hard = 1;
+	int hard = 2;
 	float obstacleDistance;
 	int continuousMummy = 0;
 

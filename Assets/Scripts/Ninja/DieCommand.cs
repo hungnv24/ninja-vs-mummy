@@ -16,5 +16,12 @@ public class DieCommand : Command
 		gameObject.GetComponent<NinjaController> ().CurrentState = NinjaController.FLAG_STATE_DIE;
 		AudioUtils.GetInstance().PlayOnce (audioSource, "die");
 		Destroy (gameObject, 5.0f);
+		gameObject.GetComponent<NinjaController> ().StartCoroutine (ShowMenu());
+	}
+
+	IEnumerator ShowMenu()
+	{
+		yield return new WaitForSeconds (2);
+		gameObject.GetComponent<NinjaController> ().ShowDeadMenu ();
 	}
 }

@@ -5,6 +5,9 @@ public class UIController : MonoBehaviour
 {
 	int countDown = 0;
 	GameObject countDownObj;
+	public GameObject mainCanvas;
+	public GameObject pauseCanvas;
+	public GameObject deadCanvas;
 	void OnLevelWasLoaded(int level)
 	{
 		Debug.Log (level);
@@ -18,7 +21,7 @@ public class UIController : MonoBehaviour
 				Destroy(countDownObj);
 			}
 			countDownObj = Instantiate(Resources.Load("Prefabs/" + countDown)) as GameObject;
-			yield return new WaitForSeconds(1f * Time.timeScale);
+			yield return new WaitForSeconds(0.85f * Time.timeScale);
 		}
 		if (countDownObj != null && !countDownObj.Equals(null)) {
 			Destroy(countDownObj);
@@ -26,6 +29,19 @@ public class UIController : MonoBehaviour
 		countDownObj = Instantiate(Resources.Load("Prefabs/Go")) as GameObject;
 		Destroy (countDownObj, 3f);
 		Time.timeScale = 1;
+	}
+
+	public void OnPlayPressed()
+	{
+		StartCoroutine (StartCountDown ());
+		pauseCanvas.SetActive (false);
+	}
+
+	public void OnPauseClicked()
+	{
+		StopAllCoroutines ();
+		Time.timeScale = 0.000001f;
+		pauseCanvas.SetActive (true);
 	}
 
 	// Use this for initialization
@@ -43,6 +59,7 @@ public class UIController : MonoBehaviour
 
 	public void OnResetClicked()
 	{
+		deadCanvas.SetActive (false);
 		PointController.Dispose ();
 		Application.LoadLevel (Application.loadedLevelName);
 	}

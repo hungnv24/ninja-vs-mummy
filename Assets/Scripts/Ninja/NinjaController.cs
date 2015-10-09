@@ -56,6 +56,7 @@ public class NinjaController : MonoBehaviour
 	public const int FLAG_STATE_FALL_DIE = 256;
 	public float speed;
 	public float jumpHeight;
+	public GameObject deadCanvas;
 	
 	public int CurrentState {
 		get {
@@ -317,5 +318,10 @@ public class NinjaController : MonoBehaviour
 			Debug.Log (e.Message);
 		}
 		return 0;
+	}
+
+	public void ShowDeadMenu()
+	{
+		deadCanvas.SetActive(true);
 	}
 }
