@@ -21,7 +21,7 @@ public class DieCommand : Command
 
 	IEnumerator ShowMenu()
 	{
-		yield return new WaitForSeconds (2);
+		yield return new WaitForSeconds (1);
 		gameObject.GetComponent<NinjaController> ().ShowDeadMenu ();
 	}
 }

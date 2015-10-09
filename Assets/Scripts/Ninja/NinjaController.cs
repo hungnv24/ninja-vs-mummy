@@ -18,7 +18,6 @@ public class NinjaController : MonoBehaviour
 	Rigidbody2D rigidbody;
 	AudioSource audioSource;
 	private float jumpForce;
-	private int currentState = FLAG_STATE_RUN;
 	private Hashtable animationFlags = new Hashtable ();
 	private bool grounded = false;
 	private float groundCheckRadius = 0.2f;
@@ -58,14 +57,7 @@ public class NinjaController : MonoBehaviour
 	public float jumpHeight;
 	public GameObject deadCanvas;
 	
-	public int CurrentState {
-		get {
-			return currentState;
-		}
-		set {
-			currentState = value;
-		}
-	}
+	public int CurrentState { get; set;}
 
 	void Awake ()
 	{
@@ -96,42 +88,42 @@ public class NinjaController : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		currentState = GetCurrentState ();
+		CurrentState = GetCurrentState ();
 		grounded = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, groundLayer);
 		isOnFire = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, fireLayer);
 
-		if (isOnFire && currentState != FLAG_STATE_DIE) {
+		if (isOnFire && CurrentState != FLAG_STATE_DIE) {
 			AudioUtils.GetInstance ().StopSound (audioSource);
 			inputQueue.Clear();
 			dieCommand.execute ();
 		}
 
-		if (currentState == FLAG_STATE_RUN) {
+		if (CurrentState == FLAG_STATE_RUN) {
 			animator.speed = bonusSpeed;
 		} else {
 			animator.speed = 1;
 		}
 
 		if (!grounded &&
-			(currentState & (FLAG_STATE_JUMP | FLAG_STATE_DIE)) == 0) {
+			(CurrentState & (FLAG_STATE_JUMP | FLAG_STATE_DIE)) == 0) {
 			animator.SetTrigger ("shouldJump");
 			AudioUtils.GetInstance ().StopSound (audioSource);
-		} else if (grounded && currentState == FLAG_STATE_JUMP) {
+		} else if (grounded && CurrentState == FLAG_STATE_JUMP) {
 			animator.SetTrigger ("shouldRun");
-		} else if (grounded && currentState == FLAG_STATE_RUN) {
+		} else if (grounded && CurrentState == FLAG_STATE_RUN) {
 			if (!audioSource.isPlaying || audioSource.clip != AudioUtils.GetInstance ().LoadClip ("footstep")) {
 				audioSource.pitch = 1.5f * bonusSpeed;
 				audioSource.volume = 0.125f;
 				AudioUtils.GetInstance ().PlayLoop (audioSource, "footstep");
 			}
 		} else if (grounded &&
-			(currentState & (FLAG_STATE_RUN | FLAG_STATE_DIE | FLAG_STATE_SLASH | FLAG_STATE_FADE_SLASH)) == 0) {
+			(CurrentState & (FLAG_STATE_RUN | FLAG_STATE_DIE | FLAG_STATE_SLASH | FLAG_STATE_FADE_SLASH)) == 0) {
 			AudioUtils.GetInstance ().StopSound (audioSource);
 		}
 
-		if (currentState == FLAG_STATE_SLIDE && GetComponent<BoxCollider2D> ().enabled) {
+		if (CurrentState == FLAG_STATE_SLIDE && GetComponent<BoxCollider2D> ().enabled) {
 			GetComponent<BoxCollider2D> ().enabled = false;
-		} else if ((currentState & FLAG_STATE_SLIDE) == 0
+		} else if ((CurrentState & FLAG_STATE_SLIDE) == 0
 		           && !GetComponent<BoxCollider2D> ().enabled) {
 			GetComponent<BoxCollider2D> ().enabled = true;
 		}
@@ -153,9 +145,9 @@ public class NinjaController : MonoBehaviour
 
 	private void MovePlayer ()
 	{
-		if ((currentState & (FLAG_STATE_JUMP | FLAG_STATE_SLIDE | FLAG_STATE_THROW)) > 0) {
+		if ((CurrentState & (FLAG_STATE_JUMP | FLAG_STATE_SLIDE | FLAG_STATE_THROW)) > 0) {
 			rigidbody.velocity = new Vector2 (speed, rigidbody.velocity.y);
-		} else if ((currentState & (FLAG_STATE_RUN | FLAG_STATE_SLASH)) > 0) {
+		} else if ((CurrentState & (FLAG_STATE_RUN | FLAG_STATE_SLASH)) > 0) {
 			rigidbody.velocity = new Vector2 (speed * bonusSpeed, rigidbody.velocity.y);
 		}
 	}
@@ -167,7 +159,7 @@ public class NinjaController : MonoBehaviour
 
 		if (touchedObj != null &&
 		    touchedObj.tag == "Wizard" &&
-		    (currentState & (FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH|FLAG_STATE_DIE)) == 0) {
+		    (CurrentState & (FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH|FLAG_STATE_DIE)) == 0) {
 			if (!touchedObj.GetComponent<WizardController>().IsDead) {
 				fadeSlashCommand.SetTarget(touchedObj.transform);
 				inputQueue.Enqueue(inputFadeSlash);
@@ -182,7 +174,7 @@ public class NinjaController : MonoBehaviour
 		
 		if ((TouchUtils.GetTapCount () == 1 || Input.GetKeyDown (KeyCode.C))
 		    && inputQueue.Count <= MAX_INPUT_QUEUE
-		    && (currentState & (FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
+		    && (CurrentState & (FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			inputQueue.Enqueue(inputSlash);
 		}
 		
@@ -197,12 +189,12 @@ public class NinjaController : MonoBehaviour
 
 	private void HandleInput ()
 	{
-		bool isRunning = (currentState & FLAG_STATE_RUN) > 0;
+		bool isRunning = (CurrentState & FLAG_STATE_RUN) > 0;
 		int input = 0;
 		if (inputQueue.Count > 0) {
 			input = (int) inputQueue.Peek();
 		}
-		if (input == inputFadeSlash && (currentState & (FLAG_STATE_RUN|FLAG_STATE_JUMP)) > 0) {
+		if (input == inputFadeSlash && (CurrentState & (FLAG_STATE_RUN|FLAG_STATE_JUMP)) > 0) {
 			fadeSlashCommand.execute();
 			inputQueue.Clear();
 		}
@@ -230,18 +222,18 @@ public class NinjaController : MonoBehaviour
 		int hittedWall = DidHitWall (col);
 
 		if ((hittedWall > 0 || hittedEnemy) &&
-		    (currentState & (FLAG_STATE_RUN|FLAG_STATE_JUMP)) > 0) {
-			if (currentState == FLAG_STATE_RUN && hittedWall > 0) {
+		    (CurrentState & (FLAG_STATE_RUN|FLAG_STATE_JUMP)) > 0) {
+			if (CurrentState == FLAG_STATE_RUN && hittedWall > 0) {
 				killedBy = KilledBy.Wall;
 				rigidbody.AddForce (new Vector2 (-125f, 25.0f));
-			} else if (currentState == FLAG_STATE_JUMP && hittedWall == 2) {
+			} else if (CurrentState == FLAG_STATE_JUMP && hittedWall == 2) {
 				killedBy = KilledBy.Slip;
 				rigidbody.AddForce (new Vector2 (125f, 250f));
 				rigidbody.freezeRotation = false;
 				rigidbody.gravityScale = 2;
 				rigidbody.angularVelocity = -360;
 				animator.SetTrigger ("shouldFallDie");
-			} else if (currentState == FLAG_STATE_JUMP && hittedWall == 1) {
+			} else if (CurrentState == FLAG_STATE_JUMP && hittedWall == 1) {
 				killedBy = KilledBy.Wall;
 				rigidbody.AddForce (new Vector2 (-125f, 0.0f));
 			} else {
@@ -259,13 +251,13 @@ public class NinjaController : MonoBehaviour
 	void OnTriggerStay2D (Collider2D col)
 	{
 		if (col.gameObject.tag == "FlyingFlame"
-		    && (currentState & (FLAG_STATE_SLIDE|FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
+		    && (CurrentState & (FLAG_STATE_SLIDE|FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			AudioUtils.GetInstance ().StopSound (audioSource);
 			dieCommand.execute ();
 			inputQueue.Clear();
 		}
 		if (col.gameObject.tag == "FireBall"
-			&& (currentState & (FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
+			&& (CurrentState & (FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			var fire = ObjectPool.Instance.GetPrefabsByName("Fire") as GameObject;
 			fire.SetActive(true);
 			var pos = Vector2.zero;
@@ -301,14 +293,14 @@ public class NinjaController : MonoBehaviour
 	private bool DidHitEnemy (Collision2D col)
 	{
 		return col.gameObject.tag == "Mummy"
-			&& (currentState & (FLAG_STATE_RUN | FLAG_STATE_JUMP)) > 0
+			&& (CurrentState & (FLAG_STATE_RUN | FLAG_STATE_JUMP)) > 0
 			&& (col.contacts [0].otherCollider is BoxCollider2D);
 	}
 
 	public int GetCurrentState ()
 	{
 		try {
-			if (currentState == FLAG_STATE_DIE)
+			if (CurrentState == FLAG_STATE_DIE)
 				return FLAG_STATE_DIE;
 			AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo (0);
 			if (currentInfo.Equals (null)) {
