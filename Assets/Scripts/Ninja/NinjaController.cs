@@ -102,6 +102,7 @@ public class NinjaController : MonoBehaviour
 
 		if (isOnFire && currentState != FLAG_STATE_DIE) {
 			AudioUtils.GetInstance ().StopSound (audioSource);
+			inputQueue.Clear();
 			dieCommand.execute ();
 		}
 

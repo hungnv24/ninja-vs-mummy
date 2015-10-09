@@ -21,7 +21,8 @@ public class FadeSlashCommand : Command
 	{
 		originPos = gameObject.transform.position;
 		animator.SetTrigger ("fadeOut");
-		gameObject.GetComponent<MonoBehaviour> ().StartCoroutine(AttackWizard());
+		gameObject.GetComponent<NinjaController> ().CurrentState = NinjaController.FLAG_STATE_FADE;
+		gameObject.GetComponent<NinjaController> ().StartCoroutine(AttackWizard());
 	}
 
 	IEnumerator AttackWizard()
