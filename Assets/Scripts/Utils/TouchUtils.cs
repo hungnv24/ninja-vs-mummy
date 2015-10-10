@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class TouchUtils : Object
 {
@@ -10,6 +11,7 @@ public class TouchUtils : Object
 	public const int SWIPE_LEFT = 3;
 	static Touch touchStart;
 	static bool isSwipe = false;
+	static bool isOverUI = false;
 
 	public static int GetSwipe()
 	{
@@ -46,10 +48,16 @@ public class TouchUtils : Object
 
 	public static int GetTapCount ()
 	{
-		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended) {
-			Vector2 touchDelta = Input.GetTouch (0).deltaPosition;
-			if (Mathf.Abs (touchDelta.x) < 5 && Mathf.Abs (touchDelta.y) < 5) {
-				return Input.GetTouch (0).tapCount;
+		if (Input.touchCount > 0 &&
+		    Input.GetTouch (0).phase == TouchPhase.Began) {
+			isOverUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch (0).fingerId);
+		}
+		if (!isOverUI) {
+			if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended) {
+				Vector2 touchDelta = Input.GetTouch (0).deltaPosition;
+				if (Mathf.Abs (touchDelta.x) < 5 && Mathf.Abs (touchDelta.y) < 5) {
+					return Input.GetTouch (0).tapCount;
+				}
 			}
 		}
 		return 0;
@@ -57,6 +65,7 @@ public class TouchUtils : Object
 
 	public static GameObject GetTouchedObject()
 	{
+
 		if (GetTapCount () <= 0 && !Input.GetMouseButtonUp(0))
 			return null;
 		var position = Vector2.zero;
