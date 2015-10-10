@@ -101,9 +101,11 @@ public class ObstacleController : MonoBehaviour
 			if (obstacles.Count > 0) {
 				lastObstacle = obstacles[obstacles.Count - 1];
 			}
-			int index = Random.Range (0, prefabs.Length);
+			int index = Random.Range (-1, prefabs.Length);
 			if (index > prefabs.Length - 1)
 				index--;
+			if (index < 0)
+				index++;
 
 			var obstacle = (GameObject) pool.GetPrefabsByName(prefabs[index]);
 			if (!obstacle.activeSelf)
