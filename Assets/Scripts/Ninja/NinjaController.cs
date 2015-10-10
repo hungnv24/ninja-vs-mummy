@@ -1,19 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum KilledBy : int
-{
-	None = 0,
-	Mummy = 1,
-	Wizard = 2,
-	Wall = 4,
-	FlyingFlame = 8,
-	Fire = 16,
-	Slip = 32
-};
 
 public class NinjaController : MonoBehaviour
 {
+	public enum KilledBy : int
+	{
+		None = 0,
+		Mummy = 1,
+		Wizard = 2,
+		Wall = 4,
+		FlyingFlame = 8,
+		Fire = 16,
+		Slip = 32
+	};
+
 	Animator animator;
 	Rigidbody2D rigidbody;
 	AudioSource audioSource;
@@ -92,7 +93,8 @@ public class NinjaController : MonoBehaviour
 		grounded = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, groundLayer);
 		isOnFire = Physics2D.OverlapCircle (groundCheck.position, groundCheckRadius, fireLayer);
 
-		if (isOnFire && CurrentState != FLAG_STATE_DIE) {
+		if (isOnFire &&
+		    (CurrentState & (FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			AudioUtils.GetInstance ().StopSound (audioSource);
 			inputQueue.Clear();
 			dieCommand.execute ();
@@ -113,7 +115,7 @@ public class NinjaController : MonoBehaviour
 		} else if (grounded && CurrentState == FLAG_STATE_RUN) {
 			if (!audioSource.isPlaying || audioSource.clip != AudioUtils.GetInstance ().LoadClip ("footstep")) {
 				audioSource.pitch = 1.5f * bonusSpeed;
-				audioSource.volume = 0.125f;
+				audioSource.volume = 0.09f * Time.timeScale;
 				AudioUtils.GetInstance ().PlayLoop (audioSource, "footstep");
 			}
 		} else if (grounded &&
@@ -221,8 +223,9 @@ public class NinjaController : MonoBehaviour
 		bool hittedEnemy = DidHitEnemy (col);
 		int hittedWall = DidHitWall (col);
 
+		int avoidState = FLAG_STATE_DIE | FLAG_STATE_FALL_DIE | FLAG_STATE_FADE | FLAG_STATE_FADE_SLASH;
 		if ((hittedWall > 0 || hittedEnemy) &&
-		    (CurrentState & (FLAG_STATE_RUN|FLAG_STATE_JUMP)) > 0) {
+		    (CurrentState & (avoidState)) == 0) {
 			if (CurrentState == FLAG_STATE_RUN && hittedWall > 0) {
 				killedBy = KilledBy.Wall;
 				rigidbody.AddForce (new Vector2 (-125f, 25.0f));
