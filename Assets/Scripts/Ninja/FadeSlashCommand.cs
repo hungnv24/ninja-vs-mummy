@@ -20,13 +20,14 @@ public class FadeSlashCommand : Command
 	public override void execute ()
 	{
 		originPos = gameObject.transform.position;
-		animator.SetTrigger ("fadeOut");
-		gameObject.GetComponent<NinjaController> ().CurrentState = NinjaController.FLAG_STATE_FADE;
-		gameObject.GetComponent<NinjaController> ().StartCoroutine(AttackWizard());
+		if (gameObject.GetComponent<NinjaController> ().CurrentState != NinjaController.FLAG_STATE_DIE)
+			gameObject.GetComponent<NinjaController> ().StartCoroutine(AttackWizard());
 	}
 
 	IEnumerator AttackWizard()
 	{
+		animator.SetTrigger ("fadeOut");
+		gameObject.GetComponent<NinjaController> ().CurrentState = NinjaController.FLAG_STATE_FADE;
 		yield return new WaitForSeconds (0.5f);
 		Flip ();
 		var pos = target.position;
