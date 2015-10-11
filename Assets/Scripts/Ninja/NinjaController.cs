@@ -156,6 +156,8 @@ public class NinjaController : MonoBehaviour
 
 	private void GetInput ()
 	{
+		if (SceneSettings.Instance.LockInput)
+			return;
 		int swipe = TouchUtils.GetSwipe ();
 		var touchedObj = TouchUtils.GetTouchedObject ();
 

@@ -3,23 +3,24 @@ using System.Collections;
 
 public class SceneSettings
 {
-	static object syncRoot = new object();
-	static SceneSettings instance;
+	public bool LockInput { get; set;}
+	public int HardLevel { get; set;}
 
-	private SceneSettings() {}
-
+	private SceneSettings ()
+	{
+		LockInput = false;
+		HardLevel = 1;
+	}
+	static class Holder
+	{
+		public static SceneSettings Instance = new SceneSettings();
+	}
 	public static SceneSettings Instance
 	{
 		get
 		{
-			if (instance == null) {
-				lock (syncRoot) {
-					if (instance == null) {
-						instance = new SceneSettings();
-					}
-				}
-			}
-			return instance;
+			return Holder.Instance;
 		}
 	}
+
 }
