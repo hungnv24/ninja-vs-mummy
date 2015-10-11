@@ -134,6 +134,7 @@ public class MummyController : MonoBehaviour
 		Destroy (mRigidbody);
 		Destroy (gameObject, 2.0f);
 		var obstacleController = sceneWatcher.GetComponent<ObstacleController> () as ObstacleController;
-		obstacleController.RemoveObstacle (gameObject);
+		if (obstacleController != null && !obstacleController.Equals(null))
+			obstacleController.RemoveObstacle (gameObject);
 	}
 }

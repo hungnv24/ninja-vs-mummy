@@ -21,7 +21,6 @@ public class ObstacleController : MonoBehaviour
 	private List<GameObject> obstacles = new List<GameObject> ();
 	Vector2 cameraSize;
 	Vector2 playerBound;
-	private bool start = false;
 	int hard = 2;
 	float obstacleDistance;
 	int continuousMummy = 0;

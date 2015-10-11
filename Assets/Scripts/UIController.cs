@@ -8,10 +8,6 @@ public class UIController : MonoBehaviour
 	public GameObject mainCanvas;
 	public GameObject pauseCanvas;
 	public GameObject deadCanvas;
-	void OnLevelWasLoaded(int level)
-	{
-		Debug.Log (level);
-	}
 
 	IEnumerator StartCountDown()
 	{

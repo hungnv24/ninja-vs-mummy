@@ -115,7 +115,7 @@ public class NinjaController : MonoBehaviour
 		} else if (grounded && CurrentState == FLAG_STATE_RUN) {
 			if (!audioSource.isPlaying || audioSource.clip != AudioUtils.GetInstance ().LoadClip ("footstep")) {
 				audioSource.pitch = 1.5f * bonusSpeed;
-				audioSource.volume = 0.09f * Time.timeScale;
+				audioSource.volume = 0.11f * Time.timeScale;
 				AudioUtils.GetInstance ().PlayLoop (audioSource, "footstep");
 			}
 		} else if (grounded &&
