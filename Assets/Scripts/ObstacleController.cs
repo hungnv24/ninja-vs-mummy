@@ -21,7 +21,7 @@ public class ObstacleController : MonoBehaviour
 	private List<GameObject> obstacles = new List<GameObject> ();
 	Vector2 cameraSize;
 	Vector2 playerBound;
-	int hard = 2;
+	int hard = 1;
 	float obstacleDistance;
 	int continuousMummy = 0;
 
@@ -47,6 +47,7 @@ public class ObstacleController : MonoBehaviour
 		obstacleDistance = cameraSize.y * 1.5f;
 		playerBound = this.player.GetComponent<Renderer> ().bounds.size;
 		StartCoroutine (CheckCoroutine ());
+		hard = SceneSettings.Instance.HardLevel;
 	}
 
 	void Update()

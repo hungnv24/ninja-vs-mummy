@@ -74,6 +74,16 @@ public class PointController : MonoBehaviour
 		pointLabel.GetComponent<Text> ().text = "" + currentPoint;
 	}
 
+	public void SubmitScore()
+	{
+
+	}
+
+	public long GetPoint()
+	{
+		return currentPoint;
+	}
+
 	public static void Dispose() {
 		instance = null;
 	}

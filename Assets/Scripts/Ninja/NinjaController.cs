@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 
 public class NinjaController : MonoBehaviour
 {
@@ -27,7 +27,7 @@ public class NinjaController : MonoBehaviour
 	int inputSlide = 4;
 	int inputSlash = 8;
 	int inputFadeSlash = 16;
-	Queue inputQueue = new Queue ();
+	public Queue InputQueue = new Queue ();
 	const int MAX_INPUT_QUEUE = 2;
 
 	Command jumpCommand;
@@ -96,7 +96,8 @@ public class NinjaController : MonoBehaviour
 		if (isOnFire &&
 		    (CurrentState & (FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			AudioUtils.GetInstance ().StopSound (audioSource);
-			inputQueue.Clear();
+			killedBy = KilledBy.Fire;
+			InputQueue.Clear();
 			dieCommand.execute ();
 		}
 
@@ -166,28 +167,28 @@ public class NinjaController : MonoBehaviour
 		    (CurrentState & (FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH|FLAG_STATE_DIE)) == 0) {
 			if (!touchedObj.GetComponent<WizardController>().IsDead) {
 				fadeSlashCommand.SetTarget(touchedObj.transform);
-				inputQueue.Enqueue(inputFadeSlash);
+				InputQueue.Enqueue(inputFadeSlash);
 				return;
 			}
 
 		}
 
-		if ((Input.GetKeyDown (KeyCode.X) || swipe == TouchUtils.SWIPE_UP) && inputQueue.Count <= MAX_INPUT_QUEUE) {
-			inputQueue.Enqueue(inputJump);
+		if ((Input.GetKeyDown (KeyCode.X) || swipe == TouchUtils.SWIPE_UP) && InputQueue.Count <= MAX_INPUT_QUEUE) {
+			InputQueue.Enqueue(inputJump);
 		}
 		
 		if ((TouchUtils.GetTapCount () == 1 || Input.GetKeyDown (KeyCode.C))
-		    && inputQueue.Count <= MAX_INPUT_QUEUE
+		    && InputQueue.Count <= MAX_INPUT_QUEUE
 		    && (CurrentState & (FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
-			inputQueue.Enqueue(inputSlash);
+			InputQueue.Enqueue(inputSlash);
 		}
 		
-		if ((Input.GetKeyDown (KeyCode.DownArrow) || swipe == TouchUtils.SWIPE_DOWN) && inputQueue.Count <= MAX_INPUT_QUEUE) {
-			inputQueue.Enqueue(inputSlide);
+		if ((Input.GetKeyDown (KeyCode.DownArrow) || swipe == TouchUtils.SWIPE_DOWN) && InputQueue.Count <= MAX_INPUT_QUEUE) {
+			InputQueue.Enqueue(inputSlide);
 		}
 		
-		if ((Input.GetKeyDown (KeyCode.RightArrow) || swipe == TouchUtils.SWIPE_RIGHT) && inputQueue.Count <= MAX_INPUT_QUEUE) {
-			inputQueue.Enqueue(inputThrow);
+		if ((Input.GetKeyDown (KeyCode.RightArrow) || swipe == TouchUtils.SWIPE_RIGHT) && InputQueue.Count <= MAX_INPUT_QUEUE) {
+			InputQueue.Enqueue(inputThrow);
 		}
 	}
 
@@ -195,28 +196,28 @@ public class NinjaController : MonoBehaviour
 	{
 		bool isRunning = (CurrentState & FLAG_STATE_RUN) > 0;
 		int input = 0;
-		if (inputQueue.Count > 0) {
-			input = (int) inputQueue.Peek();
+		if (InputQueue.Count > 0) {
+			input = (int) InputQueue.Peek();
 		}
 		if (input == inputFadeSlash && (CurrentState & (FLAG_STATE_RUN|FLAG_STATE_JUMP)) > 0) {
 			fadeSlashCommand.execute();
-			inputQueue.Clear();
+			InputQueue.Clear();
 		}
 		if (input == inputJump && isRunning) {
 			jumpCommand.execute ();
-			inputQueue.Dequeue();
+			InputQueue.Dequeue();
 		}
 		if (input == inputSlash && isRunning) {
 			slashCommand.execute ();
-			inputQueue.Dequeue();
+			InputQueue.Dequeue();
 		}
 		if (input == inputSlide && isRunning) {
 			animator.SetTrigger ("shouldSlide");
-			inputQueue.Dequeue();
+			InputQueue.Dequeue();
 		}
 		if (input == inputThrow && isRunning) {
 			throwCommand.execute ();
-			inputQueue.Dequeue();
+			InputQueue.Dequeue();
 		} 
 	}
 
@@ -249,7 +250,7 @@ public class NinjaController : MonoBehaviour
 			utils.StopSound (audioSource);
 			utils.PlayOnce (audioSource, "hit6");
 			dieCommand.execute ();
-			inputQueue.Clear();
+			InputQueue.Clear();
 		}
 	}
 
@@ -258,8 +259,9 @@ public class NinjaController : MonoBehaviour
 		if (col.gameObject.tag == "FlyingFlame"
 		    && (CurrentState & (FLAG_STATE_SLIDE|FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			AudioUtils.GetInstance ().StopSound (audioSource);
+			killedBy = KilledBy.FlyingFlame;
 			dieCommand.execute ();
-			inputQueue.Clear();
+			InputQueue.Clear();
 		}
 		if (col.gameObject.tag == "FireBall"
 			&& (CurrentState & (FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
@@ -271,8 +273,9 @@ public class NinjaController : MonoBehaviour
 			fire.transform.position = pos;
 			fire.transform.SetParent(transform, false);
 			AudioUtils.GetInstance().StopSound(audioSource);
+			killedBy = KilledBy.Wizard;
 			dieCommand.execute();
-			inputQueue.Clear();
+			InputQueue.Clear();
 		}
 	}
 
@@ -321,5 +324,11 @@ public class NinjaController : MonoBehaviour
 	public void ShowDeadMenu()
 	{
 		deadCanvas.SetActive(true);
+		long point = PointController.GetInstance ().GetPoint ();
+		var scoreBoard = deadCanvas.transform.Find ("ScoreBoard").gameObject;
+		var scoreText = scoreBoard.transform.Find ("ScoreText").gameObject;
+		scoreText.GetComponent<Text> ().text = "" + point;
+		var chatText = scoreBoard.transform.Find ("ChatText").gameObject;
+		chatText.GetComponent<Text>().text = KilledByTexts.texts[killedBy];
 	}
 }
