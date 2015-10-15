@@ -2,6 +2,7 @@
 using System.Collections;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
+using ChartboostSDK;
 
 public class ProjectSettings : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class ProjectSettings : MonoBehaviour
 
 		if (!Social.localUser.authenticated) {
 			if (Application.platform == RuntimePlatform.Android) {
-				PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder ().Build ();
+				PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder ()
+					.EnableSavedGames()
+					.Build ();
 				PlayGamesPlatform.InitializeInstance(config);
 				PlayGamesPlatform.DebugLogEnabled = true;
 				PlayGamesPlatform.Activate();
@@ -23,6 +26,7 @@ public class ProjectSettings : MonoBehaviour
 				else
 					Debug.Log ("Authentication failed");
 			});
+			Social.ShowLeaderboardUI ();
 		}
 	}
 

@@ -5,6 +5,8 @@ using GooglePlayGames;
 
 public class HomeUIController : MonoBehaviour
 {
+	public GameObject networkText;
+
 	void Awake()
 	{
 
@@ -43,6 +45,16 @@ public class HomeUIController : MonoBehaviour
 
 	public void OnLeaderBoardClicked()
 	{
+		if (Application.internetReachability == NetworkReachability.NotReachable) {
+			networkText.SetActive(true);
+			StartCoroutine(HideText());
+		}
 		Social.ShowLeaderboardUI ();
+	}
+
+	IEnumerator HideText()
+	{
+		yield return new WaitForSeconds(2);
+		networkText.SetActive(false);
 	}
 }

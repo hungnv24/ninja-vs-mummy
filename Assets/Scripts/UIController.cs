@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using ChartboostSDK;
 
 public class UIController : MonoBehaviour
 {
@@ -61,6 +62,7 @@ public class UIController : MonoBehaviour
 
 	public void OnResetClicked()
 	{
+		Chartboost.showInterstitial (CBLocation.GameScreen);
 		deadCanvas.SetActive (false);
 		PointController.Dispose ();
 		Application.LoadLevel (Application.loadedLevelName);
@@ -68,6 +70,7 @@ public class UIController : MonoBehaviour
 
 	public void OnExitClicked()
 	{
+		Chartboost.showInterstitial (CBLocation.HomeScreen);
 		Application.LoadLevel ("Menu");
 	}
 

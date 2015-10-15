@@ -324,6 +324,7 @@ public class NinjaController : MonoBehaviour
 	public void ShowDeadMenu()
 	{
 		deadCanvas.SetActive(true);
+		PointController.GetInstance ().SubmitScore ();
 		long point = PointController.GetInstance ().GetPoint ();
 		var scoreBoard = deadCanvas.transform.Find ("ScoreBoard").gameObject;
 		var scoreText = scoreBoard.transform.Find ("ScoreText").gameObject;
