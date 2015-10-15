@@ -39,10 +39,12 @@ public class SlideCheck : MonoBehaviour
 	IEnumerator WaitForInput ()
 	{
 		while (true) {
-			if (TouchUtils.GetSwipe () == TouchUtils.SWIPE_DOWN || Input.GetKeyDown (KeyCode.DownArrow)) {
+			if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+			    || Input.GetKeyDown (KeyCode.DownArrow)) {
 				SceneSettings.Instance.LockInput = true;
 				Time.timeScale = 1f;
 				tutorialCanvas.SetActive (false);
+				break;
 			}
 			yield return null;
 		}

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Facebook.Unity;
+using System.IO;
 
 public class UIController : MonoBehaviour
 {
@@ -12,36 +12,7 @@ public class UIController : MonoBehaviour
 
 	void Awake()
 	{
-		if (!FB.IsInitialized) {
-			// Initialize the Facebook SDK
-			FB.Init(InitCallback, OnHideUnity);
-		} else {
-			// Already initialized, signal an app activation App Event
-			FB.ActivateApp();
-		}
-	}
 
-	private void InitCallback ()
-	{
-		if (FB.IsInitialized) {
-			// Signal an app activation App Event
-			FB.ActivateApp();
-			// Continue with Facebook SDK
-			// ...
-		} else {
-			Debug.Log("Failed to Initialize the Facebook SDK");
-		}
-	}
-	
-	private void OnHideUnity (bool isGameShown)
-	{
-		if (!isGameShown) {
-			// Pause the game - we will need to hide
-			Time.timeScale = 0;
-		} else {
-			// Resume the game - we're getting focus again
-			Time.timeScale = 1;
-		}
 	}
 
 	// Use this for initialization
@@ -102,24 +73,71 @@ public class UIController : MonoBehaviour
 
 	public void OnShareClicked()
 	{
-		StartCoroutine (TakeScreenshot());
+		StartCoroutine (ShareScreenShot ());
 	}
 
-	private IEnumerator TakeScreenshot() 
+	private IEnumerator ShareScreenShot()
 	{
-		yield return new WaitForEndOfFrame();
-		
+		yield return new WaitForEndOfFrame ();
+		byte[] screenshot = TakeScreenshot ();
+		#if UNITY_ANDROID
+			ShareAndroid(screenshot);
+		#endif
+	}
+
+	private byte[] TakeScreenshot() 
+	{
 		var width = Screen.width;
 		var height = Screen.height;
 		var tex = new Texture2D(width, height, TextureFormat.RGB24, false);
 		// Read screen contents into the texture
 		tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
 		tex.Apply();
-		byte[] screenshot = tex.EncodeToPNG();
+		byte[] screenshot = tex.EncodeToJPG();
+		return screenshot;
+	}
+
+	private void ShareAndroid(byte[] bytes)
+	{
+		// Write file
+		AndroidJavaClass envClass = new AndroidJavaClass ("android.os.Environment");
+		AndroidJavaObject extFileObj = envClass.CallStatic<AndroidJavaObject> ("getExternalStoragePublicDirectory",
+		                                                                       envClass.GetStatic<string>("DIRECTORY_PICTURES"));
+		string path = extFileObj.Call<string>("getAbsolutePath") + "/kilobeast_nvm_screenshot.jpg";
+		File.WriteAllBytes(path, bytes);
+
+		//instantiate the class Intent
+		AndroidJavaClass intentClass = new AndroidJavaClass("android.content.Intent");
 		
-		var wwwForm = new WWWForm();
-		wwwForm.AddBinaryData("image", screenshot, "Screenshot.png");
+		//instantiate the object Intent
+		AndroidJavaObject intentObject = new AndroidJavaObject("android.content.Intent");
+
+		//instantiate a file object
+		AndroidJavaClass fileClass = new AndroidJavaClass ("java.io.File");
+		AndroidJavaObject fileObject = new AndroidJavaObject("java.io.File", path);
 		
-		FB.API("me/photos", HttpMethod.POST, null, wwwForm);
+		//call setAction setting ACTION_SEND as parameter
+		intentObject.Call<AndroidJavaObject>("setAction", intentClass.GetStatic<string>("ACTION_SEND"));
+		
+		//instantiate the class Uri
+		AndroidJavaClass uriClass = new AndroidJavaClass("android.net.Uri");
+		
+		//instantiate the object Uri with the parse of the url's file
+		AndroidJavaObject uriObject = uriClass.CallStatic<AndroidJavaObject>("fromFile", fileObject);
+		
+		//call putExtra with the uri object of the file
+		intentObject.Call<AndroidJavaObject>("putExtra", intentClass.GetStatic<string>("EXTRA_STREAM"), uriObject);
+		
+		//set the type of file
+		intentObject.Call<AndroidJavaObject>("setType", "image/jpeg");
+		
+		//instantiate the class UnityPlayer
+		AndroidJavaClass unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		
+		//instantiate the object currentActivity
+		AndroidJavaObject currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
+		
+		//call the activity with our Intent
+		currentActivity.Call("startActivity", intentObject);
 	}
 }

@@ -39,10 +39,12 @@ public class MummyJumpCheck : MonoBehaviour
 	IEnumerator WaitForInput ()
 	{
 		while (true) {
-			if (TouchUtils.GetSwipe () == TouchUtils.SWIPE_UP || Input.GetKeyDown (KeyCode.X)) {
+			if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+			    || Input.GetKeyDown (KeyCode.X)) {
 				SceneSettings.Instance.LockInput = true;
 				Time.timeScale = 1f;
 				tutorialCanvas.SetActive (false);
+				break;
 			}
 			yield return null;
 		}

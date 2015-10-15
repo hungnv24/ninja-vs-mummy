@@ -35,10 +35,12 @@ public class ThrowCheck : MonoBehaviour {
 	IEnumerator WaitForInput()
 	{
 		while (true) {
-			if (TouchUtils.GetSwipe() == TouchUtils.SWIPE_RIGHT || Input.GetKeyDown(KeyCode.RightArrow)) {
+			if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+			    || Input.GetKeyDown(KeyCode.RightArrow)) {
 				SceneSettings.Instance.LockInput = true;
 				Time.timeScale = 1f;
 				tutorialCanvas.SetActive(false);
+				break;
 			}
 			yield return null;
 		}

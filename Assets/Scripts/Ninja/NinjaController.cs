@@ -330,5 +330,7 @@ public class NinjaController : MonoBehaviour
 		scoreText.GetComponent<Text> ().text = "" + point;
 		var chatText = scoreBoard.transform.Find ("ChatText").gameObject;
 		chatText.GetComponent<Text>().text = KilledByTexts.texts[killedBy];
+		var bestText = scoreBoard.transform.Find ("BestText").gameObject;
+		bestText.GetComponent<Text> ().text = "" + PointController.GetInstance ().GetBest ();
 	}
 }

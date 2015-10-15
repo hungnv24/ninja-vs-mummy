@@ -42,6 +42,7 @@ public class SlashCheck : MonoBehaviour
 				SceneSettings.Instance.LockInput = true;
 				Time.timeScale = 1f;
 				tutorialCanvas.SetActive (false);
+				break;
 			}
 			yield return null;
 		}

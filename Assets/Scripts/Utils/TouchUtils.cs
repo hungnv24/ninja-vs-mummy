@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class TouchUtils : Object
+public class TouchUtils
 {
 	public const int SWIPE_NONE = -1;
 	public const int SWIPE_UP = 0;
@@ -24,20 +24,21 @@ public class TouchUtils : Object
 		if (isSwipe &&
 			Input.touchCount > 0 &&
 		    Input.GetTouch (0).phase == TouchPhase.Moved) {
+			Debug.Log(touchStart.position);
 			Vector2 touchDelta = Input.GetTouch (0).position - touchStart.position;
-			if (touchDelta.x < -20 && Mathf.Abs (touchDelta.x) > Mathf.Abs (touchDelta.y)) {
+			if (touchDelta.x < -30 && Mathf.Abs (touchDelta.x) > Mathf.Abs (touchDelta.y)) {
 				direction =  SWIPE_LEFT;
 			}
 
-			if (touchDelta.x > 20 && Mathf.Abs (touchDelta.x) > Mathf.Abs (touchDelta.y)) {
+			if (touchDelta.x > 30 && Mathf.Abs (touchDelta.x) > Mathf.Abs (touchDelta.y)) {
 				direction = SWIPE_RIGHT;
 			}
 			
-			if (touchDelta.y > 20 && Mathf.Abs (touchDelta.y) > Mathf.Abs (touchDelta.x)) {
+			if (touchDelta.y > 30 && Mathf.Abs (touchDelta.y) > Mathf.Abs (touchDelta.x)) {
 				direction = SWIPE_UP;
 			}
 			
-			if (touchDelta.y < -20 && Mathf.Abs (touchDelta.y) > Mathf.Abs (touchDelta.x)) {
+			if (touchDelta.y < -30 && Mathf.Abs (touchDelta.y) > Mathf.Abs (touchDelta.x)) {
 				direction = SWIPE_DOWN;
 			}
 		}
@@ -50,12 +51,13 @@ public class TouchUtils : Object
 	{
 		if (Input.touchCount > 0 &&
 		    Input.GetTouch (0).phase == TouchPhase.Began) {
+			touchStart = Input.GetTouch(0);
 			isOverUI = EventSystem.current.IsPointerOverGameObject(Input.GetTouch (0).fingerId);
 		}
-		if (!isOverUI) {
+		if (!isOverUI || SceneSettings.Instance.IsTutorial) {
 			if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended) {
-				Vector2 touchDelta = Input.GetTouch (0).deltaPosition;
-				if (Mathf.Abs (touchDelta.x) < 5 && Mathf.Abs (touchDelta.y) < 5) {
+				Vector2 touchDelta = Input.GetTouch (0).position - touchStart.position;
+				if (Mathf.Abs (touchDelta.x) < 10 && Mathf.Abs (touchDelta.y) < 10) {
 					return Input.GetTouch (0).tapCount;
 				}
 			}

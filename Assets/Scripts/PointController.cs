@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SocialPlatforms;
+using GooglePlayGames;
 
 public class PointController : MonoBehaviour
 {
@@ -74,14 +76,50 @@ public class PointController : MonoBehaviour
 		pointLabel.GetComponent<Text> ().text = "" + currentPoint;
 	}
 
+	private void CheckSocialPlatform()
+	{
+		if (!Social.localUser.authenticated) {
+			Social.localUser.Authenticate (success => {
+				if (success) {
+					Debug.Log ("Authentication successful");
+				}
+				else
+					Debug.Log ("Authentication failed");
+			});
+		}
+	}
+
 	public void SubmitScore()
 	{
-
+		if (!PlayerPrefs.HasKey ("best_score_" + SceneSettings.Instance.HardLevel) ||
+			PlayerPrefs.GetInt ("best_score_" + SceneSettings.Instance.HardLevel) < currentPoint) {
+			PlayerPrefs.SetInt ("best_score_" + SceneSettings.Instance.HardLevel, (int) currentPoint);
+			PlayerPrefs.Save ();
+		}
+		CheckSocialPlatform ();
+		string leaderboardID = "";
+		if (Application.platform == RuntimePlatform.Android) {
+			if (SceneSettings.Instance.HardLevel == 1)
+				leaderboardID = NinjaVsMummy.GPGIds.leaderboard_top_kids;
+			else
+				leaderboardID = NinjaVsMummy.GPGIds.leaderboard_top_ninjas;
+		}
+		Debug.Log ("Leader board " + leaderboardID);
+		Social.ReportScore (currentPoint, leaderboardID, success => {
+			Debug.Log(success ? "Reported score successfully" : "Failed to report score");
+		});
 	}
 
 	public long GetPoint()
 	{
 		return currentPoint;
+	}
+
+	public int GetBest()
+	{
+		if (PlayerPrefs.HasKey ("best_score_" + SceneSettings.Instance.HardLevel))
+			return PlayerPrefs.GetInt ("best_score_" + SceneSettings.Instance.HardLevel);
+		return (int) currentPoint;
 	}
 
 	public static void Dispose() {
