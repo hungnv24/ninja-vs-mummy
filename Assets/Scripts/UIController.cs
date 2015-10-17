@@ -60,6 +60,11 @@ public class UIController : MonoBehaviour
 
 	}
 
+	void OnApplicationPause(bool status)
+	{
+		OnPauseClicked ();
+	}
+
 	public void OnResetClicked()
 	{
 		Chartboost.showInterstitial (CBLocation.GameScreen);

@@ -96,18 +96,19 @@ public class PointController : MonoBehaviour
 			PlayerPrefs.SetInt ("best_score_" + SceneSettings.Instance.HardLevel, (int) currentPoint);
 			PlayerPrefs.Save ();
 		}
-		CheckSocialPlatform ();
-		string leaderboardID = "";
-		if (Application.platform == RuntimePlatform.Android) {
-			if (SceneSettings.Instance.HardLevel == 1)
-				leaderboardID = NinjaVsMummy.GPGIds.leaderboard_top_kids;
-			else
-				leaderboardID = NinjaVsMummy.GPGIds.leaderboard_top_ninjas;
+
+		if (Social.localUser.authenticated) {
+			string leaderboardID = "";
+			if (Application.platform == RuntimePlatform.Android) {
+				if (SceneSettings.Instance.HardLevel == 1)
+					leaderboardID = NinjaVsMummy.GPGIds.leaderboard_top_kids;
+				else
+					leaderboardID = NinjaVsMummy.GPGIds.leaderboard_top_ninjas;
+			}
+			Social.ReportScore (currentPoint, leaderboardID, success => {
+				Debug.Log(success ? "Reported score successfully" : "Failed to report score");
+			});
 		}
-		Debug.Log ("Leader board " + leaderboardID);
-		Social.ReportScore (currentPoint, leaderboardID, success => {
-			Debug.Log(success ? "Reported score successfully" : "Failed to report score");
-		});
 	}
 
 	public long GetPoint()

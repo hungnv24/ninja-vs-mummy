@@ -26,12 +26,14 @@ public class HomeUIController : MonoBehaviour
 
 	public void OnKidModeClicked()
 	{
+		SceneSettings.Instance.IsTutorial = false;
 		SceneSettings.Instance.HardLevel = 1;
 		Application.LoadLevel ("Main");
 	}
 
 	public void OnNinjaModeClicked()
 	{
+		SceneSettings.Instance.IsTutorial = false;
 		SceneSettings.Instance.HardLevel = 2;
 		Application.LoadLevel ("Main");
 	}
