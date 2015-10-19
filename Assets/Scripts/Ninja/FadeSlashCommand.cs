@@ -4,7 +4,6 @@ using System.Collections;
 public class FadeSlashCommand : Command
 {
 	Transform target;
-	Vector2 originPos;
 
 	public FadeSlashCommand(GameObject gameObject) :
 		base(gameObject)
@@ -19,7 +18,6 @@ public class FadeSlashCommand : Command
 
 	public override void execute ()
 	{
-		originPos = gameObject.transform.position;
 		if (gameObject.GetComponent<NinjaController> ().CurrentState != NinjaController.FLAG_STATE_DIE)
 			gameObject.GetComponent<NinjaController> ().StartCoroutine(AttackWizard());
 	}

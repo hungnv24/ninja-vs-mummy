@@ -49,7 +49,8 @@ public class UIController : MonoBehaviour
 	
 	public void OnPauseClicked()
 	{
-		StopAllCoroutines ();
+        Chartboost.showInterstitial(CBLocation.GameScreen);
+        StopAllCoroutines ();
 		Time.timeScale = 0.000001f;
 		pauseCanvas.SetActive (true);
 	}
@@ -121,7 +122,6 @@ public class UIController : MonoBehaviour
 		AndroidJavaObject intentObject = new AndroidJavaObject("android.content.Intent");
 
 		//instantiate a file object
-		AndroidJavaClass fileClass = new AndroidJavaClass ("java.io.File");
 		AndroidJavaObject fileObject = new AndroidJavaObject("java.io.File", path);
 		
 		//call setAction setting ACTION_SEND as parameter
