@@ -23,6 +23,7 @@ public class ObjectPool : MonoBehaviour
 		if (obj == null || obj.Equals (null)) {
 			obj = Object.Instantiate (Resources.Load (prefabsDir + name));
 			obj.name = name;
+            Debug.Log("Inited " + name);
 		}
 		return obj;
 	}

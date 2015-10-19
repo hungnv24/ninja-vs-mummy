@@ -141,7 +141,7 @@ public class NinjaController : MonoBehaviour
 		GetInput ();
 		this.timer += Time.deltaTime;
 		if (timer > 10 && bonusSpeed < maxBonusSpeed) {
-			bonusSpeed += 0.05f;
+			bonusSpeed += 0.05f * SceneSettings.Instance.HardLevel;
 			timer = 0.0f;
 		}
 	}
