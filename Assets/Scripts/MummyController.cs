@@ -25,12 +25,10 @@ public class MummyController : MonoBehaviour
     public Transform groundCheck;
     public LayerMask groundLayer;
     public AudioClip groan;
-    GameObject sceneWatcher;
 
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        sceneWatcher = GameObject.Find("SceneWatcher");
     }
 
     // Use this for initialization

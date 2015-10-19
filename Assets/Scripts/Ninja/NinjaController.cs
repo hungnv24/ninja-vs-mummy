@@ -108,7 +108,7 @@ public class NinjaController : MonoBehaviour
 		}
 
 		if (!grounded &&
-			(CurrentState & (FLAG_STATE_JUMP | FLAG_STATE_DIE)) == 0) {
+			(CurrentState & (FLAG_STATE_JUMP|FLAG_STATE_DIE|FLAG_STATE_FADE|FLAG_STATE_FADE_SLASH)) == 0) {
 			animator.SetTrigger ("shouldJump");
 			AudioUtils.GetInstance ().StopSound (audioSource);
 		} else if (grounded && CurrentState == FLAG_STATE_JUMP) {
@@ -221,7 +221,7 @@ public class NinjaController : MonoBehaviour
 		} 
 	}
 
-	void OnCollisionEnter2D (Collision2D col)
+	void OnCollisionStay2D (Collision2D col)
 	{
 		bool hittedEnemy = DidHitEnemy (col);
 		int hittedWall = DidHitWall (col);

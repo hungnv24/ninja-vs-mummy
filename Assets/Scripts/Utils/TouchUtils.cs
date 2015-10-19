@@ -77,7 +77,7 @@ public class TouchUtils
 			position = Input.mousePosition;
 		}
 		position = Camera.main.ScreenToWorldPoint (position);
-		var radius = 0.75f;
+		var radius = 1f;
 		Collider2D collider = Physics2D.OverlapCircle (position, radius, (1 << LayerMask.NameToLayer("Enemy")));
 		if (collider) {
 			return collider.gameObject;
