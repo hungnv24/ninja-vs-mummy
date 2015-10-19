@@ -6,43 +6,33 @@ using GooglePlayGames;
 public class HomeUIController : MonoBehaviour
 {
 	public GameObject networkText;
+    public GameObject loadingUI;
 
-	void Awake()
-	{
-
-	}
-
-	// Use this for initialization
-	void Start ()
-	{
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	
-	}
+    void LoadScene(string name)
+    {
+        loadingUI.SetActive(true);
+        Application.LoadLevelAsync(name);
+    }
 
 	public void OnKidModeClicked()
 	{
 		SceneSettings.Instance.IsTutorial = false;
 		SceneSettings.Instance.HardLevel = 1;
-		Application.LoadLevel ("Main");
+		LoadScene("Main");
 	}
 
 	public void OnNinjaModeClicked()
 	{
 		SceneSettings.Instance.IsTutorial = false;
 		SceneSettings.Instance.HardLevel = 2;
-		Application.LoadLevel ("Main");
+        LoadScene("Main");
 	}
 
 	public void OnTutorialClicked()
 	{
 		SceneSettings.Instance.IsTutorial = true;
 		SceneSettings.Instance.LockInput = true;
-		Application.LoadLevel ("Tutorial");
+        LoadScene("Tutorial");
 	}
 
 	public void OnLeaderBoardClicked()

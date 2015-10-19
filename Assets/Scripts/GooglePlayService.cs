@@ -8,7 +8,8 @@ public class GooglePlayService : MonoBehaviour
 {
 	void Awake()
 	{
-		if (!Social.localUser.authenticated) {
+		if (!Social.localUser.authenticated &&
+            Application.internetReachability != NetworkReachability.NotReachable) {
 			if (Application.platform == RuntimePlatform.Android) {
 				PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder ()
 					.EnableSavedGames()
