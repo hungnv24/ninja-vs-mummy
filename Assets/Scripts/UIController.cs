@@ -49,7 +49,7 @@ public class UIController : MonoBehaviour
 	
 	public void OnPauseClicked()
 	{
-        Chartboost.showInterstitial(CBLocation.GameScreen);
+        Chartboost.showInterstitial(CBLocation.HomeScreen);
         StopAllCoroutines ();
 		Time.timeScale = 0.000001f;
 		pauseCanvas.SetActive (true);
@@ -108,8 +108,9 @@ public class UIController : MonoBehaviour
 
 	private void ShareAndroid(byte[] bytes)
 	{
-		// Write file
-		AndroidJavaClass envClass = new AndroidJavaClass ("android.os.Environment");
+#if UNITY_ANDROID
+        // Write file
+        AndroidJavaClass envClass = new AndroidJavaClass ("android.os.Environment");
 		AndroidJavaObject extFileObj = envClass.CallStatic<AndroidJavaObject> ("getExternalStoragePublicDirectory",
 		                                                                       envClass.GetStatic<string>("DIRECTORY_PICTURES"));
 		string path = extFileObj.Call<string>("getAbsolutePath") + "/kilobeast_nvm_screenshot.jpg";
@@ -147,5 +148,6 @@ public class UIController : MonoBehaviour
 		
 		//call the activity with our Intent
 		currentActivity.Call("startActivity", intentObject);
+#endif
 	}
 }
