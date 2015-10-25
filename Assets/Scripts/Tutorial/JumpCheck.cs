@@ -36,7 +36,7 @@ public class JumpCheck : MonoBehaviour {
 	{
 		while (true) {
 			if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
-			    || Input.GetKeyDown(KeyCode.X)) {
+			    || Input.GetKeyDown(KeyCode.C)) {
 				SceneSettings.Instance.LockInput = true;
 				Time.timeScale = 1f;
 				tutorialCanvas.SetActive(false);

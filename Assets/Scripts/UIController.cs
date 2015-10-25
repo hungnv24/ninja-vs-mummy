@@ -71,6 +71,7 @@ public class UIController : MonoBehaviour
 
 	public void OnResetClicked()
 	{
+		Debug.Log ("Show ads");
 		Chartboost.showInterstitial (CBLocation.GameScreen);
 		deadCanvas.SetActive (false);
 		PointController.Dispose ();

@@ -324,14 +324,16 @@ public class NinjaController : MonoBehaviour
 	public void ShowDeadMenu()
 	{
 		deadCanvas.SetActive(true);
-		PointController.GetInstance ().SubmitScore ();
-		long point = PointController.GetInstance ().GetPoint ();
-		var scoreBoard = deadCanvas.transform.Find ("ScoreBoard").gameObject;
-		var scoreText = scoreBoard.transform.Find ("ScoreText").gameObject;
-		scoreText.GetComponent<Text> ().text = "" + point;
-		var chatText = scoreBoard.transform.Find ("ChatText").gameObject;
-		chatText.GetComponent<Text>().text = KilledByTexts.texts[killedBy];
-		var bestText = scoreBoard.transform.Find ("BestText").gameObject;
-		bestText.GetComponent<Text> ().text = "" + PointController.GetInstance ().GetBest ();
+		if (!SceneSettings.Instance.IsTutorial) {
+			PointController.GetInstance ().SubmitScore ();
+			long point = PointController.GetInstance ().GetPoint ();
+			var scoreBoard = deadCanvas.transform.Find ("ScoreBoard").gameObject;
+			var scoreText = scoreBoard.transform.Find ("ScoreText").gameObject;
+			scoreText.GetComponent<Text> ().text = "" + point;
+			var chatText = scoreBoard.transform.Find ("ChatText").gameObject;
+			chatText.GetComponent<Text>().text = KilledByTexts.texts[killedBy];
+			var bestText = scoreBoard.transform.Find ("BestText").gameObject;
+			bestText.GetComponent<Text> ().text = "" + PointController.GetInstance ().GetBest ();
+		}
 	}
 }
