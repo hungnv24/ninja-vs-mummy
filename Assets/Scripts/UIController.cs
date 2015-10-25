@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Runtime.InteropServices;
 using ChartboostSDK;
 
 public class UIController : MonoBehaviour
@@ -10,6 +11,8 @@ public class UIController : MonoBehaviour
 	public GameObject mainCanvas;
 	public GameObject pauseCanvas;
 	public GameObject deadCanvas;
+	[DllImport ("__Internal")]
+	public static extern void shareImageIphone(string imgPath);
 
 	void Awake()
 	{
@@ -91,6 +94,10 @@ public class UIController : MonoBehaviour
 		byte[] screenshot = TakeScreenshot ();
 		#if UNITY_ANDROID
 			ShareAndroid(screenshot);
+		#elif UNITY_IOS
+			string imgPath = Application.persistentDataPath + "/kilobeast_nvm_screenshot.jpg";
+			File.WriteAllBytes(imgPath, screenshot);
+			shareImageIphone(imgPath);
 		#endif
 	}
 
