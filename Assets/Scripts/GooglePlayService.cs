@@ -10,14 +10,14 @@ public class GooglePlayService : MonoBehaviour
 	{
 		if (!Social.localUser.authenticated &&
             Application.internetReachability != NetworkReachability.NotReachable) {
-			if (Application.platform == RuntimePlatform.Android) {
+			#if UNITY_ANDROID
 				PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder ()
 					.EnableSavedGames()
 						.Build ();
 				PlayGamesPlatform.InitializeInstance(config);
 				PlayGamesPlatform.DebugLogEnabled = true;
 				PlayGamesPlatform.Activate();
-			}
+			#endif
 			Social.localUser.Authenticate (success => {
 				if (success) {
 					Debug.Log ("Authentication successful");

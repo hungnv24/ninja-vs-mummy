@@ -105,6 +105,12 @@ public class PointController : MonoBehaviour
 				else
 					leaderboardID = NinjaVsMummy.GPGIds.leaderboard_top_ninjas;
 			}
+			if (Application.platform == RuntimePlatform.IPhonePlayer) {
+				if (SceneSettings.Instance.HardLevel == 1)
+					leaderboardID = "top_kids";
+				else
+					leaderboardID = "ninja_vs_mummy_leader_board";
+			}
 			Social.ReportScore (currentPoint, leaderboardID, success => {
 				Debug.Log(success ? "Reported score successfully" : "Failed to report score");
 			});
