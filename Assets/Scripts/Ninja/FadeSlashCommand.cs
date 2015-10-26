@@ -34,15 +34,14 @@ public class FadeSlashCommand : Command
 		yield return new WaitForFixedUpdate ();
 		animator.SetTrigger ("fadeSlash");
 		while (gameObject.GetComponent<NinjaController>().CurrentState != NinjaController.FLAG_STATE_FADE_SLASH) {
-			Debug.Log("Still not get there");
 			yield return new WaitForFixedUpdate ();
 		}
 		var utils = AudioUtils.GetInstance ();
 		utils.StopSound(audioSource);
 		utils.PlayOnce(audioSource, "slash");
 		yield return new WaitForSeconds (0.25f);
-		while (!target.gameObject.GetComponent<WizardController>().IsDead) {
-			Debug.Log("Still not dead");
+		while (target != null && !target.Equals(null)
+		       && !target.gameObject.GetComponent<WizardController>().IsDead) {
 			yield return new WaitForFixedUpdate ();
 		}
 		animator.SetTrigger ("shouldRun");

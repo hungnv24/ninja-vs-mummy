@@ -136,6 +136,10 @@ public class ObstacleController : MonoBehaviour
 			if (lastObstacle == null) {
 				position.x = screenCenter.x + cameraSize.x * 1.5f;
 			} else if (lastObstacle.tag == obstacle.tag
+			           && obstacle.CompareTag("Mummy")) {
+				position.x = lastObstacle.transform.position.x
+					+ lastObstacle.GetComponent<BoxCollider2D> ().size.x * 2;
+			} else if (lastObstacle.tag == obstacle.tag
 			           && lastObstacle.GetComponent<BoxCollider2D> () != null) {
 				if (obstacle.tag == "Wall") {
 					var pos = lastObstacle.transform.position;
@@ -146,6 +150,8 @@ public class ObstacleController : MonoBehaviour
 					+ obstacle.GetComponent<BoxCollider2D> ().size.x / 2;
 			} else if (lastObstacle.tag == "Fire" || lastObstacle.tag == "FlyingFlame" || obstacle.tag == "FlyingFlame") {
 				position.x = lastObstacle.transform.position.x + obstacleDistance;
+			} else if (lastObstacle.CompareTag("WizardCheck")) {
+				position.x = lastObstacle.transform.position.x + 1.5f;
 			} else {
 				position.x = lastObstacle.transform.position.x + obstacleDistance / hard;
 			}

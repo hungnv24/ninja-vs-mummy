@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using ChartboostSDK;
 
 public class NinjaController : MonoBehaviour
 {
@@ -324,6 +325,7 @@ public class NinjaController : MonoBehaviour
 	public void ShowDeadMenu()
 	{
 		deadCanvas.SetActive(true);
+		Chartboost.showInterstitial (CBLocation.GameScreen);
 		if (!SceneSettings.Instance.IsTutorial) {
 			PointController.GetInstance ().SubmitScore ();
 			long point = PointController.GetInstance ().GetPoint ();
