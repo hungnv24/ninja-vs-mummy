@@ -325,7 +325,7 @@ public class NinjaController : MonoBehaviour
 	public void ShowDeadMenu()
 	{
 		deadCanvas.SetActive(true);
-		Chartboost.showInterstitial (CBLocation.GameScreen);
+		AdManager.Instance.ShowAd (CBLocation.GameScreen);
 		if (!SceneSettings.Instance.IsTutorial) {
 			PointController.GetInstance ().SubmitScore ();
 			long point = PointController.GetInstance ().GetPoint ();

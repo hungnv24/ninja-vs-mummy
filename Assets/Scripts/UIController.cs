@@ -52,7 +52,7 @@ public class UIController : MonoBehaviour
 	
 	public void OnPauseClicked()
 	{
-        Chartboost.showInterstitial(CBLocation.HomeScreen);
+		AdManager.Instance.ShowAd (CBLocation.HomeScreen);
         StopAllCoroutines ();
 		Time.timeScale = 0.000001f;
 		pauseCanvas.SetActive (true);
@@ -78,7 +78,7 @@ public class UIController : MonoBehaviour
 
 	public void OnExitClicked()
 	{
-		Chartboost.showInterstitial (CBLocation.HomeScreen);
+		AdManager.Instance.ShowAd (CBLocation.GameOver);
 		Application.LoadLevel ("Menu");
 	}
 
