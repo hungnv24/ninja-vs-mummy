@@ -5,11 +5,12 @@ public class WizardCheck : MonoBehaviour
 {
 	GameObject player;
 	bool created = false;
+	bool playerEntered = false;
 	Object prefab;
 	// Use this for initialization
 	void Start ()
 	{
-		player = GameObject.Find ("Ninja");
+		player = GameObject.FindWithTag ("Player");
 		prefab = Resources.Load ("Prefabs/Wizard");
 	}
 	
@@ -21,10 +22,17 @@ public class WizardCheck : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		if (col.gameObject.tag == "Player" && !created) {
+		if (col.gameObject.tag == "Player") {
+			playerEntered = true;
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D col)
+	{
+		if (playerEntered && !created) {
 			var obj = Instantiate(prefab) as GameObject;
 			var pos = obj.transform.position;
-			pos.x = player.transform.position.x - 1.0f;
+			pos.x = player.transform.position.x - 1.25f;
 			obj.transform.position = pos;
 			created = true;
 		}
@@ -33,5 +41,6 @@ public class WizardCheck : MonoBehaviour
 	void OnDisable()
 	{
 		created = false;
+		playerEntered = false;
 	}
 }
