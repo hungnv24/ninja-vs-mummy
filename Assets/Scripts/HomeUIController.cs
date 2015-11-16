@@ -8,6 +8,11 @@ public class HomeUIController : MonoBehaviour
 	public GameObject networkText;
     public GameObject loadingUI;
 
+	void Start()
+	{
+		SceneSettings.Instance.LockInput = false;
+	}
+
     void LoadScene(string name)
     {
         loadingUI.SetActive(true);

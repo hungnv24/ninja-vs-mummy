@@ -6,8 +6,11 @@ using UnityEngine.SocialPlatforms;
 
 public class GooglePlayService : MonoBehaviour
 {
+	public GoogleAnalyticsV3 gav3;
+
 	void Awake()
 	{
+		gav3.StartSession ();
 		if (!Social.localUser.authenticated &&
             Application.internetReachability != NetworkReachability.NotReachable) {
 			#if UNITY_ANDROID

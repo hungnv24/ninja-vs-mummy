@@ -5,7 +5,7 @@ using ChartboostSDK;
 public class AdManager
 {
 	private float lastTime = 0f;
-	private float coolDown = 120f;
+	private float coolDown = 90f;
 
 	private static class Holder
 	{

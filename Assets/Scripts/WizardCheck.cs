@@ -32,7 +32,7 @@ public class WizardCheck : MonoBehaviour
 		if (playerEntered && !created) {
 			var obj = Instantiate(prefab) as GameObject;
 			var pos = obj.transform.position;
-			pos.x = player.transform.position.x - 1.25f;
+			pos.x = transform.position.x - 1.1f;
 			obj.transform.position = pos;
 			created = true;
 		}

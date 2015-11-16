@@ -7,7 +7,6 @@ public class GoogleAnalystics : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        gav3.StartSession();
         gav3.LogScreen(Application.loadedLevelName);
     }
 

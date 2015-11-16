@@ -151,7 +151,7 @@ public class ObstacleController : MonoBehaviour
 			} else if (lastObstacle.tag == "Fire" || lastObstacle.tag == "FlyingFlame" || obstacle.tag == "FlyingFlame") {
 				position.x = lastObstacle.transform.position.x + obstacleDistance;
 			} else if (lastObstacle.CompareTag("WizardCheck")) {
-				position.x = lastObstacle.transform.position.x + 1.5f;
+				position.x = lastObstacle.transform.position.x + obstacleDistance;
 			} else {
 				position.x = lastObstacle.transform.position.x + obstacleDistance / hard;
 			}
